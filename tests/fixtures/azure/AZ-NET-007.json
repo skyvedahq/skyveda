@@ -1,0 +1,4 @@
+{"rows": [
+  {"id": "/subscriptions/00000000-0000-0000-0000-000000000001/resourceGroups/rg-net/providers/Microsoft.Network/publicIPAddresses/pip-standard", "name": "pip-standard", "resourceGroup": "rg-net", "location": "centralindia", "sku": "Standard", "allocation": "Static", "attachedTo": "", "compliant": true},
+  {"id": "/subscriptions/00000000-0000-0000-0000-000000000001/resourceGroups/rg-net/providers/Microsoft.Network/publicIPAddresses/pip-basic", "name": "pip-basic", "resourceGroup": "rg-net", "location": "centralindia", "sku": "Basic", "allocation": "Dynamic", "attachedTo": "", "compliant": false}
+]}

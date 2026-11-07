@@ -1,0 +1,30 @@
+schema_version: 1
+id: AZ-AKS-004
+title: AKS clusters separate system and user node pools
+provider: azure
+area: kubernetes
+severity: medium
+source:
+  type: resource_graph
+  query: |
+    resources
+    | where type =~ 'microsoft.containerservice/managedclusters'
+    | mv-expand pool = properties.agentPoolProfiles
+    | summarize systemPools = countif(tostring(pool.mode) =~ 'System'),
+                userPools = countif(tostring(pool.mode) =~ 'User')
+                by id, name, resourceGroup, location
+    | extend compliant = systemPools >= 1 and userPools >= 1
+why: >-
+  When application pods share nodes with system components, a busy or faulty workload can starve
+  DNS and other critical services and take the whole cluster down.
+fix:
+  summary: Run applications on a separate user node pool and keep the system pool for system pods.
+  steps:
+    - Add a user node pool sized for your workloads.
+    - Taint the system pool with CriticalAddonsOnly=true:NoSchedule and move workloads across.
+  cli: az aks nodepool add -g <resource-group> --cluster-name <cluster> -n userpool --mode User
+references:
+  - https://learn.microsoft.com/azure/aks/use-system-pools
+frameworks:
+  waf_pillar:
+    - Reliability

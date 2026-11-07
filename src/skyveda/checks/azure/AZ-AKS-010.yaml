@@ -1,0 +1,42 @@
+schema_version: 1
+id: AZ-AKS-010
+title: AKS clusters have workload identity enabled
+provider: azure
+area: kubernetes
+severity: low
+tier: free
+source:
+  type: resource_graph
+  query: |
+    // properties.securityProfile.workloadIdentity.enabled; it needs the OIDC issuer, shown as
+    // evidence. A missing value means not enabled and FAILS.
+    resources
+    | where type =~ 'microsoft.containerservice/managedclusters'
+    | extend workloadIdentity = tobool(properties.securityProfile.workloadIdentity.enabled),
+             oidcIssuer = tobool(properties.oidcIssuerProfile.enabled)
+    | project id, name, resourceGroup, location, workloadIdentity, oidcIssuer,
+              compliant = coalesce(workloadIdentity, false)
+why: >-
+  Without workload identity, pods that call Azure usually carry a client secret or connection
+  string, stored as a Kubernetes secret, that can leak and is rarely rotated. Workload identity
+  lets each pod use an Entra ID identity instead, with no secret to steal.
+fix:
+  summary: Enable the OIDC issuer and workload identity, then move pods off stored secrets.
+  steps:
+    - Enable the OIDC issuer and workload identity on the cluster.
+    - For each app, create a managed identity with a federated credential for its service account.
+    - Replace the app's stored secrets with the identity, then delete the secrets.
+  cli: az aks update -g <resource-group> -n <cluster> --enable-oidc-issuer --enable-workload-identity
+  terraform: |
+    # azurerm_kubernetes_cluster
+    oidc_issuer_enabled       = true
+    workload_identity_enabled = true
+references:
+  - https://learn.microsoft.com/azure/aks/workload-identity-overview
+frameworks:
+  mcsb:
+    - IM-3
+  waf_pillar:
+    - Security
+  waf:
+    - SE:05

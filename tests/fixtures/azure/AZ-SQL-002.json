@@ -1,0 +1,5 @@
+{"rows": [
+  {"id": "/subscriptions/00000000-0000-0000-0000-000000000001/resourceGroups/rg-db/providers/Microsoft.Sql/servers/sql-a/firewallRules/office", "name": "office", "resourceGroup": "rg-db", "location": "centralindia", "server": "sql-a", "startIp": "203.0.113.40", "endIp": "203.0.113.40", "compliant": true},
+  {"id": "/subscriptions/00000000-0000-0000-0000-000000000001/resourceGroups/rg-db/providers/Microsoft.Sql/servers/sql-a/firewallRules/AllowAllWindowsAzureIps", "name": "AllowAllWindowsAzureIps", "resourceGroup": "rg-db", "location": "centralindia", "server": "sql-a", "startIp": "0.0.0.0", "endIp": "0.0.0.0", "compliant": true},
+  {"id": "/subscriptions/00000000-0000-0000-0000-000000000001/resourceGroups/rg-db/providers/Microsoft.Sql/servers/sql-b/firewallRules/AllowAll", "name": "AllowAll", "resourceGroup": "rg-db", "location": "centralindia", "server": "sql-b", "startIp": "0.0.0.0", "endIp": "255.255.255.255", "compliant": false}
+]}

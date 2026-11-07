@@ -1,0 +1,35 @@
+schema_version: 1
+id: AZ-NET-008
+title: No Basic SKU load balancers
+provider: azure
+area: reliability
+severity: high
+tier: free
+source:
+  type: resource_graph
+  query: |
+    // sku.name is 'Basic', 'Standard' or 'Gateway'. Basic was the default for older load
+    // balancers, so a missing value FAILS.
+    resources
+    | where type =~ 'microsoft.network/loadbalancers'
+    | extend sku = coalesce(tostring(sku.name), 'Basic'),
+             frontends = coalesce(array_length(properties.frontendIPConfigurations), 0)
+    | project id, name, resourceGroup, location, sku, frontends,
+              compliant = sku in~ ('Standard', 'Gateway')
+why: >-
+  Microsoft retired the Basic load balancer on 30 September 2025. It is no longer supported and
+  has no SLA, so a fault in it is not covered and may not be fixed. It also has no availability
+  zone support.
+fix:
+  summary: Upgrade each Basic load balancer to the Standard SKU.
+  steps:
+    - Plan a short outage, because the upgrade recreates the load balancer's frontends.
+    - Run Microsoft's upgrade script, which moves the configuration and backend pools to a Standard load balancer.
+    - Check that network security groups allow the traffic, because Standard denies inbound by default.
+references:
+  - https://learn.microsoft.com/azure/load-balancer/load-balancer-basic-upgrade-guidance
+frameworks:
+  waf_pillar:
+    - Reliability
+  waf:
+    - RE:05

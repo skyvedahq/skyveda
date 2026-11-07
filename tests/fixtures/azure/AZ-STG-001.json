@@ -1,0 +1,4 @@
+{"rows": [
+  {"id": "/subscriptions/00000000-0000-0000-0000-000000000001/resourceGroups/rg-data/providers/Microsoft.Storage/storageAccounts/stdatalake", "name": "stdatalake", "resourceGroup": "rg-data", "location": "centralindia", "allowBlobPublicAccess": false, "compliant": true},
+  {"id": "/subscriptions/00000000-0000-0000-0000-000000000001/resourceGroups/rg-web/providers/Microsoft.Storage/storageAccounts/stwebassets", "name": "stwebassets", "resourceGroup": "rg-web", "location": "centralindia", "allowBlobPublicAccess": true, "compliant": false}
+]}

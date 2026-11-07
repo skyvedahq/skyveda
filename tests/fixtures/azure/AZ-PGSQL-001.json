@@ -1,0 +1,4 @@
+{"rows": [
+  {"id": "/subscriptions/00000000-0000-0000-0000-000000000001/resourceGroups/rg-data/providers/Microsoft.DBforPostgreSQL/flexibleServers/psql-private", "name": "psql-private", "resourceGroup": "rg-data", "location": "centralindia", "engine": "PostgreSQL", "publicNetworkAccess": "Disabled", "compliant": true},
+  {"id": "/subscriptions/00000000-0000-0000-0000-000000000001/resourceGroups/rg-data/providers/Microsoft.DBforMySQL/flexibleServers/mysql-public", "name": "mysql-public", "resourceGroup": "rg-data", "location": "centralindia", "engine": "MySQL", "publicNetworkAccess": "Enabled", "compliant": false}
+]}

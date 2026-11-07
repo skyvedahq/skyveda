@@ -1,0 +1,13 @@
+{
+ "rows": [
+  {
+   "id": "/subscriptions/00000000-0000-0000-0000-00000000d001/resourceGroups/rg-shop-aks-prod-cin/providers/Microsoft.ContainerService/managedClusters/aks-shop-prod-cin",
+   "name": "aks-shop-prod-cin",
+   "resourceGroup": "rg-shop-aks-prod-cin",
+   "location": "centralindia",
+   "environment": "prod",
+   "tier": "Free",
+   "compliant": false
+  }
+ ]
+}

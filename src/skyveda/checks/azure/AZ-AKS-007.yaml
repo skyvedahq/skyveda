@@ -1,0 +1,37 @@
+schema_version: 1
+id: AZ-AKS-007
+title: AKS clusters have an automatic upgrade channel set
+provider: azure
+area: reliability
+severity: medium
+tier: free
+source:
+  type: resource_graph
+  query: |
+    resources
+    | where type =~ 'microsoft.containerservice/managedclusters'
+    | extend upgradeChannel = tolower(tostring(properties.autoUpgradeProfile.upgradeChannel))
+    // A missing channel becomes '' and fails, exactly like 'none'.
+    | project id, name, resourceGroup, location, upgradeChannel,
+              compliant = upgradeChannel in ('patch', 'stable', 'rapid', 'node-image')
+why: >-
+  A cluster with no upgrade channel stays on its Kubernetes version until someone remembers to
+  upgrade it. Old versions fall out of support and miss security patches.
+fix:
+  summary: Set an automatic upgrade channel, for example patch or stable.
+  steps:
+    - Pick a channel. "patch" applies only security and bug-fix releases and is the safest start.
+    - Set a planned maintenance window so upgrades happen at a quiet time.
+  cli: az aks update -g <resource-group> -n <cluster> --auto-upgrade-channel patch
+  terraform: |
+    # azurerm_kubernetes_cluster
+    automatic_upgrade_channel = "patch"
+references:
+  - https://learn.microsoft.com/azure/aks/auto-upgrade-cluster
+frameworks:
+  mcsb:
+    - PV-6
+  waf_pillar:
+    - Security
+  waf:
+    - SE:08

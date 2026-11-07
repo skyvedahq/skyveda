@@ -1,0 +1,44 @@
+schema_version: 1
+id: AZ-ACR-003
+title: Container registries are not open to all networks
+provider: azure
+area: network
+severity: medium
+tier: free
+source:
+  type: resource_graph
+  query: |
+    // Compliant when public network access is Disabled, or the firewall default action is Deny
+    // (both need the Premium SKU). A missing publicNetworkAccess is read as Enabled and a missing
+    // defaultAction as Allow: both are the Azure defaults, so unknown data fails.
+    resources
+    | where type =~ 'microsoft.containerregistry/registries'
+    | extend sku = tostring(sku.name),
+             publicNetworkAccess = coalesce(tostring(properties.publicNetworkAccess), 'Enabled'),
+             defaultAction = coalesce(tostring(properties.networkRuleSet.defaultAction), 'Allow')
+    | project id, name, resourceGroup, location, sku, publicNetworkAccess, defaultAction,
+              compliant = publicNetworkAccess =~ 'Disabled' or defaultAction =~ 'Deny'
+why: >-
+  A registry that accepts connections from any network can be pushed to or pulled from anywhere
+  on the Internet with a leaked credential. A poisoned image pushed this way runs in every
+  cluster and app that pulls it.
+fix:
+  summary: Use private endpoints, or limit the registry firewall to known networks (Premium SKU).
+  steps:
+    - Upgrade the registry to Premium if it is Basic or Standard.
+    - Add a private endpoint, or firewall rules for the build agents and clusters that use the registry.
+    - Set public network access to Disabled, or the default action to Deny.
+  cli: az acr update -n <registry> --public-network-enabled false   # Premium registries only
+  terraform: |
+    # azurerm_container_registry (sku = "Premium")
+    public_network_access_enabled = false
+references:
+  - https://learn.microsoft.com/azure/container-registry/container-registry-access-selected-networks
+  - https://learn.microsoft.com/azure/container-registry/container-registry-private-link
+frameworks:
+  mcsb:
+    - NS-2
+  waf_pillar:
+    - Security
+  waf:
+    - SE:06

@@ -1,0 +1,46 @@
+schema_version: 1
+id: AZ-COST-003
+title: Stopped virtual machines are deallocated
+provider: azure
+area: cost
+severity: medium
+tier: pro
+source:
+  type: resource_graph
+  query: |
+    resources
+    | where type =~ 'microsoft.compute/virtualmachines'
+    | extend powerState = tostring(properties.extended.instanceView.powerState.code),
+             vmSize = tostring(properties.hardwareProfile.vmSize)
+    | project id, name, resourceGroup, location, vmSize, powerState,
+              compliant = powerState != 'PowerState/stopped'
+cost:
+  # No list price: VM sizes and licences vary too much. The VM's billed cost is its compute.
+  field: null
+  basis: billed cost only
+why: >-
+  A VM shut down from inside the operating system is "stopped" but still allocated, so its compute
+  is billed in full. Only a deallocated VM stops compute charges.
+fix:
+  summary: Deallocate the VM from Azure (Stop in the portal), or delete it if no longer needed.
+  cli: az vm deallocate -g <resource-group> -n <vm>
+remedy:
+  risk: low
+  downtime: none
+  before: >-
+    The VM is already stopped, so deallocating causes no new outage. Confirm with the owner that
+    it is still needed. After deallocation a dynamic public IP may change and the temporary disk
+    is emptied. A later restart can fail if the region is short of capacity.
+  az: |
+    az vm deallocate --subscription {subscriptionId} -g {resourceGroup} -n {name}
+  rollback: |
+    az vm start --subscription {subscriptionId} -g {resourceGroup} -n {name}
+  verify: |
+    az vm show --subscription {subscriptionId} -g {resourceGroup} -n {name} -d --query powerState -o tsv   # expect: VM deallocated
+references:
+  - https://learn.microsoft.com/azure/virtual-machines/states-billing
+frameworks:
+  waf_pillar:
+    - Cost Optimization
+  waf:
+    - CO:07

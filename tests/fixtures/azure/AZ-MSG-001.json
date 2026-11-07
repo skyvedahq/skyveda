@@ -1,0 +1,5 @@
+{"rows": [
+  {"id": "/subscriptions/00000000-0000-0000-0000-000000000001/resourceGroups/rg-app/providers/Microsoft.ServiceBus/namespaces/sb-entra", "name": "sb-entra", "resourceGroup": "rg-app", "location": "centralindia", "service": "Service Bus", "sku": "Standard", "disableLocalAuth": true, "compliant": true},
+  {"id": "/subscriptions/00000000-0000-0000-0000-000000000001/resourceGroups/rg-app/providers/Microsoft.EventHub/namespaces/evh-keys", "name": "evh-keys", "resourceGroup": "rg-app", "location": "centralindia", "service": "Event Hubs", "sku": "Standard", "disableLocalAuth": false, "compliant": false},
+  {"id": "/subscriptions/00000000-0000-0000-0000-000000000001/resourceGroups/rg-app/providers/Microsoft.ServiceBus/namespaces/sb-unknown", "name": "sb-unknown", "resourceGroup": "rg-app", "location": "centralindia", "service": "Service Bus", "sku": "Basic", "disableLocalAuth": null, "compliant": false}
+]}

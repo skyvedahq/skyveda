@@ -1,0 +1,33 @@
+schema_version: 1
+id: AZ-COST-005
+title: No paid App Service plans without apps
+provider: azure
+area: cost
+severity: medium
+tier: pro
+source:
+  type: resource_graph
+  query: |
+    resources
+    | where type =~ 'microsoft.web/serverfarms'
+    | extend tier = tostring(sku.tier), skuName = tostring(sku.name), sites = toint(properties.numberOfSites)
+    | where tier !in~ ('Free', 'Shared')
+    | project id, name, resourceGroup, location, tier, skuName, sites,
+              compliant = coalesce(sites, 0) > 0
+cost:
+  # No list price: plan tiers and instance counts vary too much. The plan's bill is the waste.
+  field: null
+  basis: billed cost only
+why: >-
+  A paid App Service plan is billed whether or not any app runs on it. Empty plans are usually
+  left over after apps are moved or deleted.
+fix:
+  summary: Delete empty plans, or move apps from other plans onto them.
+  cli: az appservice plan delete -g <resource-group> -n <plan>
+references:
+  - https://learn.microsoft.com/azure/app-service/overview-hosting-plans
+frameworks:
+  waf_pillar:
+    - Cost Optimization
+  waf:
+    - CO:07

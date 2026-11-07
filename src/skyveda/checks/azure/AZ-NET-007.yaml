@@ -1,0 +1,38 @@
+schema_version: 1
+id: AZ-NET-007
+title: No Basic SKU public IP addresses
+provider: azure
+area: reliability
+severity: high
+tier: free
+source:
+  type: resource_graph
+  query: |
+    // sku.name is 'Basic' or 'Standard'. Basic was the default for older addresses, so a missing
+    // value FAILS.
+    resources
+    | where type =~ 'microsoft.network/publicipaddresses'
+    | extend sku = coalesce(tostring(sku.name), 'Basic'),
+             allocation = tostring(properties.publicIPAllocationMethod),
+             attachedTo = tostring(properties.ipConfiguration.id)
+    | project id, name, resourceGroup, location, sku, allocation, attachedTo,
+              compliant = sku =~ 'Standard'
+why: >-
+  Microsoft retired Basic SKU public IP addresses on 30 September 2025. They are no longer
+  supported and can stop working, which cuts off whatever uses them. Basic addresses are also open
+  by default and have no availability zone support.
+fix:
+  summary: Upgrade each Basic public IP to the Standard SKU.
+  steps:
+    - Note what the address is attached to; a Basic load balancer or VM SKU may need upgrading first.
+    - Upgrade the address to Standard (it keeps the same IP; a dynamic address must be made static first).
+    - Check that a network security group allows the traffic, because Standard addresses deny inbound by default.
+  cli: az network public-ip update -g <resource-group> -n <public-ip> --sku Standard
+  terraform: |
+    # azurerm_public_ip
+    sku = "Standard"
+references:
+  - https://learn.microsoft.com/azure/virtual-network/ip-services/public-ip-basic-upgrade-guidance
+frameworks:
+  waf_pillar:
+    - Reliability

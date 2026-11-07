@@ -1,0 +1,49 @@
+schema_version: 1
+id: AZ-VM-004
+title: Managed disks cannot be exported from any network
+provider: azure
+area: security
+severity: medium
+tier: free
+source:
+  type: resource_graph
+  query: |
+    // properties.networkAccessPolicy is AllowAll, AllowPrivate (through a disk access resource)
+    // or DenyAll. AllowAll is the Azure default, so a missing value FAILS.
+    resources
+    | where type =~ 'microsoft.compute/disks'
+    // Skip disks in resource groups another service manages (e.g. AKS's MC_ group), as AZ-NET-003 does.
+    | extend rgKey = strcat(subscriptionId, '/', tolower(resourceGroup))
+    | join kind=leftouter (
+        resourcecontainers
+        | where type =~ 'microsoft.resources/subscriptions/resourcegroups'
+        | project rgKey = strcat(subscriptionId, '/', tolower(name)), rgManagedBy = tostring(managedBy)
+      ) on rgKey
+    | where isempty(rgManagedBy)
+    | extend networkAccessPolicy = coalesce(tostring(properties.networkAccessPolicy), 'AllowAll'),
+             publicNetworkAccess = tostring(properties.publicNetworkAccess),
+             diskState = tostring(properties.diskState)
+    | project id, name, resourceGroup, location, diskState, networkAccessPolicy, publicNetworkAccess,
+              compliant = networkAccessPolicy in~ ('DenyAll', 'AllowPrivate')
+why: >-
+  With AllowAll, anyone allowed to export a disk can create a download link (a SAS URL) for it and
+  copy the whole disk, with all its data, from anywhere on the Internet. Limiting export to a
+  private network, or blocking it, stops a full copy of a server leaving that way.
+fix:
+  summary: Set each disk's network access to Deny all, or to private access through a disk access resource.
+  steps:
+    - Check whether anyone needs to export or import the disk (backups through Azure Backup are not affected).
+    - Set network access to Disable public and private access, or to private access only.
+  cli: az disk update -g <resource-group> -n <disk> --network-access-policy DenyAll
+  terraform: |
+    # azurerm_managed_disk
+    network_access_policy = "DenyAll"
+references:
+  - https://learn.microsoft.com/azure/virtual-machines/disks-restrict-import-export-overview
+frameworks:
+  mcsb:
+    - NS-2
+  waf_pillar:
+    - Security
+  waf:
+    - SE:06

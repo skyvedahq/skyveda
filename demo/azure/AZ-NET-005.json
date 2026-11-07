@@ -1,0 +1,40 @@
+{
+ "rows": [
+  {
+   "id": "/subscriptions/00000000-0000-0000-0000-00000000d001/resourceGroups/rg-shop-app-prod-cin/providers/Microsoft.Network/networkInterfaces/nic-vm-web-01",
+   "name": "nic-vm-web-01",
+   "resourceGroup": "rg-shop-app-prod-cin",
+   "location": "centralindia",
+   "vm": "vm-web-01",
+   "publicIpCount": 0,
+   "compliant": true
+  },
+  {
+   "id": "/subscriptions/00000000-0000-0000-0000-00000000d002/resourceGroups/rg-shop-app-uat-cin/providers/Microsoft.Network/networkInterfaces/nic-vm-uat-02",
+   "name": "nic-vm-uat-02",
+   "resourceGroup": "rg-shop-app-uat-cin",
+   "location": "centralindia",
+   "vm": "vm-uat-02",
+   "publicIpCount": 0,
+   "compliant": true
+  },
+  {
+   "id": "/subscriptions/00000000-0000-0000-0000-00000000d003/resourceGroups/rg-platform-tools-cin/providers/Microsoft.Network/networkInterfaces/nic-vm-buildagent-01",
+   "name": "nic-vm-buildagent-01",
+   "resourceGroup": "rg-platform-tools-cin",
+   "location": "centralindia",
+   "vm": "vm-buildagent-01",
+   "publicIpCount": 0,
+   "compliant": true
+  },
+  {
+   "id": "/subscriptions/00000000-0000-0000-0000-00000000d003/resourceGroups/rg-platform-tools-cin/providers/Microsoft.Network/networkInterfaces/nic-vm-jumpbox",
+   "name": "nic-vm-jumpbox",
+   "resourceGroup": "rg-platform-tools-cin",
+   "location": "centralindia",
+   "vm": "vm-jumpbox",
+   "publicIpCount": 0,
+   "compliant": true
+  }
+ ]
+}

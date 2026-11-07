@@ -1,0 +1,38 @@
+schema_version: 1
+id: AZ-STG-003
+title: Storage accounts accept HTTPS only
+provider: azure
+area: security
+severity: high
+tier: free
+source:
+  type: resource_graph
+  query: |
+    // properties.supportsHttpsTrafficOnly: Azure defaults to true for accounts created today,
+    // but older accounts can have it off. A missing value is treated as NOT compliant (unknown fails).
+    resources
+    | where type =~ 'microsoft.storage/storageaccounts'
+    | extend supportsHttpsTrafficOnly = tobool(properties.supportsHttpsTrafficOnly)
+    | project id, name, resourceGroup, location, supportsHttpsTrafficOnly,
+              compliant = coalesce(supportsHttpsTrafficOnly, false) == true
+why: >-
+  If a storage account accepts plain HTTP, data and access signatures can be read by anyone on
+  the network path between the client and Azure. Requiring HTTPS makes every request encrypted.
+fix:
+  summary: Turn on "Secure transfer required" for the storage account.
+  steps:
+    - Check that no client or script still calls the account over http:// (they will start to fail).
+    - Enable "Secure transfer required" in the account's Configuration settings.
+  cli: az storage account update -g <resource-group> -n <account> --https-only true
+  terraform: |
+    # azurerm_storage_account
+    https_traffic_only_enabled = true
+references:
+  - https://learn.microsoft.com/azure/storage/common/storage-require-secure-transfer
+frameworks:
+  mcsb:
+    - DP-3
+  waf_pillar:
+    - Security
+  waf:
+    - SE:07

@@ -1,0 +1,5 @@
+{"rows": [
+  {"id": "/subscriptions/00000000-0000-0000-0000-000000000001/resourceGroups/rg-data/providers/Microsoft.DocumentDB/databaseAccounts/cosmos-entra", "name": "cosmos-entra", "resourceGroup": "rg-data", "location": "centralindia", "apiKind": "GlobalDocumentDB", "disableLocalAuth": true, "compliant": true},
+  {"id": "/subscriptions/00000000-0000-0000-0000-000000000001/resourceGroups/rg-data/providers/Microsoft.DocumentDB/databaseAccounts/cosmos-keys", "name": "cosmos-keys", "resourceGroup": "rg-data", "location": "centralindia", "apiKind": "MongoDB", "disableLocalAuth": false, "compliant": false},
+  {"id": "/subscriptions/00000000-0000-0000-0000-000000000001/resourceGroups/rg-data/providers/Microsoft.DocumentDB/databaseAccounts/cosmos-unknown", "name": "cosmos-unknown", "resourceGroup": "rg-data", "location": "centralindia", "apiKind": "GlobalDocumentDB", "disableLocalAuth": null, "compliant": false}
+]}

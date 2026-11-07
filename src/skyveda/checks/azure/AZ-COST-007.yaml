@@ -1,0 +1,54 @@
+schema_version: 1
+id: AZ-COST-007
+title: No Premium SSD disks on deallocated virtual machines
+provider: azure
+area: cost
+severity: low
+tier: pro
+source:
+  type: resource_graph
+  query: |
+    // Assumed list-price saving (replaced by billed cost at MVP): Premium SSD 13 minus
+    // Standard SSD 7 = 6 INR per GB-month. Inlined: Resource Graph rejects `let`.
+    // Join keys are lowercased on both sides because the casing of resource IDs varies.
+    // A disk whose VM cannot be matched (other scope, or no power state) has an empty power state
+    // and is NOT flagged: a cost finding needs evidence that the VM is deallocated.
+    resources
+    | where type =~ 'microsoft.compute/disks'
+    | where tostring(sku.name) startswith 'Premium' and isnotempty(managedBy)
+    | extend sizeGb = toint(properties.diskSizeGB), sku = tostring(sku.name),
+             vmKey = tolower(tostring(managedBy))
+    | join kind=leftouter (
+        resources
+        | where type =~ 'microsoft.compute/virtualmachines'
+        | project vmKey = tolower(id), vm = name,
+                  powerState = tostring(properties.extended.instanceView.powerState.code)
+      ) on vmKey
+    | extend compliant = coalesce(powerState, '') != 'PowerState/deallocated'
+    | extend estMonthlyWasteInr = iff(compliant, 0.0, todouble(sizeGb) * 6.0)
+    | project id, name, resourceGroup, location, vm, powerState, sizeGb, sku, compliant, estMonthlyWasteInr
+cost:
+  field: estMonthlyWasteInr
+  basis: Premium SSD to Standard SSD list-price difference (assumption)
+  # The waste is the price gap to Standard, not the disk's whole bill, so billed cost cannot
+  # replace it (D-028).
+  billed: false
+why: >-
+  A deallocated VM stops compute charges, but its disks are billed in full. A Premium SSD on a VM
+  that stays off for long periods costs about twice a Standard SSD of the same size.
+fix:
+  summary: Move disks of long-term deallocated VMs to Standard SSD, or delete the VM if no longer needed.
+  steps:
+    - Confirm the VM will stay off for weeks, not days (the change needs the VM to be deallocated).
+    - Change the disk's performance tier to Standard SSD, and change it back before the VM returns to production.
+  cli: az disk update -g <resource-group> -n <disk> --sku StandardSSD_LRS
+  terraform: |
+    # azurerm_managed_disk
+    storage_account_type = "StandardSSD_LRS"
+references:
+  - https://learn.microsoft.com/azure/virtual-machines/disks-convert-types
+frameworks:
+  waf_pillar:
+    - Cost Optimization
+  waf:
+    - CO:07

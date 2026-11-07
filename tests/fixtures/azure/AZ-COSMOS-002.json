@@ -1,0 +1,5 @@
+{"rows": [
+  {"id": "/subscriptions/00000000-0000-0000-0000-000000000001/resourceGroups/rg-data/providers/Microsoft.DocumentDB/databaseAccounts/cosmos-private", "name": "cosmos-private", "resourceGroup": "rg-data", "location": "centralindia", "publicNetworkAccess": "Disabled", "ipRules": 0, "vnetFilter": false, "compliant": true},
+  {"id": "/subscriptions/00000000-0000-0000-0000-000000000001/resourceGroups/rg-data/providers/Microsoft.DocumentDB/databaseAccounts/cosmos-filtered", "name": "cosmos-filtered", "resourceGroup": "rg-data", "location": "centralindia", "publicNetworkAccess": "Enabled", "ipRules": 2, "vnetFilter": false, "compliant": true},
+  {"id": "/subscriptions/00000000-0000-0000-0000-000000000001/resourceGroups/rg-data/providers/Microsoft.DocumentDB/databaseAccounts/cosmos-open", "name": "cosmos-open", "resourceGroup": "rg-data", "location": "centralindia", "publicNetworkAccess": "Enabled", "ipRules": 0, "vnetFilter": false, "compliant": false}
+]}

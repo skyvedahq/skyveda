@@ -1,0 +1,50 @@
+schema_version: 1
+id: AZ-NET-005
+title: Virtual machines have no public IP on their network interface
+provider: azure
+area: network
+severity: high
+source:
+  type: resource_graph
+  query: |
+    // One row per NIC attached to a VM; unattached NICs are out of scope. A NIC passes only when
+    // it has at least one IP configuration and none of them carries a public IP, so a NIC whose
+    // IP configurations cannot be read (count 0) FAILS rather than passes.
+    resources
+    | where type =~ 'microsoft.network/networkinterfaces'
+    | extend vmId = tostring(properties.virtualMachine.id)
+    | where isnotempty(vmId)
+    | mv-expand ipConfig = properties.ipConfigurations
+    | extend publicIpId = tostring(ipConfig.properties.publicIPAddress.id)
+    | summarize ipConfigCount = count(), publicIpCount = countif(isnotempty(publicIpId))
+        by id, name, resourceGroup, location, vmId
+    | extend vm = extract(@'([^/]+)$', 1, vmId)
+    | project id, name, resourceGroup, location, vm, publicIpCount,
+              compliant = ipConfigCount > 0 and publicIpCount == 0
+why: >-
+  A virtual machine with its own public IP address is reachable from the Internet, so every open
+  port is exposed to scanning and password guessing. Reaching it through a load balancer, a
+  firewall or Bastion keeps it off the public Internet.
+fix:
+  summary: Remove the public IP from the network interface and reach the VM through a private path.
+  steps:
+    - Check what uses the public IP today (admin access, inbound traffic, outbound allow-lists).
+    - Put Azure Bastion, a VPN or a load balancer in front, and send outbound traffic through a NAT gateway.
+    - Dissociate the public IP from the NIC's IP configuration, then delete it if unused.
+  cli: az network nic ip-config update -g <resource-group> --nic-name <nic> -n <ipconfig> --remove publicIpAddress
+  terraform: |
+    # azurerm_network_interface: leave public_ip_address_id unset in ip_configuration
+    ip_configuration {
+      name                          = "internal"
+      subnet_id                     = azurerm_subnet.example.id
+      private_ip_address_allocation = "Dynamic"
+    }
+references:
+  - https://learn.microsoft.com/azure/virtual-network/ip-services/remove-public-ip-address-vm
+frameworks:
+  mcsb:
+    - NS-2
+  waf_pillar:
+    - Security
+  waf:
+    - SE:06

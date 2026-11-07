@@ -1,0 +1,22 @@
+{
+ "rows": [
+  {
+   "id": "/subscriptions/00000000-0000-0000-0000-00000000d001/resourceGroups/rg-shop-aks-prod-cin/providers/Microsoft.ContainerService/managedClusters/aks-shop-prod-cin",
+   "name": "aks-shop-prod-cin",
+   "resourceGroup": "rg-shop-aks-prod-cin",
+   "location": "centralindia",
+   "pools": 1,
+   "poolsWithoutZones": 1,
+   "compliant": false
+  },
+  {
+   "id": "/subscriptions/00000000-0000-0000-0000-00000000d002/resourceGroups/rg-shop-aks-uat-cin/providers/Microsoft.ContainerService/managedClusters/aks-shop-uat-cin",
+   "name": "aks-shop-uat-cin",
+   "resourceGroup": "rg-shop-aks-uat-cin",
+   "location": "centralindia",
+   "pools": 2,
+   "poolsWithoutZones": 2,
+   "compliant": false
+  }
+ ]
+}

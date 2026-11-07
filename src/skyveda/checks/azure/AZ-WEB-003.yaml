@@ -1,0 +1,42 @@
+schema_version: 1
+id: AZ-WEB-003
+title: App Service apps use a managed identity
+provider: azure
+area: identity
+severity: low
+source:
+  type: resource_graph
+  query: |
+    // identity.type is SystemAssigned, UserAssigned, 'SystemAssigned, UserAssigned' or None.
+    // A missing identity gives an empty string, which matches neither, so unknown data FAILS.
+    // Includes function apps (type microsoft.web/sites).
+    resources
+    | where type =~ 'microsoft.web/sites'
+    | extend identityType = tostring(identity.type), appKind = tostring(kind)
+    | project id, name, resourceGroup, location, appKind, identityType,
+              compliant = identityType contains 'SystemAssigned' or identityType contains 'UserAssigned'
+why: >-
+  An app without a managed identity has to keep passwords or keys in its settings to reach
+  databases, Key Vault or storage. A managed identity lets Azure issue the credentials, so there
+  is no secret to leak or rotate.
+fix:
+  summary: Turn on a managed identity for each app and grant it access to what it uses.
+  steps:
+    - List the secrets and connection strings the app uses to reach other Azure services.
+    - Enable a system-assigned identity, or attach a user-assigned one.
+    - Grant that identity the needed role on each service, switch the app to it, and remove the old secret.
+  cli: az webapp identity assign -g <resource-group> -n <app>
+  terraform: |
+    # azurerm_linux_web_app / azurerm_windows_web_app
+    identity {
+      type = "SystemAssigned"
+    }
+references:
+  - https://learn.microsoft.com/azure/app-service/overview-managed-identity
+frameworks:
+  mcsb:
+    - IM-3
+  waf_pillar:
+    - Security
+  waf:
+    - SE:05

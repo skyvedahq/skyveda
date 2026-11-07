@@ -1,0 +1,4 @@
+{"rows": [
+  {"id": "/subscriptions/00000000-0000-0000-0000-000000000001/resourceGroups/rg-app/providers/Microsoft.Compute/disks/disk-locked", "name": "disk-locked", "resourceGroup": "rg-app", "location": "centralindia", "diskState": "Attached", "networkAccessPolicy": "DenyAll", "publicNetworkAccess": "Disabled", "compliant": true},
+  {"id": "/subscriptions/00000000-0000-0000-0000-000000000001/resourceGroups/rg-app/providers/Microsoft.Compute/disks/disk-open", "name": "disk-open", "resourceGroup": "rg-app", "location": "centralindia", "diskState": "Unattached", "networkAccessPolicy": "AllowAll", "publicNetworkAccess": "Enabled", "compliant": false}
+]}

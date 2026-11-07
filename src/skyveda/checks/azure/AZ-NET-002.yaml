@@ -1,0 +1,32 @@
+schema_version: 1
+id: AZ-NET-002
+title: Storage, Key Vault and SQL are reached through private endpoints
+provider: azure
+area: network
+severity: high
+source:
+  type: resource_graph
+  query: |
+    resources
+    | where type in~ ('microsoft.storage/storageaccounts', 'microsoft.keyvault/vaults', 'microsoft.sql/servers')
+    | extend privateEndpoints = coalesce(array_length(properties.privateEndpointConnections), 0),
+             publicNetworkAccess = tostring(properties.publicNetworkAccess)
+    | project id, name, type, resourceGroup, location, privateEndpoints, publicNetworkAccess,
+              compliant = privateEndpoints > 0
+why: >-
+  Without a private endpoint, data services are reached over public addresses. One wrong firewall
+  setting then exposes data stores to the Internet.
+fix:
+  summary: Add a private endpoint, then turn off public network access.
+  steps:
+    - Create a private endpoint in the application's virtual network and link the private DNS zone.
+    - When applications use the endpoint, set public network access to Disabled.
+references:
+  - https://learn.microsoft.com/azure/private-link/private-endpoint-overview
+frameworks:
+  mcsb:
+    - NS-2
+  waf_pillar:
+    - Security
+  waf:
+    - SE:06

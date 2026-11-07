@@ -1,0 +1,35 @@
+schema_version: 1
+id: AZ-SQL-002
+title: Azure SQL server firewall does not allow the whole internet
+provider: azure
+area: network
+severity: critical
+tier: free
+source:
+  # Resource Graph does not index SQL firewall rules (shown on live Azure), so they are read
+  # with read-only ARM GETs: one row per rule, flagging 0.0.0.0 - 255.255.255.255.
+  type: arm
+  collector: skyveda.providers.azure.collectors.sql_firewall_rules
+why: >-
+  A firewall rule covering 0.0.0.0 to 255.255.255.255 lets every address on the internet reach
+  the database login endpoint. Attackers scan for these constantly and try stolen or guessed passwords.
+fix:
+  summary: Delete the allow-all rule and allow only the addresses that need access.
+  steps:
+    - Find which clients really connect (office, build agents, app outbound IPs).
+    - Add narrow rules, or better, use private endpoints or virtual network rules.
+    - Delete the 0.0.0.0 - 255.255.255.255 rule.
+  cli: az sql server firewall-rule delete -g <resource-group> -s <server> -n <rule-name>
+  terraform: |
+    # azurerm_mssql_firewall_rule: remove the rule, or narrow it
+    start_ip_address = "<your-office-ip>"
+    end_ip_address   = "<your-office-ip>"
+references:
+  - https://learn.microsoft.com/azure/azure-sql/database/firewall-configure
+frameworks:
+  mcsb:
+    - NS-2
+  waf_pillar:
+    - Security
+  waf:
+    - SE:06

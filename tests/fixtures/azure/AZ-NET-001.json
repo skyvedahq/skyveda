@@ -1,0 +1,7 @@
+{"rows": [
+  {"id": "/subscriptions/00000000-0000-0000-0000-000000000001/resourceGroups/rg-web/providers/Microsoft.Network/networkSecurityGroups/nsg-web", "name": "nsg-web", "resourceGroup": "rg-web",
+   "rules": [{"name": "allow-https", "properties": {"access": "Allow", "direction": "Inbound", "protocol": "Tcp", "sourceAddressPrefix": "Internet", "destinationPortRange": "443"}}]},
+  {"id": "/subscriptions/00000000-0000-0000-0000-000000000001/resourceGroups/rg-jump/providers/Microsoft.Network/networkSecurityGroups/nsg-jump", "name": "nsg-jump", "resourceGroup": "rg-jump",
+   "rules": [{"name": "allow-ssh-any", "properties": {"access": "Allow", "direction": "Inbound", "protocol": "*", "sourceAddressPrefix": "*", "destinationPortRange": "20-25"}},
+             {"name": "deny-rdp", "properties": {"access": "Deny", "direction": "Inbound", "protocol": "Tcp", "sourceAddressPrefix": "Internet", "destinationPortRange": "3389"}}]}
+]}

@@ -1,0 +1,34 @@
+{
+ "rows": [
+  {
+   "id": "/subscriptions/00000000-0000-0000-0000-00000000d001/resourceGroups/rg-shop-web-prod-cin/providers/Microsoft.Web/serverfarms/asp-shop-api-prod",
+   "name": "asp-shop-api-prod",
+   "resourceGroup": "rg-shop-web-prod-cin",
+   "location": "centralindia",
+   "tier": "PremiumV3",
+   "skuName": "P1v3",
+   "sites": 3,
+   "compliant": true
+  },
+  {
+   "id": "/subscriptions/00000000-0000-0000-0000-00000000d001/resourceGroups/rg-shop-web-prod-cin/providers/Microsoft.Web/serverfarms/asp-shop-legacy-prod",
+   "name": "asp-shop-legacy-prod",
+   "resourceGroup": "rg-shop-web-prod-cin",
+   "location": "centralindia",
+   "tier": "PremiumV3",
+   "skuName": "P2v3",
+   "sites": 0,
+   "compliant": false
+  },
+  {
+   "id": "/subscriptions/00000000-0000-0000-0000-00000000d002/resourceGroups/rg-shop-web-uat-cin/providers/Microsoft.Web/serverfarms/asp-shop-uat",
+   "name": "asp-shop-uat",
+   "resourceGroup": "rg-shop-web-uat-cin",
+   "location": "centralindia",
+   "tier": "Standard",
+   "skuName": "S1",
+   "sites": 0,
+   "compliant": false
+  }
+ ]
+}

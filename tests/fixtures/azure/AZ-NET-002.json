@@ -1,0 +1,4 @@
+{"rows": [
+ {"id": "/subscriptions/00000000-0000-0000-0000-000000000001/resourceGroups/rg-data/providers/Microsoft.Storage/storageAccounts/stdatalake", "name": "stdatalake", "type": "microsoft.storage/storageaccounts", "resourceGroup": "rg-data", "location": "centralindia", "privateEndpoints": 1, "publicNetworkAccess": "Disabled", "compliant": true},
+ {"id": "/subscriptions/00000000-0000-0000-0000-000000000001/resourceGroups/rg-sec/providers/Microsoft.KeyVault/vaults/kv-prod", "name": "kv-prod", "type": "microsoft.keyvault/vaults", "resourceGroup": "rg-sec", "location": "centralindia", "privateEndpoints": 0, "publicNetworkAccess": "Enabled", "compliant": false}
+]}

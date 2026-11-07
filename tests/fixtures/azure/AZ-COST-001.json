@@ -1,0 +1,5 @@
+{"rows": [
+ {"id": "/subscriptions/00000000-0000-0000-0000-000000000001/resourceGroups/rg-old/providers/Microsoft.Compute/disks/disk-old-vm", "name": "disk-old-vm", "resourceGroup": "rg-old", "location": "centralindia", "diskState": "Unattached", "sizeGb": 256, "sku": "Premium_LRS", "compliant": false, "estMonthlyWasteInr": 3328.0},
+ {"id": "/subscriptions/00000000-0000-0000-0000-000000000001/resourceGroups/rg-old/providers/Microsoft.Compute/disks/disk-scratch", "name": "disk-scratch", "resourceGroup": "rg-old", "location": "centralindia", "diskState": "Unattached", "sizeGb": 128, "sku": "StandardSSD_LRS", "compliant": false, "estMonthlyWasteInr": 896.0},
+ {"id": "/subscriptions/00000000-0000-0000-0000-000000000001/resourceGroups/rg-web/providers/Microsoft.Compute/disks/disk-web-os", "name": "disk-web-os", "resourceGroup": "rg-web", "location": "centralindia", "diskState": "Attached", "sizeGb": 128, "sku": "Premium_LRS", "compliant": true, "estMonthlyWasteInr": 0.0}
+]}

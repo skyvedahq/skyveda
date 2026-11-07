@@ -1,0 +1,40 @@
+{
+ "rows": [
+  {
+   "id": "/subscriptions/00000000-0000-0000-0000-000000000001/resourceGroups/rg-web/providers/Microsoft.Web/sites/app-sys",
+   "name": "app-sys",
+   "resourceGroup": "rg-web",
+   "location": "centralindia",
+   "identityType": "SystemAssigned",
+   "compliant": true,
+   "appKind": "app,linux"
+  },
+  {
+   "id": "/subscriptions/00000000-0000-0000-0000-000000000001/resourceGroups/rg-web/providers/Microsoft.Web/sites/app-both",
+   "name": "app-both",
+   "resourceGroup": "rg-web",
+   "location": "centralindia",
+   "identityType": "SystemAssigned, UserAssigned",
+   "compliant": true,
+   "appKind": "app"
+  },
+  {
+   "id": "/subscriptions/00000000-0000-0000-0000-000000000001/resourceGroups/rg-web/providers/Microsoft.Web/sites/app-none",
+   "name": "app-none",
+   "resourceGroup": "rg-web",
+   "location": "centralindia",
+   "identityType": "None",
+   "compliant": false,
+   "appKind": "app"
+  },
+  {
+   "id": "/subscriptions/00000000-0000-0000-0000-000000000001/resourceGroups/rg-web/providers/Microsoft.Web/sites/app-missing",
+   "name": "app-missing",
+   "resourceGroup": "rg-web",
+   "location": "centralindia",
+   "identityType": "",
+   "compliant": false,
+   "appKind": "app"
+  }
+ ]
+}

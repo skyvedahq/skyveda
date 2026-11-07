@@ -1,0 +1,17 @@
+[
+ {
+  "kind": "subscription",
+  "id": "00000000-0000-0000-0000-00000000d001",
+  "name": "sub-shop-prod"
+ },
+ {
+  "kind": "subscription",
+  "id": "00000000-0000-0000-0000-00000000d002",
+  "name": "sub-shop-nonprod"
+ },
+ {
+  "kind": "subscription",
+  "id": "00000000-0000-0000-0000-00000000d003",
+  "name": "sub-platform-shared"
+ }
+]

@@ -1,0 +1,4 @@
+{"rows": [
+  {"id": "/subscriptions/00000000-0000-0000-0000-000000000001/resourceGroups/rg-net/providers/Microsoft.Network/loadBalancers/lb-standard", "name": "lb-standard", "resourceGroup": "rg-net", "location": "centralindia", "sku": "Standard", "frontends": 1, "compliant": true},
+  {"id": "/subscriptions/00000000-0000-0000-0000-000000000001/resourceGroups/rg-net/providers/Microsoft.Network/loadBalancers/lb-basic", "name": "lb-basic", "resourceGroup": "rg-net", "location": "centralindia", "sku": "Basic", "frontends": 1, "compliant": false}
+]}

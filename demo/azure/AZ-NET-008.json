@@ -1,0 +1,22 @@
+{
+ "rows": [
+  {
+   "id": "/subscriptions/00000000-0000-0000-0000-00000000d001/resourceGroups/rg-shop-net-prod-cin/providers/Microsoft.Network/loadBalancers/lb-shop-checkout-old",
+   "name": "lb-shop-checkout-old",
+   "resourceGroup": "rg-shop-net-prod-cin",
+   "location": "centralindia",
+   "sku": "Basic",
+   "frontends": 1,
+   "compliant": false
+  },
+  {
+   "id": "/subscriptions/00000000-0000-0000-0000-00000000d001/resourceGroups/rg-shop-net-prod-cin/providers/Microsoft.Network/loadBalancers/lb-shop-internal-prod",
+   "name": "lb-shop-internal-prod",
+   "resourceGroup": "rg-shop-net-prod-cin",
+   "location": "centralindia",
+   "sku": "Standard",
+   "frontends": 1,
+   "compliant": true
+  }
+ ]
+}

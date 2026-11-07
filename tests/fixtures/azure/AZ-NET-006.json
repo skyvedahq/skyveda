@@ -1,0 +1,4 @@
+{"rows": [
+  {"id": "/subscriptions/00000000-0000-0000-0000-000000000001/resourceGroups/rg-web/providers/Microsoft.Network/networkSecurityGroups/nsg-web", "name": "nsg-web", "resourceGroup": "rg-web", "rules": [{"name": "allow-https", "properties": {"access": "Allow", "direction": "Inbound", "protocol": "Tcp", "sourceAddressPrefix": "Internet", "destinationPortRange": "443"}}, {"name": "allow-sql-from-app", "properties": {"access": "Allow", "direction": "Inbound", "protocol": "Tcp", "sourceAddressPrefix": "10.1.0.0/24", "destinationPortRange": "1433"}}]},
+  {"id": "/subscriptions/00000000-0000-0000-0000-000000000001/resourceGroups/rg-db/providers/Microsoft.Network/networkSecurityGroups/nsg-db", "name": "nsg-db", "resourceGroup": "rg-db", "rules": [{"name": "allow-db-range", "properties": {"access": "Allow", "direction": "Inbound", "protocol": "*", "sourceAddressPrefix": "*", "destinationPortRanges": ["3000-3400", "8080"]}}]}
+]}

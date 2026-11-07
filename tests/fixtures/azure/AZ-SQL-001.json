@@ -1,0 +1,5 @@
+{"rows": [
+  {"id": "/subscriptions/00000000-0000-0000-0000-000000000001/resourceGroups/rg-db/providers/Microsoft.Sql/servers/sql-entra", "name": "sql-entra", "resourceGroup": "rg-db", "location": "centralindia", "entraOnlyAuth": true, "compliant": true},
+  {"id": "/subscriptions/00000000-0000-0000-0000-000000000001/resourceGroups/rg-db/providers/Microsoft.Sql/servers/sql-passwords", "name": "sql-passwords", "resourceGroup": "rg-db", "location": "centralindia", "entraOnlyAuth": false, "compliant": false},
+  {"id": "/subscriptions/00000000-0000-0000-0000-000000000001/resourceGroups/rg-db/providers/Microsoft.Sql/servers/sql-unknown", "name": "sql-unknown", "resourceGroup": "rg-db", "location": "centralindia", "entraOnlyAuth": null, "compliant": false}
+]}

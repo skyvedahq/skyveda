@@ -1,0 +1,38 @@
+schema_version: 1
+id: AZ-REDIS-001
+title: Azure Cache for Redis has the non-TLS port disabled
+provider: azure
+area: security
+severity: high
+tier: free
+source:
+  type: resource_graph
+  query: |
+    // properties.enableNonSslPort defaults to false, but a missing value cannot be proven safe,
+    // so it is read as true and FAILS. Azure Managed Redis (redisenterprise) is a separate type.
+    resources
+    | where type =~ 'microsoft.cache/redis'
+    | extend enableNonSslPort = tobool(properties.enableNonSslPort)
+    | project id, name, resourceGroup, location, enableNonSslPort,
+              compliant = coalesce(enableNonSslPort, true) == false
+why: >-
+  The non-TLS port (6379) sends the access key and every cached value in clear text. Anyone on the
+  network path can read session tokens, user data or the key itself, and then the whole cache.
+fix:
+  summary: Disable the non-TLS port and connect on port 6380 over TLS.
+  steps:
+    - Find clients that connect on port 6379 and move them to port 6380 with TLS turned on.
+    - Disable the non-TLS port in the cache's Advanced settings.
+  cli: az redis update -g <resource-group> -n <cache> --set enableNonSslPort=false
+  terraform: |
+    # azurerm_redis_cache
+    non_ssl_port_enabled = false
+references:
+  - https://learn.microsoft.com/azure/azure-cache-for-redis/cache-configure#access-ports
+frameworks:
+  mcsb:
+    - DP-3
+  waf_pillar:
+    - Security
+  waf:
+    - SE:07

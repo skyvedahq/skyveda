@@ -1,0 +1,5 @@
+{"rows": [
+  {"id": "/subscriptions/00000000-0000-0000-0000-000000000001/resourceGroups/rg-app/providers/Microsoft.ContainerRegistry/registries/acrprivate", "name": "acrprivate", "resourceGroup": "rg-app", "location": "centralindia", "sku": "Premium", "publicNetworkAccess": "Disabled", "defaultAction": "Allow", "compliant": true},
+  {"id": "/subscriptions/00000000-0000-0000-0000-000000000001/resourceGroups/rg-app/providers/Microsoft.ContainerRegistry/registries/acrfirewalled", "name": "acrfirewalled", "resourceGroup": "rg-app", "location": "centralindia", "sku": "Premium", "publicNetworkAccess": "Enabled", "defaultAction": "Deny", "compliant": true},
+  {"id": "/subscriptions/00000000-0000-0000-0000-000000000001/resourceGroups/rg-app/providers/Microsoft.ContainerRegistry/registries/acranonymous", "name": "acranonymous", "resourceGroup": "rg-app", "location": "centralindia", "sku": "Standard", "publicNetworkAccess": "Enabled", "defaultAction": "Allow", "compliant": false}
+]}

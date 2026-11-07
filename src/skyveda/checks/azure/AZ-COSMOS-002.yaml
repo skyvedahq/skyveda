@@ -1,0 +1,42 @@
+schema_version: 1
+id: AZ-COSMOS-002
+title: Cosmos DB accounts are not open to all networks
+provider: azure
+area: network
+severity: high
+tier: free
+source:
+  type: resource_graph
+  query: |
+    // Compliant when public network access is Disabled, or when an IP or virtual network filter
+    // limits it. A missing publicNetworkAccess is read as Enabled (the Azure default) and FAILS.
+    // Any IP rule counts as a limit, even a broad one; the rule count is shown as evidence.
+    resources
+    | where type =~ 'microsoft.documentdb/databaseaccounts'
+    | extend publicNetworkAccess = coalesce(tostring(properties.publicNetworkAccess), 'Enabled'),
+             ipRules = coalesce(array_length(properties.ipRules), 0),
+             vnetFilter = coalesce(tobool(properties.isVirtualNetworkFilterEnabled), false)
+    | project id, name, resourceGroup, location, publicNetworkAccess, ipRules, vnetFilter,
+              compliant = publicNetworkAccess =~ 'Disabled' or ipRules > 0 or vnetFilter
+why: >-
+  An account that accepts connections from any network relies on its keys alone. A leaked key can
+  then be used from anywhere on the Internet to read or change every database in the account.
+fix:
+  summary: Use private endpoints and disable public access, or limit public access to known networks.
+  steps:
+    - List the networks and addresses that must reach the account.
+    - Add a private endpoint, or add IP and virtual network rules in the account's Networking settings.
+    - Set public network access to Disabled, or to selected networks only.
+  cli: az cosmosdb update -g <resource-group> -n <account> --public-network-access Disabled
+  terraform: |
+    # azurerm_cosmosdb_account
+    public_network_access_enabled = false
+references:
+  - https://learn.microsoft.com/azure/cosmos-db/how-to-configure-firewall
+frameworks:
+  mcsb:
+    - NS-2
+  waf_pillar:
+    - Security
+  waf:
+    - SE:06

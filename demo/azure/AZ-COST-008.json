@@ -1,0 +1,44 @@
+{
+ "rows": [
+  {
+   "id": "/subscriptions/00000000-0000-0000-0000-00000000d003/resourceGroups/rg-platform-net-cin/providers/Microsoft.Network/privateDnsZones/privatelink.blob.core.windows.net",
+   "name": "privatelink.blob.core.windows.net",
+   "resourceGroup": "rg-platform-net-cin",
+   "location": "global",
+   "links": 2,
+   "recordSets": 4,
+   "compliant": true,
+   "estMonthlyWasteInr": 0.0
+  },
+  {
+   "id": "/subscriptions/00000000-0000-0000-0000-00000000d003/resourceGroups/rg-platform-net-cin/providers/Microsoft.Network/privateDnsZones/privatelink.database.windows.net",
+   "name": "privatelink.database.windows.net",
+   "resourceGroup": "rg-platform-net-cin",
+   "location": "global",
+   "links": 2,
+   "recordSets": 3,
+   "compliant": true,
+   "estMonthlyWasteInr": 0.0
+  },
+  {
+   "id": "/subscriptions/00000000-0000-0000-0000-00000000d002/resourceGroups/rg-shop-net-uat-cin/providers/Microsoft.Network/privateDnsZones/privatelink.vaultcore.azure.net",
+   "name": "privatelink.vaultcore.azure.net",
+   "resourceGroup": "rg-shop-net-uat-cin",
+   "location": "global",
+   "links": 0,
+   "recordSets": 1,
+   "compliant": false,
+   "estMonthlyWasteInr": 42.0
+  },
+  {
+   "id": "/subscriptions/00000000-0000-0000-0000-00000000d001/resourceGroups/rg-shop-net-prod-cin/providers/Microsoft.Network/privateDnsZones/shop-legacy.internal",
+   "name": "shop-legacy.internal",
+   "resourceGroup": "rg-shop-net-prod-cin",
+   "location": "global",
+   "links": 0,
+   "recordSets": 12,
+   "compliant": false,
+   "estMonthlyWasteInr": 42.0
+  }
+ ]
+}

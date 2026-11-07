@@ -1,0 +1,3 @@
+{"rows": [
+ {"id": "/subscriptions/00000000-0000-0000-0000-000000000001/resourceGroups/rg-old/providers/Microsoft.Compute/snapshots/snap-before-upgrade", "name": "snap-before-upgrade", "resourceGroup": "rg-old", "location": "centralindia", "sizeGb": 128, "ageDays": 210, "compliant": false, "estMonthlyWasteInr": 563.2}
+]}

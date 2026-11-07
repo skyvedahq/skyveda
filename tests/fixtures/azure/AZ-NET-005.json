@@ -1,0 +1,31 @@
+{
+ "rows": [
+  {
+   "id": "/subscriptions/00000000-0000-0000-0000-000000000001/resourceGroups/rg-web/providers/Microsoft.Network/networkInterfaces/nic-web-01",
+   "name": "nic-web-01",
+   "resourceGroup": "rg-web",
+   "location": "centralindia",
+   "vm": "vm-web-01",
+   "publicIpCount": 0,
+   "compliant": true
+  },
+  {
+   "id": "/subscriptions/00000000-0000-0000-0000-000000000001/resourceGroups/rg-web/providers/Microsoft.Network/networkInterfaces/nic-jump-01",
+   "name": "nic-jump-01",
+   "resourceGroup": "rg-web",
+   "location": "centralindia",
+   "vm": "vm-jump-01",
+   "publicIpCount": 1,
+   "compliant": false
+  },
+  {
+   "id": "/subscriptions/00000000-0000-0000-0000-000000000001/resourceGroups/rg-web/providers/Microsoft.Network/networkInterfaces/nic-multi-01",
+   "name": "nic-multi-01",
+   "resourceGroup": "rg-web",
+   "location": "centralindia",
+   "vm": "vm-multi-01",
+   "publicIpCount": 1,
+   "compliant": false
+  }
+ ]
+}

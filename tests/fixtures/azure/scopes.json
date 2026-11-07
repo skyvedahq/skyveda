@@ -1,0 +1,4 @@
+[
+  {"kind": "subscription", "id": "00000000-0000-0000-0000-000000000001", "name": "skyveda-lab-prod"},
+  {"kind": "subscription", "id": "00000000-0000-0000-0000-000000000002", "name": "skyveda-lab-dev"}
+]

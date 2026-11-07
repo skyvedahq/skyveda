@@ -1,0 +1,37 @@
+schema_version: 1
+id: AZ-WEB-002
+title: App Service apps require TLS 1.2 or later
+provider: azure
+area: security
+severity: medium
+tier: free
+source:
+  # siteConfig is not indexed by Resource Graph (shown on live Azure): read config/web over ARM.
+  type: arm
+  collector: skyveda.providers.azure.collectors.web_site_config
+evaluate:
+  type: python
+  function: skyveda.providers.azure.evaluators.web_min_tls
+why: >-
+  TLS 1.0 and 1.1 have known weaknesses and fail most security reviews and payment-card audits.
+  An app that still accepts them lets clients connect over weaker encryption.
+fix:
+  summary: Set the app's minimum inbound TLS version to 1.2.
+  steps:
+    - Confirm the app's clients support TLS 1.2 (all current browsers and SDKs do).
+    - Set "Minimum Inbound TLS Version" to 1.2 in the app's Configuration > General settings.
+  cli: az webapp config set -g <resource-group> -n <app> --min-tls-version 1.2
+  terraform: |
+    # azurerm_linux_web_app / azurerm_windows_web_app
+    site_config {
+      minimum_tls_version = "1.2"
+    }
+references:
+  - https://learn.microsoft.com/azure/app-service/overview-tls
+frameworks:
+  mcsb:
+    - DP-3
+  waf_pillar:
+    - Security
+  waf:
+    - SE:07

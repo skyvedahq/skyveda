@@ -1,0 +1,48 @@
+schema_version: 1
+id: AZ-COST-002
+title: No unused public IP addresses
+provider: azure
+area: cost
+severity: low
+tier: pro
+source:
+  type: resource_graph
+  query: |
+    // Approximate list price of a Standard static public IP: INR 320 per month (assumption).
+    // Inlined: Resource Graph rejects `let`.
+    resources
+    | where type =~ 'microsoft.network/publicipaddresses'
+    | extend attachedTo = coalesce(tostring(properties.ipConfiguration.id), tostring(properties.natGateway.id)),
+             sku = tostring(sku.name), allocation = tostring(properties.publicIPAllocationMethod)
+    | extend compliant = isnotempty(attachedTo)
+    | extend estMonthlyWasteInr = iff(compliant, 0.0, 320.0)
+    | project id, name, resourceGroup, location, sku, allocation, compliant, estMonthlyWasteInr
+cost:
+  field: estMonthlyWasteInr
+why: >-
+  A static public IP that is not attached to anything is still billed, and an unused public
+  address is easy to forget and later attach to the wrong resource.
+fix:
+  summary: Delete public IPs that are not attached to a network interface, load balancer or NAT gateway.
+  cli: az network public-ip delete -g <resource-group> -n <public-ip>
+remedy:
+  risk: medium
+  downtime: none
+  before: >-
+    Confirm that no DNS record, firewall allow-list or partner configuration uses this address.
+    Once deleted, the same address cannot be reserved again.
+  az: |
+    az network public-ip delete --subscription {subscriptionId} -g {resourceGroup} -n {name}
+  rollback: |
+    # Creates a NEW address; the original address is gone and cannot be reserved again.
+    # Zones and tags are not restored.
+    az network public-ip create --subscription {subscriptionId} -g {resourceGroup} -n {name} --sku {sku} --allocation-method {allocation}
+  verify: |
+    az network public-ip show --subscription {subscriptionId} -g {resourceGroup} -n {name}   # expect: not found
+references:
+  - https://learn.microsoft.com/azure/virtual-network/ip-services/public-ip-addresses
+frameworks:
+  waf_pillar:
+    - Cost Optimization
+  waf:
+    - CO:07

@@ -1,0 +1,40 @@
+schema_version: 1
+id: AZ-COST-008
+title: No private DNS zones without a virtual network link
+provider: azure
+area: cost
+severity: low
+tier: pro
+source:
+  type: resource_graph
+  query: |
+    // ASSUMPTION, not a quote: list price of a private DNS zone about INR 42 per month
+    // (USD 0.50 per zone for the first 25 zones; queries are extra).
+    // A missing numberOfVirtualNetworkLinks counts as zero links, so it is flagged.
+    resources
+    | where type =~ 'microsoft.network/privatednszones'
+    | extend links = coalesce(toint(properties.numberOfVirtualNetworkLinks), 0),
+             recordSets = toint(properties.numberOfRecordSets)
+    | extend compliant = links > 0
+    | extend estMonthlyWasteInr = iff(compliant, 0.0, 42.0)
+    | project id, name, resourceGroup, location, links, recordSets, compliant, estMonthlyWasteInr
+cost:
+  field: estMonthlyWasteInr
+why: >-
+  A private DNS zone answers only for the virtual networks linked to it. A zone with no links
+  resolves nothing for anyone, yet is still billed every month. These are usually left behind
+  after a private endpoint or a network was deleted.
+fix:
+  summary: Delete private DNS zones that no network uses, or link them to the network that needs them.
+  steps:
+    - Check with the owner whether a network is about to be linked to the zone.
+    - Link the zone to the right virtual network, or delete it.
+  cli: az network private-dns zone delete -g <resource-group> -n <zone>
+references:
+  - https://learn.microsoft.com/azure/dns/private-dns-virtual-network-links
+  - https://azure.microsoft.com/pricing/details/dns/
+frameworks:
+  waf_pillar:
+    - Cost Optimization
+  waf:
+    - CO:07

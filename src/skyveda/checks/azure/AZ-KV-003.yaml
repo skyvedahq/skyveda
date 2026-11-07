@@ -1,0 +1,44 @@
+schema_version: 1
+id: AZ-KV-003
+title: Key Vaults are not open to all networks
+provider: azure
+area: network
+severity: high
+source:
+  type: resource_graph
+  query: |
+    // Compliant when public network access is Disabled, or the firewall default action is Deny.
+    // A missing publicNetworkAccess is read as Enabled and a missing defaultAction as Allow:
+    // both are the Azure defaults, and both are open, so unknown data fails.
+    resources
+    | where type =~ 'microsoft.keyvault/vaults'
+    | extend publicNetworkAccess = coalesce(tostring(properties.publicNetworkAccess), 'Enabled'),
+             defaultAction = coalesce(tostring(properties.networkAcls.defaultAction), 'Allow')
+    | project id, name, resourceGroup, location, publicNetworkAccess, defaultAction,
+              compliant = publicNetworkAccess =~ 'Disabled' or defaultAction =~ 'Deny'
+why: >-
+  A vault that accepts connections from any network can be reached from the Internet by anyone who
+  gets hold of a credential. A firewall that denies by default limits it to named networks.
+fix:
+  summary: Set the vault firewall to deny by default and allow only the networks that need it, or turn public access off.
+  steps:
+    - List who and what reaches the vault today (applications, pipelines, admins).
+    - Add private endpoints or virtual network rules for them, then set the default action to Deny.
+    - Where private endpoints carry all access, set public network access to Disabled.
+  cli: az keyvault update -g <resource-group> -n <vault> --default-action Deny
+  terraform: |
+    # azurerm_key_vault
+    public_network_access_enabled = false
+    network_acls {
+      default_action = "Deny"
+      bypass         = "AzureServices"
+    }
+references:
+  - https://learn.microsoft.com/azure/key-vault/general/network-security
+frameworks:
+  mcsb:
+    - NS-2
+  waf_pillar:
+    - Security
+  waf:
+    - SE:06

@@ -1,0 +1,4 @@
+{"rows": [
+ {"id": "/subscriptions/00000000-0000-0000-0000-000000000001/resourceGroups/rg-net/providers/Microsoft.Network/virtualNetworks/vnet-a/subnets/snet-ok", "name": "snet-ok", "resourceGroup": "rg-net", "location": "centralindia", "vnet": "vnet-a", "nsgId": "/subscriptions/00000000-0000-0000-0000-000000000001/resourceGroups/rg-net/providers/Microsoft.Network/networkSecurityGroups/nsg-ok", "compliant": true},
+ {"id": "/subscriptions/00000000-0000-0000-0000-000000000001/resourceGroups/rg-net/providers/Microsoft.Network/virtualNetworks/vnet-a/subnets/snet-bare", "name": "snet-bare", "resourceGroup": "rg-net", "location": "centralindia", "vnet": "vnet-a", "nsgId": "", "compliant": false}
+]}

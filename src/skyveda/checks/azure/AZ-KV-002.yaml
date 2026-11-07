@@ -1,0 +1,39 @@
+schema_version: 1
+id: AZ-KV-002
+title: Key Vaults use the Azure RBAC permission model
+provider: azure
+area: identity
+severity: medium
+source:
+  type: resource_graph
+  query: |
+    // A missing value counts as NOT compliant: vaults created before RBAC became the default
+    // use access policies, and the API may omit the property for them.
+    resources
+    | where type =~ 'microsoft.keyvault/vaults'
+    | extend rbacAuthorization = tobool(properties.enableRbacAuthorization)
+    | project id, name, resourceGroup, location, rbacAuthorization,
+              compliant = coalesce(rbacAuthorization, false)
+why: >-
+  Vault access policies give a person or app all-or-nothing rights over keys, secrets or
+  certificates, cannot be reviewed with the rest of your Azure roles, and have no per-secret scope.
+  The RBAC model uses the same roles, audit trail and approval process as everything else.
+fix:
+  summary: Switch each vault to the Azure RBAC permission model, after granting the roles people and apps need.
+  steps:
+    - List the current access policies and grant matching roles (for example Key Vault Secrets User) first.
+    - Switch the vault's permission model to Azure role-based access control.
+    - Check that applications still reach their secrets, then remove the old access policies.
+  cli: az keyvault update -g <resource-group> -n <vault> --enable-rbac-authorization true
+  terraform: |
+    # azurerm_key_vault
+    enable_rbac_authorization = true
+references:
+  - https://learn.microsoft.com/azure/key-vault/general/rbac-migration
+frameworks:
+  mcsb:
+    - PA-7
+  waf_pillar:
+    - Security
+  waf:
+    - SE:05

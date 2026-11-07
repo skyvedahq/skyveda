@@ -1,0 +1,38 @@
+schema_version: 1
+id: AZ-REL-003
+title: Production storage accounts use zone- or geo-redundant replication
+provider: azure
+area: reliability
+severity: medium
+tier: free
+source:
+  type: resource_graph
+  query: |
+    resources
+    | where type =~ 'microsoft.storage/storageaccounts'
+    | extend environment = tolower(coalesce(tostring(tags.environment), tostring(tags.Environment), tostring(tags.env)))
+    | where environment in ('prod', 'production')
+    // A missing sku becomes '' and fails. Only ZRS, GRS, RAGRS, GZRS and RAGZRS pass.
+    | extend skuName = tostring(sku.name)
+    | project id, name, resourceGroup, location, environment, skuName,
+              compliant = skuName in~ ('Standard_ZRS', 'Premium_ZRS', 'Standard_GRS',
+                                       'Standard_RAGRS', 'Standard_GZRS', 'Standard_RAGZRS')
+why: >-
+  Locally redundant storage keeps all copies in one datacentre. A fire or flood there can lose
+  production data. Zone or geo replication keeps copies in separate buildings or regions.
+fix:
+  summary: Change the replication type to ZRS, GRS or GZRS.
+  steps:
+    - Pick ZRS for protection inside the region, or GZRS for protection across regions too.
+    - Change the redundancy setting on the account; Azure converts it online or on request.
+  cli: az storage account update -g <resource-group> -n <account> --sku Standard_ZRS
+  terraform: |
+    # azurerm_storage_account
+    account_replication_type = "ZRS"
+references:
+  - https://learn.microsoft.com/azure/storage/common/redundancy-migration
+frameworks:
+  waf_pillar:
+    - Reliability
+  waf:
+    - RE:05

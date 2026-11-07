@@ -1,0 +1,48 @@
+schema_version: 1
+id: AZ-STG-001
+title: Storage accounts block anonymous blob access
+provider: azure
+area: security
+severity: high
+tier: free
+source:
+  type: resource_graph
+  query: |
+    resources
+    | where type =~ 'microsoft.storage/storageaccounts'
+    | extend allowBlobPublicAccess = tobool(properties.allowBlobPublicAccess)
+    | project id, name, resourceGroup, location, allowBlobPublicAccess,
+              compliant = coalesce(allowBlobPublicAccess, true) == false
+why: >-
+  When anonymous access is allowed at the account level, a single container set to public
+  exposes its files to anyone with the link. Blocking it at the account level removes that risk.
+fix:
+  summary: Disallow anonymous blob access on the storage account.
+  steps:
+    - Check that no application relies on anonymous reads from these accounts.
+    - Turn off "Allow Blob anonymous access" in the account's Configuration settings.
+  cli: az storage account update -g <resource-group> -n <account> --allow-blob-public-access false
+  terraform: |
+    # azurerm_storage_account
+    allow_nested_items_to_be_public = false
+remedy:
+  risk: medium
+  downtime: none
+  before: >-
+    Check that no website, partner or application reads blobs anonymously from this account.
+    Turning anonymous access off makes those reads fail at once.
+  az: |
+    az storage account update --subscription {subscriptionId} -g {resourceGroup} -n {name} --allow-blob-public-access false
+  rollback: |
+    az storage account update --subscription {subscriptionId} -g {resourceGroup} -n {name} --allow-blob-public-access true
+  verify: |
+    az storage account show --subscription {subscriptionId} -g {resourceGroup} -n {name} --query allowBlobPublicAccess -o tsv   # expect: false
+references:
+  - https://learn.microsoft.com/azure/storage/blobs/anonymous-read-access-prevent
+frameworks:
+  mcsb:
+    - NS-2
+  waf_pillar:
+    - Security
+  waf:
+    - SE:05

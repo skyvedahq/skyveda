@@ -1,0 +1,40 @@
+{
+ "rows": [
+  {
+   "id": "/subscriptions/00000000-0000-0000-0000-00000000d001/resourceGroups/rg-shop-app-prod-cin/providers/Microsoft.Compute/disks/disk-vm-web-01-os",
+   "name": "disk-vm-web-01-os",
+   "resourceGroup": "rg-shop-app-prod-cin",
+   "location": "centralindia",
+   "vm": "vm-web-01",
+   "powerState": "PowerState/running",
+   "sizeGb": 128,
+   "sku": "Premium_LRS",
+   "compliant": true,
+   "estMonthlyWasteInr": 0.0
+  },
+  {
+   "id": "/subscriptions/00000000-0000-0000-0000-00000000d002/resourceGroups/rg-shop-app-uat-cin/providers/Microsoft.Compute/disks/disk-vm-uat-02-os",
+   "name": "disk-vm-uat-02-os",
+   "resourceGroup": "rg-shop-app-uat-cin",
+   "location": "centralindia",
+   "vm": "vm-uat-02",
+   "powerState": "PowerState/deallocated",
+   "sizeGb": 256,
+   "sku": "Premium_LRS",
+   "compliant": false,
+   "estMonthlyWasteInr": 1536.0
+  },
+  {
+   "id": "/subscriptions/00000000-0000-0000-0000-00000000d003/resourceGroups/rg-platform-tools-cin/providers/Microsoft.Compute/disks/disk-vm-buildagent-01-os",
+   "name": "disk-vm-buildagent-01-os",
+   "resourceGroup": "rg-platform-tools-cin",
+   "location": "centralindia",
+   "vm": "vm-buildagent-01",
+   "powerState": "PowerState/running",
+   "sizeGb": 128,
+   "sku": "Premium_LRS",
+   "compliant": true,
+   "estMonthlyWasteInr": 0.0
+  }
+ ]
+}

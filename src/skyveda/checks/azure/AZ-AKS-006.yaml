@@ -1,0 +1,38 @@
+schema_version: 1
+id: AZ-AKS-006
+title: AKS clusters have the Azure Policy add-on enabled
+provider: azure
+area: security
+severity: medium
+tier: free
+source:
+  type: resource_graph
+  query: |
+    resources
+    | where type =~ 'microsoft.containerservice/managedclusters'
+    | extend azurePolicyEnabled = tobool(properties.addonProfiles.azurepolicy.enabled)
+    // coalesce: a missing add-on profile or unknown value counts as not enabled, so it fails.
+    | project id, name, resourceGroup, location, azurePolicyEnabled,
+              compliant = coalesce(azurePolicyEnabled, false)
+why: >-
+  Without the Azure Policy add-on, nothing stops a pod from running as root, mounting the host or
+  pulling from an untrusted registry. The add-on enforces guardrails when workloads are admitted.
+fix:
+  summary: Enable the Azure Policy add-on, then assign the built-in Kubernetes policy initiative.
+  steps:
+    - Enable the add-on on the cluster.
+    - Assign the "Kubernetes cluster pod security baseline standards" initiative, in audit mode first.
+    - Move the policies to deny once the audit results are clean.
+  cli: az aks enable-addons -g <resource-group> -n <cluster> --addons azure-policy
+  terraform: |
+    # azurerm_kubernetes_cluster
+    azure_policy_enabled = true
+references:
+  - https://learn.microsoft.com/azure/aks/use-azure-policy
+frameworks:
+  mcsb:
+    - PV-2
+  waf_pillar:
+    - Security
+  waf:
+    - SE:08

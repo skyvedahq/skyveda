@@ -1,0 +1,42 @@
+schema_version: 1
+id: AZ-NET-006
+title: No database ports open to the Internet
+provider: azure
+area: network
+severity: high
+tier: free
+source:
+  type: resource_graph
+  query: |
+    resources
+    | where type =~ 'microsoft.network/networksecuritygroups'
+    | project id, name, resourceGroup, rules = properties.securityRules
+evaluate:
+  type: python
+  function: skyveda.providers.azure.evaluators.nsg_open_management_ports
+parameters:
+  # SQL Server, Oracle, MySQL, PostgreSQL, Redis (plain and TLS), Elasticsearch, MongoDB.
+  ports: ["1433", "1521", "3306", "5432", "6379", "6380", "9200", "27017"]
+why: >-
+  An inbound rule that lets the Internet reach a database port invites password guessing and
+  exploits against the database itself. Exposed databases are found by automated scanners within
+  hours, and are a common source of data breaches and ransom demands.
+fix:
+  summary: Remove the rule, or limit its source to the application's own network or known addresses.
+  steps:
+    - Open the network security group and find the rules listed in the evidence.
+    - Delete the rule, or change its source from Internet or * to the subnet or addresses that need the database.
+    - Prefer private endpoints or virtual network integration so the database has no public path at all.
+  cli: az network nsg rule update -g <resource-group> --nsg-name <nsg> -n <rule> --source-address-prefixes <app-subnet-cidr>
+  terraform: |
+    # azurerm_network_security_rule
+    source_address_prefix = "<app-subnet-cidr>"   # never "*" or "Internet" for database ports
+references:
+  - https://learn.microsoft.com/azure/virtual-network/network-security-groups-overview
+frameworks:
+  mcsb:
+    - NS-1
+  waf_pillar:
+    - Security
+  waf:
+    - SE:06

@@ -1,0 +1,13 @@
+{
+ "rows": [
+  {
+   "id": "/subscriptions/00000000-0000-0000-0000-00000000d001/resourceGroups/rg-shop-app-prod-cin/providers/Microsoft.CognitiveServices/accounts/oai-shop-support-prod-cin",
+   "name": "oai-shop-support-prod-cin",
+   "resourceGroup": "rg-shop-app-prod-cin",
+   "location": "centralindia",
+   "serviceKind": "OpenAI",
+   "disableLocalAuth": false,
+   "compliant": false
+  }
+ ]
+}

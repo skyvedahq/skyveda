@@ -1,0 +1,39 @@
+schema_version: 1
+id: AZ-COST-006
+title: No NAT gateways without a subnet
+provider: azure
+area: cost
+severity: medium
+tier: pro
+source:
+  type: resource_graph
+  query: |
+    // ASSUMPTION, not a quote: list price of a NAT gateway about INR 2,800 per month
+    // (roughly USD 0.045 per hour, resource charge only; data processing is extra).
+    // Inlined: Resource Graph rejects `let`.
+    // A missing subnets property means no subnet is attached (the API omits it), so it counts as unused.
+    resources
+    | where type =~ 'microsoft.network/natgateways'
+    | extend subnetCount = coalesce(array_length(properties.subnets), 0), sku = tostring(sku.name)
+    | extend compliant = subnetCount > 0
+    | extend estMonthlyWasteInr = iff(compliant, 0.0, 2800.0)
+    | project id, name, resourceGroup, location, sku, subnetCount, compliant, estMonthlyWasteInr
+cost:
+  field: estMonthlyWasteInr
+why: >-
+  A NAT gateway is billed every hour it exists, whether or not any subnet uses it. One left behind
+  after a migration or test keeps costing money and holds public IP addresses.
+fix:
+  summary: Delete NAT gateways that no subnet uses, after checking nothing is about to use them.
+  steps:
+    - Confirm with the owner that the gateway is not about to be attached to a subnet.
+    - Delete the gateway, then delete any public IP addresses or prefixes that only it used.
+  cli: az network nat gateway delete -g <resource-group> -n <nat-gateway>
+references:
+  - https://learn.microsoft.com/azure/nat-gateway/nat-overview
+  - https://azure.microsoft.com/pricing/details/virtual-network/
+frameworks:
+  waf_pillar:
+    - Cost Optimization
+  waf:
+    - CO:07

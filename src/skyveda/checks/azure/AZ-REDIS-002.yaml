@@ -1,0 +1,37 @@
+schema_version: 1
+id: AZ-REDIS-002
+title: Azure Cache for Redis requires TLS 1.2 or later
+provider: azure
+area: security
+severity: medium
+tier: free
+source:
+  type: resource_graph
+  query: |
+    // properties.minimumTlsVersion is '1.0', '1.1' or '1.2'. A missing value becomes '' and fails.
+    resources
+    | where type =~ 'microsoft.cache/redis'
+    | extend minimumTlsVersion = tostring(properties.minimumTlsVersion)
+    | project id, name, resourceGroup, location, minimumTlsVersion,
+              compliant = minimumTlsVersion in ('1.2', '1.3')
+why: >-
+  TLS 1.0 and 1.1 have known weaknesses and fail most security reviews and payment-card audits.
+  A cache that still accepts them lets clients connect over weaker encryption.
+fix:
+  summary: Set the cache's minimum TLS version to 1.2.
+  steps:
+    - Check that every client library supports TLS 1.2.
+    - Set Minimum TLS version to 1.2 in the cache's Advanced settings.
+  cli: az redis update -g <resource-group> -n <cache> --set minimumTlsVersion=1.2
+  terraform: |
+    # azurerm_redis_cache
+    minimum_tls_version = "1.2"
+references:
+  - https://learn.microsoft.com/azure/azure-cache-for-redis/cache-remove-tls-10-11
+frameworks:
+  mcsb:
+    - DP-3
+  waf_pillar:
+    - Security
+  waf:
+    - SE:07

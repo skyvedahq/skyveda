@@ -1,0 +1,47 @@
+schema_version: 1
+id: AZ-COST-004
+title: No disk snapshots older than 90 days
+provider: azure
+area: cost
+severity: low
+tier: pro
+source:
+  type: resource_graph
+  query: |
+    // Snapshots older than 90 days; approximate list price INR 4.4 per GB-month (assumption).
+    // Inlined: Resource Graph rejects `let`.
+    resources
+    | where type =~ 'microsoft.compute/snapshots'
+    | extend created = todatetime(properties.timeCreated), sizeGb = toint(properties.diskSizeGB)
+    | extend ageDays = datetime_diff('day', now(), created)
+    | extend compliant = ageDays <= 90
+    | extend estMonthlyWasteInr = iff(compliant, 0.0, todouble(sizeGb) * 4.4)
+    | project id, name, resourceGroup, location, sizeGb, ageDays, compliant, estMonthlyWasteInr
+cost:
+  field: estMonthlyWasteInr
+why: >-
+  Snapshots are often taken before a change and then forgotten. Old snapshots keep billing every
+  month long after anyone could need them.
+fix:
+  summary: Delete snapshots that are no longer needed, and use Azure Backup policies for retention.
+  cli: az snapshot delete -g <resource-group> -n <snapshot>
+remedy:
+  risk: medium
+  downtime: none
+  before: >-
+    Confirm with the owner that no restore, audit or legal hold needs this snapshot, and that it is
+    not the only copy of a disk. A deleted snapshot cannot be recovered.
+  az: |
+    az snapshot delete --subscription {subscriptionId} -g {resourceGroup} -n {name}
+  rollback: |
+    # Not possible: a deleted snapshot cannot be restored. Recover from Azure Backup or another copy.
+  verify: |
+    az snapshot show --subscription {subscriptionId} -g {resourceGroup} -n {name}   # expect: not found
+references:
+  - https://learn.microsoft.com/azure/virtual-machines/snapshot-copy-managed-disk
+frameworks:
+  waf_pillar:
+    - Cost Optimization
+  waf:
+    - CO:07
+    - CO:10

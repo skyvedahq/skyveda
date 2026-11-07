@@ -1,0 +1,44 @@
+schema_version: 1
+id: AZ-SQL-001
+title: Azure SQL servers use Microsoft Entra-only authentication
+provider: azure
+area: identity
+severity: high
+tier: free
+source:
+  type: resource_graph
+  query: |
+    // properties.administrators.azureADOnlyAuthentication is read from the server resource.
+    // A missing value is treated as NOT compliant: no Entra admin / unknown fails.
+    resources
+    | where type =~ 'microsoft.sql/servers'
+    | extend entraOnlyAuth = tobool(properties.administrators.azureADOnlyAuthentication)
+    | project id, name, resourceGroup, location, entraOnlyAuth,
+              compliant = coalesce(entraOnlyAuth, false) == true
+why: >-
+  SQL logins use passwords that get shared, leaked and rarely rotated. With Microsoft Entra-only
+  authentication, every connection goes through an identity that has MFA, conditional access
+  and a central audit trail, and SQL passwords stop working.
+fix:
+  summary: Set a Microsoft Entra admin and turn on Microsoft Entra-only authentication.
+  steps:
+    - Set a Microsoft Entra admin (preferably a group) on the SQL server.
+    - Move applications to managed identities or Entra users, and test them.
+    - Enable "Support only Microsoft Entra authentication for this server" under Microsoft Entra ID.
+  cli: az sql server ad-only-auth enable -g <resource-group> -n <server>
+  terraform: |
+    # azurerm_mssql_server
+    azuread_administrator {
+      login_username              = "<entra-admin-group>"
+      object_id                   = "<object-id>"
+      azuread_authentication_only = true
+    }
+references:
+  - https://learn.microsoft.com/azure/azure-sql/database/authentication-azure-ad-only-authentication
+frameworks:
+  mcsb:
+    - IM-1
+  waf_pillar:
+    - Security
+  waf:
+    - SE:05

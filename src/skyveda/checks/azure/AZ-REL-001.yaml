@@ -1,0 +1,30 @@
+schema_version: 1
+id: AZ-REL-001
+title: Production AKS clusters use the Standard tier with an uptime SLA
+provider: azure
+area: reliability
+severity: medium
+source:
+  type: resource_graph
+  query: |
+    resources
+    | where type =~ 'microsoft.containerservice/managedclusters'
+    | extend environment = tolower(coalesce(tostring(tags.environment), tostring(tags.Environment), tostring(tags.env)))
+    | where environment in ('prod', 'production')
+    | extend tier = tostring(sku.tier)
+    | project id, name, resourceGroup, location, environment, tier,
+              compliant = tier in~ ('Standard', 'Premium')
+why: >-
+  The Free tier has no financially backed uptime SLA for the control plane. Production clusters
+  need the Standard tier so the API server stays available under load.
+fix:
+  summary: Move production clusters to the Standard tier.
+  cli: az aks update -g <resource-group> -n <cluster> --tier standard
+  terraform: |
+    # azurerm_kubernetes_cluster
+    sku_tier = "Standard"
+references:
+  - https://learn.microsoft.com/azure/aks/free-standard-pricing-tiers
+frameworks:
+  waf_pillar:
+    - Reliability

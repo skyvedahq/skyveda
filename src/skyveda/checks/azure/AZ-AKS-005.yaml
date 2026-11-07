@@ -1,0 +1,32 @@
+schema_version: 1
+id: AZ-AKS-005
+title: AKS node pools are spread across availability zones
+provider: azure
+area: reliability
+severity: medium
+source:
+  type: resource_graph
+  query: |
+    resources
+    | where type =~ 'microsoft.containerservice/managedclusters'
+    | mv-expand pool = properties.agentPoolProfiles
+    | summarize pools = count(),
+                poolsWithoutZones = countif(coalesce(array_length(pool.availabilityZones), 0) < 2)
+                by id, name, resourceGroup, location
+    | extend compliant = poolsWithoutZones == 0
+why: >-
+  A node pool in a single zone goes down with that zone. Spreading nodes across zones keeps
+  workloads running through a datacentre outage.
+fix:
+  summary: Create node pools across at least two availability zones (zones are set at creation).
+  steps:
+    - Check the region supports availability zones.
+    - Create a replacement pool with zones 1, 2 and 3, move workloads, then remove the old pool.
+  cli: az aks nodepool add -g <resource-group> --cluster-name <cluster> -n pool2 --zones 1 2 3
+references:
+  - https://learn.microsoft.com/azure/aks/availability-zones
+frameworks:
+  waf_pillar:
+    - Reliability
+  waf:
+    - RE:05

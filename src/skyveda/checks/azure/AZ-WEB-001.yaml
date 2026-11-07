@@ -1,0 +1,37 @@
+schema_version: 1
+id: AZ-WEB-001
+title: App Service apps accept HTTPS only
+provider: azure
+area: security
+severity: high
+source:
+  type: resource_graph
+  query: |
+    // Azure's default for httpsOnly is false (HTTP allowed), so a missing value FAILS.
+    // Includes function apps (type microsoft.web/sites); deployment slots are a separate type.
+    resources
+    | where type =~ 'microsoft.web/sites'
+    | extend httpsOnly = tobool(properties.httpsOnly), appKind = tostring(kind)
+    | project id, name, resourceGroup, location, appKind, httpsOnly,
+              compliant = coalesce(httpsOnly, false)
+why: >-
+  If an app also answers on plain HTTP, passwords, session cookies and customer data can be read
+  or changed on the way. HTTPS only redirects every request to the secure address.
+fix:
+  summary: Turn on HTTPS Only for each app.
+  steps:
+    - Check that no client or webhook depends on plain HTTP.
+    - Enable HTTPS Only in the app's TLS/SSL settings.
+  cli: az webapp update -g <resource-group> -n <app> --https-only true
+  terraform: |
+    # azurerm_linux_web_app / azurerm_windows_web_app
+    https_only = true
+references:
+  - https://learn.microsoft.com/azure/app-service/configure-ssl-bindings#enforce-https
+frameworks:
+  mcsb:
+    - DP-3
+  waf_pillar:
+    - Security
+  waf:
+    - SE:07

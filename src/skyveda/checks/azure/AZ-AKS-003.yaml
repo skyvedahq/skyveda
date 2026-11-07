@@ -1,0 +1,36 @@
+schema_version: 1
+id: AZ-AKS-003
+title: AKS API server is private or limited to authorised IP ranges
+provider: azure
+area: kubernetes
+severity: high
+source:
+  type: resource_graph
+  query: |
+    resources
+    | where type =~ 'microsoft.containerservice/managedclusters'
+    | extend privateCluster = tobool(properties.apiServerAccessProfile.enablePrivateCluster),
+             authorizedRanges = array_length(properties.apiServerAccessProfile.authorizedIPRanges)
+    | project id, name, resourceGroup, location, privateCluster, authorizedRanges,
+              compliant = coalesce(privateCluster, false) or coalesce(authorizedRanges, 0) > 0
+why: >-
+  A Kubernetes API server open to the whole Internet can be attacked by anyone who finds it.
+  A private cluster or an allow-list of office and pipeline addresses removes that exposure.
+fix:
+  summary: Limit API server access to authorised IP ranges, or use a private cluster.
+  steps:
+    - List the addresses that need kubectl access (offices, VPN, CI runners).
+    - Add them as authorised IP ranges, or plan a move to a private cluster.
+  cli: az aks update -g <resource-group> -n <cluster> --api-server-authorized-ip-ranges <cidr1>,<cidr2>
+  terraform: |
+    # azurerm_kubernetes_cluster
+    api_server_access_profile { authorized_ip_ranges = ["<cidr>"] }
+references:
+  - https://learn.microsoft.com/azure/aks/api-server-authorized-ip-ranges
+frameworks:
+  mcsb:
+    - NS-2
+  waf_pillar:
+    - Security
+  waf:
+    - SE:06

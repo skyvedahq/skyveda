@@ -1,0 +1,39 @@
+schema_version: 1
+id: AZ-COSMOS-001
+title: Cosmos DB accounts disable key-based authentication
+provider: azure
+area: identity
+severity: medium
+tier: free
+source:
+  type: resource_graph
+  query: |
+    // properties.disableLocalAuth defaults to false (keys allowed). A missing value FAILS.
+    resources
+    | where type =~ 'microsoft.documentdb/databaseaccounts'
+    | extend disableLocalAuth = tobool(properties.disableLocalAuth), apiKind = tostring(kind)
+    | project id, name, resourceGroup, location, apiKind, disableLocalAuth,
+              compliant = coalesce(disableLocalAuth, false)
+why: >-
+  An account key gives full read and write access to every database in the account, never expires
+  on its own, and does not say who used it. Keys end up in config files and scripts and are hard
+  to rotate. Entra ID roles are scoped, audited and removed when a person leaves.
+fix:
+  summary: Move applications to Entra ID role-based access, then disable key-based authentication.
+  steps:
+    - Grant each application a Cosmos DB data-plane role (for example Cosmos DB Built-in Data Contributor).
+    - Change the applications to authenticate with their managed identity instead of a key.
+    - Disable local (key-based) authentication on the account.
+  cli: az cosmosdb update -g <resource-group> -n <account> --disable-local-auth true
+  terraform: |
+    # azurerm_cosmosdb_account
+    local_authentication_enabled = false
+references:
+  - https://learn.microsoft.com/azure/cosmos-db/how-to-setup-rbac#disable-local-auth
+frameworks:
+  mcsb:
+    - IM-1
+  waf_pillar:
+    - Security
+  waf:
+    - SE:05

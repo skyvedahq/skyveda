@@ -1,0 +1,40 @@
+{
+ "rows": [
+  {
+   "id": "/subscriptions/00000000-0000-0000-0000-00000000d001/resourceGroups/rg-shop-sec-prod-cin/providers/Microsoft.KeyVault/vaults/kv-shop-prod-cin",
+   "name": "kv-shop-prod-cin",
+   "resourceGroup": "rg-shop-sec-prod-cin",
+   "location": "centralindia",
+   "softDelete": true,
+   "purgeProtection": true,
+   "compliant": true
+  },
+  {
+   "id": "/subscriptions/00000000-0000-0000-0000-00000000d001/resourceGroups/rg-shop-sec-prod-cin/providers/Microsoft.KeyVault/vaults/kv-payments-prod-cin",
+   "name": "kv-payments-prod-cin",
+   "resourceGroup": "rg-shop-sec-prod-cin",
+   "location": "centralindia",
+   "softDelete": true,
+   "purgeProtection": null,
+   "compliant": false
+  },
+  {
+   "id": "/subscriptions/00000000-0000-0000-0000-00000000d002/resourceGroups/rg-shop-sec-uat-cin/providers/Microsoft.KeyVault/vaults/kv-shop-uat-cin",
+   "name": "kv-shop-uat-cin",
+   "resourceGroup": "rg-shop-sec-uat-cin",
+   "location": "centralindia",
+   "softDelete": true,
+   "purgeProtection": null,
+   "compliant": false
+  },
+  {
+   "id": "/subscriptions/00000000-0000-0000-0000-00000000d003/resourceGroups/rg-platform-sec-cin/providers/Microsoft.KeyVault/vaults/kv-platform-cin",
+   "name": "kv-platform-cin",
+   "resourceGroup": "rg-platform-sec-cin",
+   "location": "centralindia",
+   "softDelete": true,
+   "purgeProtection": true,
+   "compliant": true
+  }
+ ]
+}

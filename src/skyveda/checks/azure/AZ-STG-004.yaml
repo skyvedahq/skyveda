@@ -1,0 +1,40 @@
+schema_version: 1
+id: AZ-STG-004
+title: Storage accounts disable shared key access
+provider: azure
+area: security
+severity: medium
+tier: free
+source:
+  type: resource_graph
+  query: |
+    // properties.allowSharedKeyAccess: when the value is missing, Azure treats shared key access
+    // as ALLOWED, so a missing value fails here (coalesce to true).
+    resources
+    | where type =~ 'microsoft.storage/storageaccounts'
+    | extend allowSharedKeyAccess = tobool(properties.allowSharedKeyAccess)
+    | project id, name, resourceGroup, location, allowSharedKeyAccess,
+              compliant = coalesce(allowSharedKeyAccess, true) == false
+why: >-
+  An account key gives full control of everything in the account and cannot be limited to one
+  person or one task. Turning shared key access off forces clients to use Microsoft Entra
+  identities, which can be scoped, audited and revoked.
+fix:
+  summary: Disallow shared key authorization on the storage account.
+  steps:
+    - Move applications and tools to Microsoft Entra authentication (managed identity and RBAC roles).
+    - Check that nothing still uses account keys or key-signed SAS tokens; they stop working once this is off.
+    - Set "Allow storage account key access" to Disabled in the account's Configuration settings.
+  cli: az storage account update -g <resource-group> -n <account> --allow-shared-key-access false
+  terraform: |
+    # azurerm_storage_account
+    shared_access_key_enabled = false
+references:
+  - https://learn.microsoft.com/azure/storage/common/shared-key-authorization-prevent
+frameworks:
+  mcsb:
+    - IM-1
+  waf_pillar:
+    - Security
+  waf:
+    - SE:05

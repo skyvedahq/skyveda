@@ -1,0 +1,31 @@
+{
+ "rows": [
+  {
+   "id": "/subscriptions/00000000-0000-0000-0000-000000000001/resourceGroups/rg-app/providers/Microsoft.ContainerRegistry/registries/acrsecure",
+   "name": "acrsecure",
+   "resourceGroup": "rg-app",
+   "location": "centralindia",
+   "skuName": "Premium",
+   "adminUserEnabled": false,
+   "compliant": true
+  },
+  {
+   "id": "/subscriptions/00000000-0000-0000-0000-000000000001/resourceGroups/rg-app/providers/Microsoft.ContainerRegistry/registries/acradmin",
+   "name": "acradmin",
+   "resourceGroup": "rg-app",
+   "location": "centralindia",
+   "skuName": "Basic",
+   "adminUserEnabled": true,
+   "compliant": false
+  },
+  {
+   "id": "/subscriptions/00000000-0000-0000-0000-000000000001/resourceGroups/rg-app/providers/Microsoft.ContainerRegistry/registries/acrunknown",
+   "name": "acrunknown",
+   "resourceGroup": "rg-app",
+   "location": "centralindia",
+   "skuName": "Standard",
+   "adminUserEnabled": null,
+   "compliant": false
+  }
+ ]
+}

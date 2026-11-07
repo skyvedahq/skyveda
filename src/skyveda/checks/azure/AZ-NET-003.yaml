@@ -1,0 +1,53 @@
+schema_version: 1
+id: AZ-NET-003
+title: Every subnet has a network security group
+provider: azure
+area: network
+severity: medium
+source:
+  type: resource_graph
+  query: |
+    // One row per subnet. Subnets that Azure forbids or exempts from NSGs are left out.
+    // A missing networkSecurityGroup counts as no NSG (fails).
+    resources
+    | where type =~ 'microsoft.network/virtualnetworks'
+    // Skip vnets in resource groups another service manages (e.g. AKS's MC_ group): customers
+    // cannot change them. Verified on live Azure: resource groups carry a top-level managedBy.
+    | extend rgKey = strcat(subscriptionId, '/', tolower(resourceGroup))
+    | join kind=leftouter (
+        resourcecontainers
+        | where type =~ 'microsoft.resources/subscriptions/resourcegroups'
+        | project rgKey = strcat(subscriptionId, '/', tolower(name)), rgManagedBy = tostring(managedBy)
+      ) on rgKey
+    | where isempty(rgManagedBy)
+    | extend vnet = name
+    | mv-expand subnet = properties.subnets
+    | extend subnetName = tostring(subnet.name),
+             nsgId = tostring(subnet.properties.networkSecurityGroup.id)
+    | where subnetName !in~ ('GatewaySubnet', 'AzureFirewallSubnet', 'AzureFirewallManagementSubnet', 'RouteServerSubnet')
+    | project id = tostring(subnet.id), name = subnetName, resourceGroup, location, vnet, nsgId,
+              compliant = isnotempty(nsgId)
+why: >-
+  A subnet with no network security group lets any machine in it be reached from the rest of the
+  network, and from the Internet if it has a public address. A group gives you a rule set you can
+  see and review.
+fix:
+  summary: Attach a network security group to each subnet, starting with deny-by-default inbound rules.
+  steps:
+    - Create or choose a network security group for the subnet's role.
+    - Allow only the traffic the workload needs, then associate the group with the subnet.
+  cli: az network vnet subnet update -g <resource-group> --vnet-name <vnet> -n <subnet> --network-security-group <nsg>
+  terraform: |
+    # azurerm_subnet_network_security_group_association
+    subnet_id                 = azurerm_subnet.main.id
+    network_security_group_id = azurerm_network_security_group.main.id
+references:
+  - https://learn.microsoft.com/azure/virtual-network/network-security-groups-overview
+frameworks:
+  mcsb:
+    - NS-1
+  waf_pillar:
+    - Security
+  waf:
+    - SE:06
+    - SE:04

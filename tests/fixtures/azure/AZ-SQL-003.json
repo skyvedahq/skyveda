@@ -1,0 +1,5 @@
+{"rows": [
+  {"id": "/subscriptions/00000000-0000-0000-0000-000000000001/resourceGroups/rg-db/providers/Microsoft.Sql/servers/sql-private", "name": "sql-private", "resourceGroup": "rg-db", "location": "centralindia", "publicNetworkAccess": "Disabled", "privateEndpoints": 1, "compliant": true},
+  {"id": "/subscriptions/00000000-0000-0000-0000-000000000001/resourceGroups/rg-db/providers/Microsoft.Sql/servers/sql-public", "name": "sql-public", "resourceGroup": "rg-db", "location": "centralindia", "publicNetworkAccess": "Enabled", "privateEndpoints": 0, "compliant": false},
+  {"id": "/subscriptions/00000000-0000-0000-0000-000000000001/resourceGroups/rg-db/providers/Microsoft.Sql/servers/sql-default", "name": "sql-default", "resourceGroup": "rg-db", "location": "centralindia", "publicNetworkAccess": "Enabled", "privateEndpoints": 0, "compliant": false}
+]}

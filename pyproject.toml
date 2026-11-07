@@ -1,0 +1,86 @@
+[build-system]
+requires = ["hatchling>=1.25"]
+build-backend = "hatchling.build"
+
+[project]
+name = "skyveda"
+dynamic = ["version"]
+description = "Read-only cloud platform health scanner that produces a scored HTML report."
+readme = "README.md"
+license = "Apache-2.0"
+license-files = ["LICENSE", "NOTICE"]
+requires-python = ">=3.12"
+authors = [{ name = "Skyveda", email = "skyvedahq@gmail.com" }]
+classifiers = [
+    "Programming Language :: Python :: 3.12",
+    "Environment :: Console",
+    "Topic :: System :: Systems Administration",
+]
+dependencies = [
+    "typer>=0.12",
+    "pydantic>=2.7",
+    "jinja2>=3.1",
+    "rich>=13.7",
+    "pyyaml>=6.0",
+    "reportlab>=4.2",
+]
+
+[project.optional-dependencies]
+azure = [
+    "azure-identity>=1.17",
+    "azure-mgmt-resourcegraph>=8.0",
+]
+
+[project.scripts]
+skyveda = "skyveda.cli:app"
+
+# Providers register here; the core discovers them without importing provider code.
+[project.entry-points."skyveda.providers"]
+azure = "skyveda.providers.azure:create_provider"
+
+[dependency-groups]
+dev = [
+    "pytest>=8.0",
+    "pytest-socket>=0.7",
+    "mypy>=1.11",
+    "ruff>=0.6",
+    "types-PyYAML",
+    "pypdf>=5.0",
+    "types-reportlab>=5.0.0.20261008",
+]
+
+[tool.uv]
+default-groups = ["dev"]
+
+[tool.hatch.version]
+path = "src/skyveda/__init__.py"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/skyveda"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py312"
+src = ["src", "tests"]
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "B", "UP", "SIM", "RUF", "N", "S", "C4", "PT", "PTH", "RET", "T20"]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/**" = ["S101"]
+
+[tool.mypy]
+strict = true
+python_version = "3.12"
+files = ["src", "tests"]
+plugins = ["pydantic.mypy"]
+
+[tool.pydantic-mypy]
+init_forbid_extra = true
+init_typed = true
+warn_required_dynamic_aliases = true
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+# --disable-socket guarantees no test can reach the network (hard requirement: tests never call the cloud).
+addopts = "-ra --strict-markers --disable-socket"

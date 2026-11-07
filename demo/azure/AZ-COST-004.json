@@ -1,0 +1,44 @@
+{
+ "rows": [
+  {
+   "id": "/subscriptions/00000000-0000-0000-0000-00000000d001/resourceGroups/rg-shop-db-prod-cin/providers/Microsoft.Compute/snapshots/snap-sqlvm-before-migration",
+   "name": "snap-sqlvm-before-migration",
+   "resourceGroup": "rg-shop-db-prod-cin",
+   "location": "centralindia",
+   "sizeGb": 1024,
+   "ageDays": 412,
+   "compliant": false,
+   "estMonthlyWasteInr": 4505.6
+  },
+  {
+   "id": "/subscriptions/00000000-0000-0000-0000-00000000d001/resourceGroups/rg-shop-db-prod-cin/providers/Microsoft.Compute/snapshots/snap-sqlvm-weekly",
+   "name": "snap-sqlvm-weekly",
+   "resourceGroup": "rg-shop-db-prod-cin",
+   "location": "centralindia",
+   "sizeGb": 1024,
+   "ageDays": 6,
+   "compliant": true,
+   "estMonthlyWasteInr": 0.0
+  },
+  {
+   "id": "/subscriptions/00000000-0000-0000-0000-00000000d001/resourceGroups/rg-shop-app-prod-cin/providers/Microsoft.Compute/snapshots/snap-erp-pre-upgrade",
+   "name": "snap-erp-pre-upgrade",
+   "resourceGroup": "rg-shop-app-prod-cin",
+   "location": "centralindia",
+   "sizeGb": 256,
+   "ageDays": 230,
+   "compliant": false,
+   "estMonthlyWasteInr": 1126.4
+  },
+  {
+   "id": "/subscriptions/00000000-0000-0000-0000-00000000d002/resourceGroups/rg-shop-app-uat-cin/providers/Microsoft.Compute/snapshots/snap-uat-golden-image",
+   "name": "snap-uat-golden-image",
+   "resourceGroup": "rg-shop-app-uat-cin",
+   "location": "centralindia",
+   "sizeGb": 512,
+   "ageDays": 140,
+   "compliant": false,
+   "estMonthlyWasteInr": 2252.8
+  }
+ ]
+}

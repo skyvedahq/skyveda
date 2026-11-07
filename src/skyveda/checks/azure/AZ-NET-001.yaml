@@ -1,0 +1,65 @@
+schema_version: 1
+id: AZ-NET-001
+title: No SSH or RDP open to the Internet
+provider: azure
+area: network
+severity: critical
+tier: free
+source:
+  type: resource_graph
+  query: |
+    resources
+    | where type =~ 'microsoft.network/networksecuritygroups'
+    | project id, name, resourceGroup, rules = properties.securityRules
+evaluate:
+  type: python
+  function: skyveda.providers.azure.evaluators.nsg_open_management_ports
+parameters:
+  ports: ["22", "3389"]
+why: >-
+  An inbound rule that allows SSH or RDP from the Internet exposes servers to constant
+  password-guessing and exploit attempts. It is one of the most common ways cloud servers are breached.
+fix:
+  summary: Remove the rule, or limit its source to known addresses and use Azure Bastion or just-in-time access.
+  steps:
+    - Open the network security group and find the rules listed in the evidence.
+    - Delete the rule, or change its source from Internet or * to your office or VPN address range.
+    - For admin access, use Azure Bastion or Defender for Cloud just-in-time VM access instead.
+  cli: az network nsg rule update -g <resource-group> --nsg-name <nsg> -n <rule> --source-address-prefixes <your-ip>/32
+  terraform: |
+    # azurerm_network_security_rule
+    source_address_prefix = "<your-ip>/32"   # never "*" or "Internet" for ports 22 and 3389
+remedy:
+  risk: medium
+  downtime: none
+  before: >-
+    Decide the office or VPN address range that should keep access, and put it in place of
+    <ALLOWED_CIDR> before you remove the leading # (the evidence does not hold it). Note each
+    rule's current source first with: az network nsg rule show --subscription {subscriptionId}
+    -g {resourceGroup} --nsg-name {name} -n <rule> --query "{prefix:sourceAddressPrefix,prefixes:sourceAddressPrefixes}".
+    A rule that also covers other ports, such as 443, may be serving users: check before you
+    narrow it. Narrowing port 22 or 3389 can lock out the person running this: run it from inside
+    the allowed range. To remove a rule instead, use az network nsg rule delete with the same arguments.
+  az: |
+    for rule in {exposedRules}; do
+      az network nsg rule update --subscription {subscriptionId} -g {resourceGroup} --nsg-name {name} -n "$rule" --source-address-prefixes <ALLOWED_CIDR>
+    done
+  rollback: |
+    # Put back each rule's source noted before the change (the evidence does not hold it).
+    # Write a source of * quoted, as '*', or the shell will expand it.
+    for rule in {exposedRules}; do
+      az network nsg rule update --subscription {subscriptionId} -g {resourceGroup} --nsg-name {name} -n "$rule" --source-address-prefixes <ORIGINAL_SOURCE>
+    done
+  verify: |
+    for rule in {exposedRules}; do
+      az network nsg rule show --subscription {subscriptionId} -g {resourceGroup} --nsg-name {name} -n "$rule" --query "{prefix:sourceAddressPrefix,prefixes:sourceAddressPrefixes}"   # expect: no Internet or *
+    done
+references:
+  - https://learn.microsoft.com/azure/virtual-network/network-security-groups-overview
+frameworks:
+  mcsb:
+    - NS-1
+  waf_pillar:
+    - Security
+  waf:
+    - SE:06

@@ -1,0 +1,38 @@
+schema_version: 1
+id: AZ-REL-002
+title: Production virtual machines are in an availability zone
+provider: azure
+area: reliability
+severity: medium
+tier: free
+source:
+  type: resource_graph
+  query: |
+    resources
+    | where type =~ 'microsoft.compute/virtualmachines'
+    | extend environment = tolower(coalesce(tostring(tags.environment), tostring(tags.Environment), tostring(tags.env)))
+    | where environment in ('prod', 'production')
+    // coalesce: a missing or null zones value counts as zero zones, so it fails.
+    | extend zoneCount = coalesce(array_length(zones), 0)
+    | project id, name, resourceGroup, location, environment, zones, zoneCount,
+              compliant = zoneCount >= 1
+why: >-
+  A virtual machine outside an availability zone can be lost with a single datacentre fault. Zones
+  keep a production workload running when one building has a power or cooling failure.
+fix:
+  summary: Recreate the VM in an availability zone (a VM's zone cannot be changed in place).
+  steps:
+    - Check the region supports availability zones.
+    - Snapshot the disks, create the VM in a zone from the snapshots, then cut traffic over.
+    - For real resilience, run two or more VMs in different zones behind a load balancer.
+  cli: az vm create -g <resource-group> -n <vm> --image <image> --zone 1
+  terraform: |
+    # azurerm_linux_virtual_machine
+    zone = "1"
+references:
+  - https://learn.microsoft.com/azure/reliability/reliability-virtual-machines
+frameworks:
+  waf_pillar:
+    - Reliability
+  waf:
+    - RE:05

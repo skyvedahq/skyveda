@@ -1,0 +1,42 @@
+schema_version: 1
+id: AZ-SQL-003
+title: Azure SQL servers disable public network access
+provider: azure
+area: network
+severity: high
+tier: free
+source:
+  type: resource_graph
+  query: |
+    // properties.publicNetworkAccess: a missing value is treated as 'Enabled' (the Azure default for
+    // SQL servers is Enabled), so it FAILS. Private endpoints alone do not close the public endpoint,
+    // so they are shown as evidence but compliance needs public access Disabled.
+    resources
+    | where type =~ 'microsoft.sql/servers'
+    | extend publicNetworkAccess = coalesce(tostring(properties.publicNetworkAccess), 'Enabled'),
+             privateEndpoints = coalesce(array_length(properties.privateEndpointConnections), 0)
+    | project id, name, resourceGroup, location, publicNetworkAccess, privateEndpoints,
+              compliant = publicNetworkAccess =~ 'Disabled'
+why: >-
+  With public network access enabled the server answers connections from the internet, protected
+  only by its firewall rules. Disabling it, and connecting through private endpoints, keeps the
+  database reachable only from inside your own networks.
+fix:
+  summary: Disable public network access and connect through a private endpoint.
+  steps:
+    - Create a private endpoint for the SQL server in the network your applications use.
+    - Check that applications connect through the private endpoint (private DNS zone linked).
+    - Set "Public network access" to Disabled under the server's Networking settings.
+  cli: az sql server update -g <resource-group> -n <server> --enable-public-network false
+  terraform: |
+    # azurerm_mssql_server
+    public_network_access_enabled = false
+references:
+  - https://learn.microsoft.com/azure/azure-sql/database/connectivity-settings
+frameworks:
+  mcsb:
+    - NS-2
+  waf_pillar:
+    - Security
+  waf:
+    - SE:06

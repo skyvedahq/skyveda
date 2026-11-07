@@ -1,0 +1,39 @@
+schema_version: 1
+id: AZ-WEB-006
+title: App Service apps do not allow CORS requests from every origin
+provider: azure
+area: security
+severity: medium
+tier: free
+source:
+  type: arm
+  collector: skyveda.providers.azure.collectors.web_site_config
+evaluate:
+  type: python
+  function: skyveda.providers.azure.evaluators.web_cors_any_origin
+why: >-
+  An allowed origin of * lets any website, including a malicious one a user happens to visit, call
+  the app from that user's browser and read the responses. Listing only your own front-end
+  addresses keeps other sites from using the app's API.
+fix:
+  summary: Replace * with the exact origins of your own front ends.
+  steps:
+    - List the websites that call this app from a browser.
+    - In the app's CORS settings, remove * and add those origins only.
+  cli: az webapp cors remove -g <resource-group> -n <app> --allowed-origins "*"
+  terraform: |
+    # azurerm_linux_web_app / azurerm_windows_web_app
+    site_config {
+      cors {
+        allowed_origins = ["https://www.example.com"]   # never "*"
+      }
+    }
+references:
+  - https://learn.microsoft.com/azure/app-service/app-service-web-tutorial-rest-api#add-cors-functionality
+frameworks:
+  mcsb:
+    - PV-2
+  waf_pillar:
+    - Security
+  waf:
+    - SE:08

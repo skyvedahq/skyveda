@@ -1,0 +1,13 @@
+{
+  "totalRecords": 3,
+  "count": 1,
+  "resultTruncated": "false",
+  "data": [
+    {
+      "id": "/subscriptions/00000000-0000-0000-0000-000000000003",
+      "subscriptionId": "00000000-0000-0000-0000-000000000003",
+      "name": "skyveda-lab-shared",
+      "state": "Enabled"
+    }
+  ]
+}

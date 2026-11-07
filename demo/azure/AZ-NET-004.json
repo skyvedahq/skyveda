@@ -1,0 +1,49 @@
+{
+ "rows": [
+  {
+   "id": "/subscriptions/00000000-0000-0000-0000-00000000d001/resourceGroups/rg-shop-data-prod-cin/providers/Microsoft.Storage/storageAccounts/stshopmediaprodcin",
+   "name": "stshopmediaprodcin",
+   "resourceGroup": "rg-shop-data-prod-cin",
+   "location": "centralindia",
+   "publicNetworkAccess": "Disabled",
+   "defaultAction": "Deny",
+   "compliant": true
+  },
+  {
+   "id": "/subscriptions/00000000-0000-0000-0000-00000000d001/resourceGroups/rg-shop-data-prod-cin/providers/Microsoft.Storage/storageAccounts/stshopordersprodcin",
+   "name": "stshopordersprodcin",
+   "resourceGroup": "rg-shop-data-prod-cin",
+   "location": "centralindia",
+   "publicNetworkAccess": "Disabled",
+   "defaultAction": "Deny",
+   "compliant": true
+  },
+  {
+   "id": "/subscriptions/00000000-0000-0000-0000-00000000d001/resourceGroups/rg-shop-web-prod-cin/providers/Microsoft.Storage/storageAccounts/stshopstaticprodcin",
+   "name": "stshopstaticprodcin",
+   "resourceGroup": "rg-shop-web-prod-cin",
+   "location": "centralindia",
+   "publicNetworkAccess": "Enabled",
+   "defaultAction": "Allow",
+   "compliant": false
+  },
+  {
+   "id": "/subscriptions/00000000-0000-0000-0000-00000000d002/resourceGroups/rg-shop-data-uat-cin/providers/Microsoft.Storage/storageAccounts/stshopexportsuatcin",
+   "name": "stshopexportsuatcin",
+   "resourceGroup": "rg-shop-data-uat-cin",
+   "location": "centralindia",
+   "publicNetworkAccess": "Enabled",
+   "defaultAction": "Allow",
+   "compliant": false
+  },
+  {
+   "id": "/subscriptions/00000000-0000-0000-0000-00000000d003/resourceGroups/rg-platform-logs-cin/providers/Microsoft.Storage/storageAccounts/stplatformlogscin",
+   "name": "stplatformlogscin",
+   "resourceGroup": "rg-platform-logs-cin",
+   "location": "centralindia",
+   "publicNetworkAccess": "Enabled",
+   "defaultAction": "Deny",
+   "compliant": true
+  }
+ ]
+}

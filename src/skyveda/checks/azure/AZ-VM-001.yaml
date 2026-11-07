@@ -1,0 +1,40 @@
+schema_version: 1
+id: AZ-VM-001
+title: Linux virtual machines disable password sign-in
+provider: azure
+area: security
+severity: high
+tier: free
+source:
+  type: resource_graph
+  query: |
+    // Linux VMs only (by OS disk type). A missing disablePasswordAuthentication FAILS: VMs made
+    // from a specialised disk have no osProfile, so whether passwords work cannot be proven.
+    resources
+    | where type =~ 'microsoft.compute/virtualmachines'
+    | where tostring(properties.storageProfile.osDisk.osType) =~ 'Linux'
+    | extend disablePasswordAuthentication = tobool(properties.osProfile.linuxConfiguration.disablePasswordAuthentication)
+    | project id, name, resourceGroup, location, disablePasswordAuthentication,
+              compliant = coalesce(disablePasswordAuthentication, false)
+why: >-
+  A Linux server that accepts passwords can be broken into by guessing them, and bots try this
+  against every reachable address all day. SSH keys cannot be guessed and are not reused across
+  sites the way passwords are.
+fix:
+  summary: Sign in with SSH keys or Entra ID, and turn off password authentication.
+  steps:
+    - Make sure every admin can sign in with an SSH key or with Entra ID login for Linux.
+    - Set PasswordAuthentication no in /etc/ssh/sshd_config and restart sshd.
+    - For new VMs, create them with SSH keys only so the setting is recorded on the VM.
+  terraform: |
+    # azurerm_linux_virtual_machine
+    disable_password_authentication = true
+references:
+  - https://learn.microsoft.com/azure/virtual-machines/linux/create-ssh-keys-detailed
+frameworks:
+  mcsb:
+    - IM-6
+  waf_pillar:
+    - Security
+  waf:
+    - SE:05

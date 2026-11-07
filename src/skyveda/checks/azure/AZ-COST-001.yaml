@@ -1,0 +1,53 @@
+schema_version: 1
+id: AZ-COST-001
+title: No unattached managed disks
+provider: azure
+area: cost
+severity: medium
+tier: pro
+source:
+  type: resource_graph
+  query: |
+    // Approximate list prices in INR per GB-month (assumption; replaced by billed cost at MVP):
+    // Premium 13, Standard SSD 7, Standard HDD 4. Inlined: Resource Graph rejects `let`.
+    resources
+    | where type =~ 'microsoft.compute/disks'
+    | extend diskState = tostring(properties.diskState), sizeGb = toint(properties.diskSizeGB), sku = tostring(sku.name)
+    | extend compliant = diskState !~ 'Unattached'
+    | extend estMonthlyWasteInr = iff(compliant, 0.0, todouble(sizeGb) *
+        case(sku startswith 'Premium', 13.0, sku startswith 'StandardSSD', 7.0, 4.0))
+    | project id, name, resourceGroup, location, diskState, sizeGb, sku, compliant, estMonthlyWasteInr
+cost:
+  field: estMonthlyWasteInr
+why: >-
+  An unattached disk is billed every month for its full size but serves no workload. They are
+  usually left behind when virtual machines are deleted.
+fix:
+  summary: Snapshot the disk if its data may be needed, then delete it.
+  steps:
+    - Confirm with the owner that the data is not needed, or take a snapshot first.
+    - Delete the disk.
+  cli: az disk delete -g <resource-group> -n <disk>
+remedy:
+  risk: low
+  downtime: none
+  before: >-
+    Confirm with the owner that the disk's data is not needed. The snapshot taken first is a full
+    copy and is billed until you delete it. Check no VM or automation still refers to the disk.
+    The snapshot name {name}-backup must not already exist and is limited to 80 characters.
+  az: |
+    az snapshot create --subscription {subscriptionId} -g {resourceGroup} -n {name}-backup --source {id}
+    az disk delete --subscription {subscriptionId} -g {resourceGroup} -n {name} --yes
+  rollback: |
+    # Size, zone, encryption set and tags are not restored: set them again if the disk had them.
+    az disk create --subscription {subscriptionId} -g {resourceGroup} -n {name} --source {name}-backup --sku {sku}
+  verify: |
+    az disk show --subscription {subscriptionId} -g {resourceGroup} -n {name}   # expect: not found
+    az snapshot show --subscription {subscriptionId} -g {resourceGroup} -n {name}-backup --query provisioningState -o tsv   # expect: Succeeded
+references:
+  - https://learn.microsoft.com/azure/virtual-machines/disks-find-unattached-portal
+frameworks:
+  waf_pillar:
+    - Cost Optimization
+  waf:
+    - CO:07

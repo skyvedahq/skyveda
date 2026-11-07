@@ -1,0 +1,20 @@
+{
+ "rows": [
+  {
+   "id": "/subscriptions/00000000-0000-0000-0000-00000000d001/resourceGroups/rg-shop-data-prod-cin/providers/Microsoft.Cache/redis/redis-shop-sessions-prod-cin",
+   "name": "redis-shop-sessions-prod-cin",
+   "resourceGroup": "rg-shop-data-prod-cin",
+   "location": "centralindia",
+   "minimumTlsVersion": "1.2",
+   "compliant": true
+  },
+  {
+   "id": "/subscriptions/00000000-0000-0000-0000-00000000d002/resourceGroups/rg-shop-data-uat-cin/providers/Microsoft.Cache/redis/redis-shop-sessions-uat-cin",
+   "name": "redis-shop-sessions-uat-cin",
+   "resourceGroup": "rg-shop-data-uat-cin",
+   "location": "centralindia",
+   "minimumTlsVersion": "1.2",
+   "compliant": true
+  }
+ ]
+}

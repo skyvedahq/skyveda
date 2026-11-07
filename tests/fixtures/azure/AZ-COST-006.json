@@ -1,0 +1,4 @@
+{"rows": [
+ {"id": "/subscriptions/00000000-0000-0000-0000-000000000001/resourceGroups/rg-old/providers/Microsoft.Network/natGateways/natgw-orphan", "name": "natgw-orphan", "resourceGroup": "rg-old", "location": "centralindia", "sku": "Standard", "subnetCount": 0, "compliant": false, "estMonthlyWasteInr": 2800.0},
+ {"id": "/subscriptions/00000000-0000-0000-0000-000000000001/resourceGroups/rg-net/providers/Microsoft.Network/natGateways/natgw-used", "name": "natgw-used", "resourceGroup": "rg-net", "location": "centralindia", "sku": "Standard", "subnetCount": 1, "compliant": true, "estMonthlyWasteInr": 0.0}
+]}

@@ -1,0 +1,26 @@
+{
+ "rows": [
+  {
+   "id": "/subscriptions/00000000-0000-0000-0000-000000000001/resourceGroups/rg-app/providers/Microsoft.Compute/virtualMachines/vm-zoned",
+   "name": "vm-zoned",
+   "resourceGroup": "rg-app",
+   "location": "centralindia",
+   "environment": "prod",
+   "zones": [
+    "1"
+   ],
+   "zoneCount": 1,
+   "compliant": true
+  },
+  {
+   "id": "/subscriptions/00000000-0000-0000-0000-000000000001/resourceGroups/rg-app/providers/Microsoft.Compute/virtualMachines/vm-nozone",
+   "name": "vm-nozone",
+   "resourceGroup": "rg-app",
+   "location": "centralindia",
+   "environment": "production",
+   "zones": null,
+   "zoneCount": 0,
+   "compliant": false
+  }
+ ]
+}

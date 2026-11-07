@@ -1,0 +1,38 @@
+schema_version: 1
+id: AZ-SQL-004
+title: Azure SQL servers require TLS 1.2 or later
+provider: azure
+area: security
+severity: medium
+tier: free
+source:
+  type: resource_graph
+  query: |
+    // properties.minimalTlsVersion is '1.0', '1.1', '1.2', '1.3' or 'None' (no minimum enforced).
+    // A missing value becomes '' and fails, like 'None'.
+    resources
+    | where type =~ 'microsoft.sql/servers'
+    | extend minimalTlsVersion = tostring(properties.minimalTlsVersion)
+    | project id, name, resourceGroup, location, minimalTlsVersion,
+              compliant = minimalTlsVersion in ('1.2', '1.3')
+why: >-
+  TLS 1.0 and 1.1 have known weaknesses and fail most security reviews and payment-card audits.
+  A server with no minimum, or a minimum below 1.2, lets clients connect over weaker encryption.
+fix:
+  summary: Set the server's minimum TLS version to 1.2.
+  steps:
+    - Check that every client driver supports TLS 1.2 (all supported drivers do; very old ones may not).
+    - Set Minimum TLS version to 1.2 in the server's Networking settings.
+  cli: az sql server update -g <resource-group> -n <server> --minimal-tls-version 1.2
+  terraform: |
+    # azurerm_mssql_server
+    minimum_tls_version = "1.2"
+references:
+  - https://learn.microsoft.com/azure/azure-sql/database/connectivity-settings#minimal-tls-version
+frameworks:
+  mcsb:
+    - DP-3
+  waf_pillar:
+    - Security
+  waf:
+    - SE:07

@@ -1,0 +1,74 @@
+{
+ "rows": [
+  {
+   "id": "/subscriptions/00000000-0000-0000-0000-00000000d001/resourceGroups/rg-shop-net-prod-cin/providers/Microsoft.Network/publicIPAddresses/pip-agw-shop-prod",
+   "name": "pip-agw-shop-prod",
+   "resourceGroup": "rg-shop-net-prod-cin",
+   "location": "centralindia",
+   "sku": "Standard",
+   "allocation": "Static",
+   "attachedTo": "",
+   "compliant": true
+  },
+  {
+   "id": "/subscriptions/00000000-0000-0000-0000-00000000d001/resourceGroups/rg-shop-net-prod-cin/providers/Microsoft.Network/publicIPAddresses/pip-lb-old-checkout",
+   "name": "pip-lb-old-checkout",
+   "resourceGroup": "rg-shop-net-prod-cin",
+   "location": "centralindia",
+   "sku": "Standard",
+   "allocation": "Static",
+   "attachedTo": "",
+   "compliant": true
+  },
+  {
+   "id": "/subscriptions/00000000-0000-0000-0000-00000000d001/resourceGroups/rg-shop-app-prod-cin/providers/Microsoft.Network/publicIPAddresses/pip-vm-erp-01",
+   "name": "pip-vm-erp-01",
+   "resourceGroup": "rg-shop-app-prod-cin",
+   "location": "centralindia",
+   "sku": "Standard",
+   "allocation": "Static",
+   "attachedTo": "",
+   "compliant": true
+  },
+  {
+   "id": "/subscriptions/00000000-0000-0000-0000-00000000d002/resourceGroups/rg-shop-app-uat-cin/providers/Microsoft.Network/publicIPAddresses/pip-uat-test-1",
+   "name": "pip-uat-test-1",
+   "resourceGroup": "rg-shop-app-uat-cin",
+   "location": "centralindia",
+   "sku": "Standard",
+   "allocation": "Static",
+   "attachedTo": "",
+   "compliant": true
+  },
+  {
+   "id": "/subscriptions/00000000-0000-0000-0000-00000000d002/resourceGroups/rg-shop-app-uat-cin/providers/Microsoft.Network/publicIPAddresses/pip-uat-test-2",
+   "name": "pip-uat-test-2",
+   "resourceGroup": "rg-shop-app-uat-cin",
+   "location": "centralindia",
+   "sku": "Standard",
+   "allocation": "Static",
+   "attachedTo": "",
+   "compliant": true
+  },
+  {
+   "id": "/subscriptions/00000000-0000-0000-0000-00000000d003/resourceGroups/rg-platform-net-cin/providers/Microsoft.Network/publicIPAddresses/pip-natgw-hub",
+   "name": "pip-natgw-hub",
+   "resourceGroup": "rg-platform-net-cin",
+   "location": "centralindia",
+   "sku": "Standard",
+   "allocation": "Static",
+   "attachedTo": "",
+   "compliant": true
+  },
+  {
+   "id": "/subscriptions/00000000-0000-0000-0000-00000000d003/resourceGroups/rg-platform-tools-cin/providers/Microsoft.Network/publicIPAddresses/pip-vpn-trial",
+   "name": "pip-vpn-trial",
+   "resourceGroup": "rg-platform-tools-cin",
+   "location": "centralindia",
+   "sku": "Standard",
+   "allocation": "Static",
+   "attachedTo": "",
+   "compliant": true
+  }
+ ]
+}

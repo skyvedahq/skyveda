@@ -1,0 +1,22 @@
+{
+ "rows": [
+  {
+   "id": "/subscriptions/00000000-0000-0000-0000-000000000001/resourceGroups/rg-data/providers/Microsoft.Storage/storageAccounts/stgeo",
+   "name": "stgeo",
+   "resourceGroup": "rg-data",
+   "location": "centralindia",
+   "environment": "prod",
+   "skuName": "Standard_GZRS",
+   "compliant": true
+  },
+  {
+   "id": "/subscriptions/00000000-0000-0000-0000-000000000001/resourceGroups/rg-data/providers/Microsoft.Storage/storageAccounts/stlocal",
+   "name": "stlocal",
+   "resourceGroup": "rg-data",
+   "location": "centralindia",
+   "environment": "prod",
+   "skuName": "Standard_LRS",
+   "compliant": false
+  }
+ ]
+}

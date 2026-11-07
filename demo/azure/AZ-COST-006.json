@@ -1,0 +1,34 @@
+{
+ "rows": [
+  {
+   "id": "/subscriptions/00000000-0000-0000-0000-00000000d003/resourceGroups/rg-platform-net-cin/providers/Microsoft.Network/natGateways/natgw-hub",
+   "name": "natgw-hub",
+   "resourceGroup": "rg-platform-net-cin",
+   "location": "centralindia",
+   "sku": "Standard",
+   "subnetCount": 2,
+   "compliant": true,
+   "estMonthlyWasteInr": 0.0
+  },
+  {
+   "id": "/subscriptions/00000000-0000-0000-0000-00000000d002/resourceGroups/rg-shop-net-uat-cin/providers/Microsoft.Network/natGateways/natgw-uat-spike",
+   "name": "natgw-uat-spike",
+   "resourceGroup": "rg-shop-net-uat-cin",
+   "location": "centralindia",
+   "sku": "Standard",
+   "subnetCount": 0,
+   "compliant": false,
+   "estMonthlyWasteInr": 2800.0
+  },
+  {
+   "id": "/subscriptions/00000000-0000-0000-0000-00000000d001/resourceGroups/rg-shop-net-prod-cin/providers/Microsoft.Network/natGateways/natgw-shop-old-prod",
+   "name": "natgw-shop-old-prod",
+   "resourceGroup": "rg-shop-net-prod-cin",
+   "location": "centralindia",
+   "sku": "Standard",
+   "subnetCount": 0,
+   "compliant": false,
+   "estMonthlyWasteInr": 2800.0
+  }
+ ]
+}

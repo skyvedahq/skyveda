@@ -1,0 +1,163 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Skyveda Health Report</title>
+<style>
+:root{--bg:#f4f6f8;--plate:#fff;--ink:#15202b;--muted:#5a6876;--rule:#d9e0e7;--accent:#1f5f8b;
+  --crit:#b3261e;--crit-soft:#fbe7e5;--high:#b4532a;--high-soft:#f8e9e1;--med:#9a6b00;--med-soft:#fbf0dc;
+  --low:#55607a;--low-soft:#e9ecf2;--ok:#1d7a4c;--ok-soft:#e1f3ea;
+  --body:"Segoe UI",system-ui,-apple-system,sans-serif;--mono:Consolas,ui-monospace,monospace}
+@media (prefers-color-scheme:dark){:root{--bg:#0f151b;--plate:#16202a;--ink:#e3e9ef;--muted:#9aa8b6;--rule:#2a3744;
+  --accent:#7fb6e0;--crit:#f2978f;--crit-soft:#3d1a17;--high:#ec9a72;--high-soft:#3a2419;--med:#f0b45a;
+  --med-soft:#3a2a10;--low:#a3abc2;--low-soft:#23283a;--ok:#6fd3a0;--ok-soft:#123326}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.55 var(--body);padding:0 16px 48px}
+.wrap{max-width:1000px;margin:0 auto}
+h1{font-size:28px;margin:28px 0 4px}h2{font-size:20px;margin:36px 0 12px}h3{font-size:16px;margin:0}
+p{margin:0 0 8px;max-width:75ch}.muted{color:var(--muted)}
+code,pre{font-family:var(--mono);font-size:13px}
+pre{background:var(--bg);border:1px solid var(--rule);border-radius:6px;padding:10px 12px;overflow-x:auto;white-space:pre-wrap}
+.meta{color:var(--muted);font-size:13px}
+.label-line{display:inline-block;font-weight:600;color:var(--accent);border:1px solid var(--rule);border-radius:6px;padding:4px 10px;margin:4px 0 10px;background:var(--plate)}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:12px}
+.card{background:var(--plate);border:1px solid var(--rule);border-radius:10px;padding:16px;min-width:0}
+.big{font-size:40px;font-weight:700;line-height:1}
+.label{font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.bar{height:8px;border-radius:4px;background:var(--rule);margin-top:8px;overflow:hidden}
+.bar>i{display:block;height:100%;background:var(--accent)}
+.pill{display:inline-block;font-size:12px;font-weight:600;padding:2px 8px;border-radius:999px;text-transform:uppercase;letter-spacing:.04em}
+.critical{color:var(--crit);background:var(--crit-soft)}.high{color:var(--high);background:var(--high-soft)}
+.medium{color:var(--med);background:var(--med-soft)}.low{color:var(--low);background:var(--low-soft)}
+.pass{color:var(--ok);background:var(--ok-soft)}
+.finding{background:var(--plate);border:1px solid var(--rule);border-left:5px solid var(--rule);border-radius:10px;padding:16px;margin-bottom:12px}
+.finding.sev-critical{border-left-color:var(--crit)}.finding.sev-high{border-left-color:var(--high)}
+.finding.sev-medium{border-left-color:var(--med)}.finding.sev-low{border-left-color:var(--low)}
+.fhead{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:8px}
+.waste{font-weight:700;color:var(--high)}
+table{width:100%;border-collapse:collapse;font-size:13.5px}
+th,td{text-align:left;padding:7px 8px;border-bottom:1px solid var(--rule);vertical-align:top;overflow-wrap:anywhere}
+th{font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:.04em}
+.tw{overflow-x:auto}
+details{margin-top:8px}summary{cursor:pointer;color:var(--accent);font-weight:600}
+ol{margin:6px 0;padding-left:20px}
+.nw{white-space:nowrap}
+footer{margin-top:40px;font-size:12.5px;color:var(--muted);border-top:1px solid var(--rule);padding-top:12px}
+</style>
+</head>
+<body>
+<div class="wrap">
+<h1>Skyveda Health Report</h1>
+{% if label %}<p class="label-line">{{ label }}</p>{% endif %}
+<p class="meta">
+  {{ result.provider|upper }} · {{ result.scopes|length }} scope(s) ·
+  scanned {{ result.started_at.strftime("%d %b %Y, %H:%M UTC") }} · Skyveda {{ result.tool_version }}
+  {% if result.offline %}· <strong>offline data</strong>{% endif %}
+</p>
+<p class="meta">Read-only scan: nothing in the environment was created, changed or deleted.</p>
+
+<h2>Summary</h2>
+<div class="grid">
+  <div class="card"><div class="label">Overall score</div>
+    <div class="big">{{ scores.overall if scores.overall is not none else "–" }}<span class="muted" style="font-size:18px">/100</span></div></div>
+  <div class="card"><div class="label">Findings</div><div class="big">{{ findings|length }}</div>
+    <div class="meta">{% for s in ["critical","high","medium","low"] %}{% set n = findings|selectattr("severity","equalto",s)|list|length %}{% if n %}<span class="pill {{ s }}">{{ n }} {{ s }}</span> {% endif %}{% endfor %}</div></div>
+  <div class="card"><div class="label">Waste</div><div class="big">₹{{ "{:,}".format(waste) }}</div>
+    <div class="meta">a month{% if waste_basis %} · {{ waste_basis }}{% endif %}</div></div>
+  <div class="card"><div class="label">Checks</div><div class="big">{{ result.results|length }}</div>
+    <div class="meta">{{ counts["pass"] }} passed · {{ counts["fail"] }} failed · {{ others|length }} not scored{% if waived %} · {{ waived|length }} resource(s) waived{% endif %}</div></div>
+</div>
+
+<h2>Scores by area</h2>
+<div class="grid">
+{% for a in scores.areas %}
+  <div class="card"><div class="label">{{ area_label[a.area] }}</div>
+    <div class="big" style="font-size:28px">{{ a.score }}</div>
+    <div class="bar"><i style="width:{{ a.score }}%"></i></div>
+    <div class="meta">{{ a.passed }} passed · {{ a.failed }} failed</div></div>
+{% endfor %}
+</div>
+
+{% if mcsb_summary or pillar_summary %}
+<h2>Framework summary</h2>
+<p class="muted">Checks passed and failed against each Well-Architected pillar and each Microsoft cloud security benchmark (MCSB) control. Checks not scored are left out.</p>
+<div class="tw"><table><thead><tr><th>Well-Architected pillar</th><th>Passed</th><th>Failed</th></tr></thead><tbody>
+{% for row in pillar_summary %}<tr><td>{{ row.label }}</td><td>{{ row.passed }}</td><td>{{ row.failed }}</td></tr>{% endfor %}
+</tbody></table></div>
+<div class="tw" style="margin-top:12px"><table><thead><tr><th>MCSB control</th><th>Passed</th><th>Failed</th></tr></thead><tbody>
+{% for row in mcsb_summary %}<tr><td>{{ row.label }}</td><td>{{ row.passed }}</td><td>{{ row.failed }}</td></tr>{% endfor %}
+</tbody></table></div>
+{% endif %}
+
+<h2>Findings</h2>
+{% if not findings %}<p>No findings. Every applicable check passed.</p>{% endif %}
+{% for f in findings %}
+<div class="finding sev-{{ f.severity }}" id="{{ f.check_id }}">
+  <div class="fhead">
+    <span class="pill {{ f.severity }}">{{ f.severity }}</span>
+    <h3>Failed: {{ f.title }}</h3>
+  </div>
+  <p class="meta">{{ f.check_id }} · {{ area_label[f.area] }} · {{ f.resources|length }} resource(s){% set fw = finding_waste(f) %}{% if fw %} · <span class="waste">{{ fw }}</span>{% endif %}{% if waived_by_check[f.check_id] %} · {{ waived_by_check[f.check_id] }} more waived (Appendix D){% endif %}</p>
+  {% set mapping = maps_to(f.frameworks) %}{% if mapping %}<p class="meta">Maps to: {{ mapping }}</p>{% endif %}
+  <p><strong>Why it matters.</strong> {{ f.why }}</p>
+  <p><strong>Fix.</strong> {{ f.fix.summary }}</p>
+  {% if f.fix.steps %}<ol>{% for step in f.fix.steps %}<li>{{ step }}</li>{% endfor %}</ol>{% endif %}
+  {% if f.fix.cli %}<pre>{{ f.fix.cli }}</pre>{% endif %}
+  {% if f.fix.terraform %}<details><summary>Terraform</summary><pre>{{ f.fix.terraform }}</pre></details>{% endif %}
+  <details{% if f.resources|length <= 5 %} open{% endif %}><summary>Affected resources ({{ f.resources|length }})</summary>
+    <div class="tw"><table>
+      <thead><tr><th style="width:20%">Name</th><th style="width:42%">Evidence</th><th>Resource ID</th></tr></thead>
+      <tbody>
+      {% for r in f.resources %}
+        <tr><td>{{ r.name or "" }}</td>
+          <td>{% set rc = resource_cost(r) %}{% if rc %}<strong>{{ rc }}</strong><br>{% endif %}{% for k, v in shown_evidence(r).items() %}<code>{{ k }}</code>: {{ v if v is string else v|tojson }}<br>{% endfor %}</td>
+          <td><code>{{ r.id }}</code></td></tr>
+      {% endfor %}
+      </tbody></table></div>
+  </details>
+  {% if f.references %}<p class="meta">Reference: {% for ref in f.references %}<a href="{{ ref }}">{{ ref }}</a>{% if not loop.last %} · {% endif %}{% endfor %}</p>{% endif %}
+</div>
+{% endfor %}
+
+<h2>Appendix A · Passed checks</h2>
+{% if passed %}
+<div class="tw"><table><thead><tr><th>Check</th><th>Title</th><th>Area</th><th>Resources</th></tr></thead><tbody>
+{% for r in passed %}<tr><td><code>{{ r.check_id }}</code></td><td>{{ r.title }}</td><td>{{ area_label[r.area] }}</td><td>{{ r.resources_evaluated }}{% if r.waived %} ({{ r.waived|length }} waived){% endif %}</td></tr>{% endfor %}
+</tbody></table></div>
+{% else %}<p class="muted">None.</p>{% endif %}
+
+<h2>Appendix B · Not scored</h2>
+{% if others %}
+<div class="tw"><table><thead><tr><th>Check</th><th>Title</th><th>Status</th><th>Reason</th></tr></thead><tbody>
+{% for r in others %}<tr><td><code>{{ r.check_id }}</code></td><td>{{ r.title }}</td><td>{{ r.status.value|replace("_"," ") }}</td>
+  <td>{{ r.message or ("No matching resources in scope." if r.status.value == "not_applicable" else "") }}</td></tr>{% endfor %}
+</tbody></table></div>
+{% else %}<p class="muted">None.</p>{% endif %}
+
+<h2>Appendix C · Scopes scanned</h2>
+<div class="tw"><table><thead><tr><th>Kind</th><th>ID</th><th>Name</th></tr></thead><tbody>
+{% for s in result.scopes %}<tr><td>{{ s.kind }}</td><td><code>{{ s.id }}</code></td><td>{{ s.name or "" }}</td></tr>{% endfor %}
+</tbody></table></div>
+
+<h2>Appendix D · Waived</h2>
+{% if waived %}
+<p class="muted">Resources taken out of the findings and the scores: risks the client accepted, or findings shown to be wrong. Each applies until its expiry date.</p>
+<div class="tw"><table><thead><tr><th>Check</th><th>Resource</th><th>Kind</th><th>Reason</th><th>Approver</th><th>Expires</th></tr></thead><tbody>
+{% for check_id, w in waived %}<tr><td class="nw"><code>{{ check_id }}</code></td><td>{{ w.resource.name or w.resource.id }}</td>
+  <td>{{ w.waiver.kind.value|replace("_"," ") }}</td><td>{{ w.waiver.reason }}</td><td>{{ w.waiver.approver }}</td>
+  <td class="nw">{{ w.waiver.expires.strftime("%d %b %Y") }}</td></tr>{% endfor %}
+</tbody></table></div>
+{% else %}<p class="muted">None.</p>{% endif %}
+
+<footer>
+  <p>Scores: 100 × weight of passed checks ÷ weight of checks that passed or failed, per area; overall is the average of areas. Weights: critical 10, high 5, medium 3, low 1.</p>
+  {% for note in cost_notes %}<p>{{ note }}</p>{% endfor %}
+  <p>findings.json SHA-256: <code>{{ findings_sha256 }}</code></p>
+  <p>{{ framework_note }}</p>
+  <p><strong>{{ help_note }}</strong></p>
+  <p>{{ trademark_note }}</p>
+</footer>
+</div>
+</body>
+</html>

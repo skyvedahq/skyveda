@@ -1,0 +1,40 @@
+{
+ "rows": [
+  {
+   "id": "/subscriptions/00000000-0000-0000-0000-000000000001/resourceGroups/rg-data/providers/Microsoft.Storage/storageAccounts/stdatalake",
+   "name": "stdatalake",
+   "resourceGroup": "rg-data",
+   "location": "centralindia",
+   "publicNetworkAccess": "Disabled",
+   "defaultAction": "Allow",
+   "compliant": true
+  },
+  {
+   "id": "/subscriptions/00000000-0000-0000-0000-000000000001/resourceGroups/rg-data/providers/Microsoft.Storage/storageAccounts/stfirewalled",
+   "name": "stfirewalled",
+   "resourceGroup": "rg-data",
+   "location": "centralindia",
+   "publicNetworkAccess": "Enabled",
+   "defaultAction": "Deny",
+   "compliant": true
+  },
+  {
+   "id": "/subscriptions/00000000-0000-0000-0000-000000000001/resourceGroups/rg-web/providers/Microsoft.Storage/storageAccounts/stwebassets",
+   "name": "stwebassets",
+   "resourceGroup": "rg-web",
+   "location": "centralindia",
+   "publicNetworkAccess": "Enabled",
+   "defaultAction": "Allow",
+   "compliant": false
+  },
+  {
+   "id": "/subscriptions/00000000-0000-0000-0000-000000000001/resourceGroups/rg-web/providers/Microsoft.Storage/storageAccounts/stdefaults",
+   "name": "stdefaults",
+   "resourceGroup": "rg-web",
+   "location": "centralindia",
+   "publicNetworkAccess": "Enabled",
+   "defaultAction": "Allow",
+   "compliant": false
+  }
+ ]
+}

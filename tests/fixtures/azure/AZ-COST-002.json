@@ -1,0 +1,3 @@
+{"rows": [
+ {"id": "/subscriptions/00000000-0000-0000-0000-000000000001/resourceGroups/rg-old/providers/Microsoft.Network/publicIPAddresses/pip-old", "name": "pip-old", "resourceGroup": "rg-old", "location": "centralindia", "sku": "Standard", "allocation": "Static", "compliant": false, "estMonthlyWasteInr": 320.0}
+]}

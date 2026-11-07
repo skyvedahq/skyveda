@@ -1,0 +1,61 @@
+check_id,mcsb_controls,waf_pillar,waf_recommendations
+AZ-ACR-001,IM-1,Security,SE:05
+AZ-ACR-002,IM-1,Security,SE:05
+AZ-ACR-003,NS-2,Security,SE:06
+AZ-AI-001,IM-1,Security,SE:05
+AZ-AKS-002,IM-1,Security,SE:05
+AZ-AKS-003,NS-2,Security,SE:06
+AZ-AKS-004,,Reliability,
+AZ-AKS-005,,Reliability,RE:05
+AZ-AKS-006,PV-2,Security,SE:08
+AZ-AKS-007,PV-6,Security,SE:08
+AZ-AKS-008,NS-1,Security,SE:04;SE:06
+AZ-AKS-009,PA-7,Security,SE:05
+AZ-AKS-010,IM-3,Security,SE:05
+AZ-COSMOS-001,IM-1,Security,SE:05
+AZ-COSMOS-002,NS-2,Security,SE:06
+AZ-COST-001,,Cost Optimization,CO:07
+AZ-COST-002,,Cost Optimization,CO:07
+AZ-COST-003,,Cost Optimization,CO:07
+AZ-COST-004,,Cost Optimization,CO:07;CO:10
+AZ-COST-005,,Cost Optimization,CO:07
+AZ-COST-006,,Cost Optimization,CO:07
+AZ-COST-007,,Cost Optimization,CO:07
+AZ-COST-008,,Cost Optimization,CO:07
+AZ-KV-001,DP-8,Security,
+AZ-KV-002,PA-7,Security,SE:05
+AZ-KV-003,NS-2,Security,SE:06
+AZ-MSG-001,IM-1,Security,SE:05
+AZ-NET-001,NS-1,Security,SE:06
+AZ-NET-002,NS-2,Security,SE:06
+AZ-NET-003,NS-1,Security,SE:06;SE:04
+AZ-NET-004,NS-2,Security,SE:06
+AZ-NET-005,NS-2,Security,SE:06
+AZ-NET-006,NS-1,Security,SE:06
+AZ-NET-007,,Reliability,
+AZ-NET-008,,Reliability,RE:05
+AZ-PGSQL-001,NS-2,Security,SE:06
+AZ-REDIS-001,DP-3,Security,SE:07
+AZ-REDIS-002,DP-3,Security,SE:07
+AZ-REL-001,,Reliability,
+AZ-REL-002,,Reliability,RE:05
+AZ-REL-003,,Reliability,RE:05
+AZ-SQL-001,IM-1,Security,SE:05
+AZ-SQL-002,NS-2,Security,SE:06
+AZ-SQL-003,NS-2,Security,SE:06
+AZ-SQL-004,DP-3,Security,SE:07
+AZ-STG-001,NS-2,Security,SE:05
+AZ-STG-002,DP-3,Security,SE:07
+AZ-STG-003,DP-3,Security,SE:07
+AZ-STG-004,IM-1,Security,SE:05
+AZ-STG-005,PV-2,Security,SE:08
+AZ-VM-001,IM-6,Security,SE:05
+AZ-VM-002,PV-4,Security,SE:08
+AZ-VM-003,,Reliability,
+AZ-VM-004,NS-2,Security,SE:06
+AZ-WEB-001,DP-3,Security,SE:07
+AZ-WEB-002,DP-3,Security,SE:07
+AZ-WEB-003,IM-3,Security,SE:05
+AZ-WEB-004,DP-3,Security,SE:07
+AZ-WEB-005,PV-2,Security,SE:08
+AZ-WEB-006,PV-2,Security,SE:08

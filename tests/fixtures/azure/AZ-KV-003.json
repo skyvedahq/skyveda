@@ -1,0 +1,5 @@
+{"rows": [
+ {"id": "/subscriptions/00000000-0000-0000-0000-000000000001/resourceGroups/rg-sec/providers/Microsoft.KeyVault/vaults/kv-private", "name": "kv-private", "resourceGroup": "rg-sec", "location": "centralindia", "publicNetworkAccess": "Disabled", "defaultAction": "Allow", "compliant": true},
+ {"id": "/subscriptions/00000000-0000-0000-0000-000000000001/resourceGroups/rg-sec/providers/Microsoft.KeyVault/vaults/kv-firewalled", "name": "kv-firewalled", "resourceGroup": "rg-sec", "location": "centralindia", "publicNetworkAccess": "Enabled", "defaultAction": "Deny", "compliant": true},
+ {"id": "/subscriptions/00000000-0000-0000-0000-000000000001/resourceGroups/rg-sec/providers/Microsoft.KeyVault/vaults/kv-open", "name": "kv-open", "resourceGroup": "rg-sec", "location": "centralindia", "publicNetworkAccess": "Enabled", "defaultAction": "Allow", "compliant": false}
+]}

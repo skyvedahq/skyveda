@@ -1,0 +1,20 @@
+{
+ "rows": [
+  {
+   "id": "/subscriptions/00000000-0000-0000-0000-000000000001/resourceGroups/rg-aks/providers/Microsoft.ContainerService/managedClusters/aks-good",
+   "name": "aks-good",
+   "resourceGroup": "rg-aks",
+   "location": "centralindia",
+   "upgradeChannel": "patch",
+   "compliant": true
+  },
+  {
+   "id": "/subscriptions/00000000-0000-0000-0000-000000000001/resourceGroups/rg-aks/providers/Microsoft.ContainerService/managedClusters/aks-bad",
+   "name": "aks-bad",
+   "resourceGroup": "rg-aks",
+   "location": "centralindia",
+   "upgradeChannel": "none",
+   "compliant": false
+  }
+ ]
+}

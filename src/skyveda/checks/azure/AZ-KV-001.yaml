@@ -1,0 +1,35 @@
+schema_version: 1
+id: AZ-KV-001
+title: Key Vaults have soft delete and purge protection
+provider: azure
+area: security
+severity: high
+tier: free
+source:
+  type: resource_graph
+  query: |
+    resources
+    | where type =~ 'microsoft.keyvault/vaults'
+    | extend softDelete = tobool(properties.enableSoftDelete),
+             purgeProtection = tobool(properties.enablePurgeProtection)
+    | project id, name, resourceGroup, location, softDelete, purgeProtection,
+              compliant = coalesce(softDelete, true) and coalesce(purgeProtection, false)
+why: >-
+  Without purge protection, a deleted vault and its keys and secrets can be permanently destroyed
+  at once, by mistake or by an attacker, with no way to recover them.
+fix:
+  summary: Turn on purge protection (soft delete must also be on).
+  steps:
+    - Note that purge protection cannot be turned off once enabled; this is intended.
+    - Enable purge protection in the vault's Properties settings.
+  cli: az keyvault update -g <resource-group> -n <vault> --enable-purge-protection true
+  terraform: |
+    # azurerm_key_vault
+    purge_protection_enabled = true
+references:
+  - https://learn.microsoft.com/azure/key-vault/general/soft-delete-overview
+frameworks:
+  mcsb:
+    - DP-8
+  waf_pillar:
+    - Security

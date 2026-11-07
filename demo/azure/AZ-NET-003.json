@@ -1,0 +1,67 @@
+{
+ "rows": [
+  {
+   "id": "/subscriptions/00000000-0000-0000-0000-00000000d001/resourceGroups/rg-shop-net-prod-cin/providers/Microsoft.Network/virtualNetworks/vnet-shop-prod-cin/subnets/snet-web-prod",
+   "name": "snet-web-prod",
+   "resourceGroup": "rg-shop-net-prod-cin",
+   "location": "centralindia",
+   "vnet": "vnet-shop-prod-cin",
+   "nsgId": "/subscriptions/00000000-0000-0000-0000-00000000d001/resourceGroups/rg-shop-net-prod-cin/providers/Microsoft.Network/networkSecurityGroups/nsg-snet-web-prod",
+   "compliant": true
+  },
+  {
+   "id": "/subscriptions/00000000-0000-0000-0000-00000000d001/resourceGroups/rg-shop-net-prod-cin/providers/Microsoft.Network/virtualNetworks/vnet-shop-prod-cin/subnets/snet-app-prod",
+   "name": "snet-app-prod",
+   "resourceGroup": "rg-shop-net-prod-cin",
+   "location": "centralindia",
+   "vnet": "vnet-shop-prod-cin",
+   "nsgId": "",
+   "compliant": false
+  },
+  {
+   "id": "/subscriptions/00000000-0000-0000-0000-00000000d001/resourceGroups/rg-shop-net-prod-cin/providers/Microsoft.Network/virtualNetworks/vnet-shop-prod-cin/subnets/snet-aks-prod",
+   "name": "snet-aks-prod",
+   "resourceGroup": "rg-shop-net-prod-cin",
+   "location": "centralindia",
+   "vnet": "vnet-shop-prod-cin",
+   "nsgId": "/subscriptions/00000000-0000-0000-0000-00000000d001/resourceGroups/rg-shop-net-prod-cin/providers/Microsoft.Network/networkSecurityGroups/nsg-snet-aks-prod",
+   "compliant": true
+  },
+  {
+   "id": "/subscriptions/00000000-0000-0000-0000-00000000d002/resourceGroups/rg-shop-net-uat-cin/providers/Microsoft.Network/virtualNetworks/vnet-shop-uat-cin/subnets/snet-app-uat",
+   "name": "snet-app-uat",
+   "resourceGroup": "rg-shop-net-uat-cin",
+   "location": "centralindia",
+   "vnet": "vnet-shop-uat-cin",
+   "nsgId": "/subscriptions/00000000-0000-0000-0000-00000000d002/resourceGroups/rg-shop-net-uat-cin/providers/Microsoft.Network/networkSecurityGroups/nsg-snet-app-uat",
+   "compliant": true
+  },
+  {
+   "id": "/subscriptions/00000000-0000-0000-0000-00000000d002/resourceGroups/rg-shop-net-uat-cin/providers/Microsoft.Network/virtualNetworks/vnet-shop-uat-cin/subnets/snet-aks-uat",
+   "name": "snet-aks-uat",
+   "resourceGroup": "rg-shop-net-uat-cin",
+   "location": "centralindia",
+   "vnet": "vnet-shop-uat-cin",
+   "nsgId": "",
+   "compliant": false
+  },
+  {
+   "id": "/subscriptions/00000000-0000-0000-0000-00000000d003/resourceGroups/rg-platform-net-cin/providers/Microsoft.Network/virtualNetworks/vnet-platform-hub-cin/subnets/snet-jumpbox",
+   "name": "snet-jumpbox",
+   "resourceGroup": "rg-platform-net-cin",
+   "location": "centralindia",
+   "vnet": "vnet-platform-hub-cin",
+   "nsgId": "/subscriptions/00000000-0000-0000-0000-00000000d003/resourceGroups/rg-platform-tools-cin/providers/Microsoft.Network/networkSecurityGroups/nsg-snet-jumpbox",
+   "compliant": true
+  },
+  {
+   "id": "/subscriptions/00000000-0000-0000-0000-00000000d003/resourceGroups/rg-platform-net-cin/providers/Microsoft.Network/virtualNetworks/vnet-platform-hub-cin/subnets/snet-shared-services",
+   "name": "snet-shared-services",
+   "resourceGroup": "rg-platform-net-cin",
+   "location": "centralindia",
+   "vnet": "vnet-platform-hub-cin",
+   "nsgId": "",
+   "compliant": false
+  }
+ ]
+}

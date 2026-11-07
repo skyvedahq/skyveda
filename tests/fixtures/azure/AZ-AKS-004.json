@@ -1,0 +1,4 @@
+{"rows": [
+ {"id": "/subscriptions/00000000-0000-0000-0000-000000000001/resourceGroups/rg-aks/providers/Microsoft.ContainerService/managedClusters/aks-prod", "name": "aks-prod", "resourceGroup": "rg-aks", "location": "centralindia", "systemPools": 1, "userPools": 0, "compliant": false},
+ {"id": "/subscriptions/00000000-0000-0000-0000-000000000001/resourceGroups/rg-aks/providers/Microsoft.ContainerService/managedClusters/aks-dev", "name": "aks-dev", "resourceGroup": "rg-aks", "location": "centralindia", "systemPools": 1, "userPools": 1, "compliant": true}
+]}

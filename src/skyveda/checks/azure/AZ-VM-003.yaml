@@ -1,0 +1,37 @@
+schema_version: 1
+id: AZ-VM-003
+title: Virtual machines use managed disks
+provider: azure
+area: reliability
+severity: high
+tier: free
+source:
+  type: resource_graph
+  query: |
+    // Checks the OS disk: a managed disk has properties.storageProfile.osDisk.managedDisk.id, an
+    // unmanaged one a vhd.uri in a storage account. Ephemeral OS disks (diffDiskSettings) are not
+    // unmanaged and pass. Anything else without a managed disk id FAILS.
+    resources
+    | where type =~ 'microsoft.compute/virtualmachines'
+    | extend managedDiskId = tostring(properties.storageProfile.osDisk.managedDisk.id),
+             vhdUri = tostring(properties.storageProfile.osDisk.vhd.uri),
+             ephemeral = tostring(properties.storageProfile.osDisk.diffDiskSettings.option)
+    | project id, name, resourceGroup, location, managedDiskId, vhdUri, ephemeral,
+              compliant = isnotempty(managedDiskId) or isnotempty(ephemeral)
+why: >-
+  Microsoft retired unmanaged disks on 30 September 2025. VMs still on them are no longer
+  supported and can stop working. Unmanaged disks also share their storage account's limits, so
+  one busy account can slow every VM on it.
+fix:
+  summary: Convert the VM's disks to managed disks.
+  steps:
+    - Take a backup and plan a short outage, because the VM is deallocated during the conversion.
+    - Convert the VM to managed disks.
+    - Once the VM runs, delete the old VHD blobs and any storage account that only held them.
+  cli: az vm convert -g <resource-group> -n <vm>
+references:
+  - https://learn.microsoft.com/azure/virtual-machines/unmanaged-disks-deprecation
+  - https://learn.microsoft.com/azure/virtual-machines/windows/convert-unmanaged-to-managed-disks
+frameworks:
+  waf_pillar:
+    - Reliability

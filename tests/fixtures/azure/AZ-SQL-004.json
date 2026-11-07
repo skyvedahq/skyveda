@@ -1,0 +1,5 @@
+{"rows": [
+  {"id": "/subscriptions/00000000-0000-0000-0000-000000000001/resourceGroups/rg-data/providers/Microsoft.Sql/servers/sql-modern", "name": "sql-modern", "resourceGroup": "rg-data", "location": "centralindia", "minimalTlsVersion": "1.2", "compliant": true},
+  {"id": "/subscriptions/00000000-0000-0000-0000-000000000001/resourceGroups/rg-data/providers/Microsoft.Sql/servers/sql-none", "name": "sql-none", "resourceGroup": "rg-data", "location": "centralindia", "minimalTlsVersion": "None", "compliant": false},
+  {"id": "/subscriptions/00000000-0000-0000-0000-000000000001/resourceGroups/rg-data/providers/Microsoft.Sql/servers/sql-unknown", "name": "sql-unknown", "resourceGroup": "rg-data", "location": "centralindia", "minimalTlsVersion": "", "compliant": false}
+]}

@@ -1,0 +1,38 @@
+schema_version: 1
+id: AZ-AKS-009
+title: AKS clusters have Kubernetes RBAC enabled
+provider: azure
+area: kubernetes
+severity: high
+tier: free
+source:
+  type: resource_graph
+  query: |
+    // properties.enableRBAC: clusters created without it cannot turn it on later. A missing value FAILS.
+    resources
+    | where type =~ 'microsoft.containerservice/managedclusters'
+    | extend enableRBAC = tobool(properties.enableRBAC)
+    | project id, name, resourceGroup, location, enableRBAC,
+              compliant = coalesce(enableRBAC, false)
+why: >-
+  Without Kubernetes RBAC, anyone who can reach the API server with valid credentials can do
+  anything in the cluster: read every secret, run any workload and change every setting. Roles
+  are the only way to give a team or a pod less than full control.
+fix:
+  summary: Recreate the cluster with Kubernetes RBAC enabled (it cannot be turned on in place).
+  steps:
+    - Create a new cluster with RBAC and, ideally, Entra ID integration.
+    - Define roles and role bindings for each team and service account.
+    - Move workloads to the new cluster, then delete the old one.
+  terraform: |
+    # azurerm_kubernetes_cluster
+    role_based_access_control_enabled = true
+references:
+  - https://learn.microsoft.com/azure/aks/concepts-identity#kubernetes-rbac
+frameworks:
+  mcsb:
+    - PA-7
+  waf_pillar:
+    - Security
+  waf:
+    - SE:05

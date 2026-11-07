@@ -1,0 +1,30 @@
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+dist/
+build/
+*.egg-info/
+.mypy_cache/
+.pytest_cache/
+.ruff_cache/
+.coverage
+
+# Scan output and live recordings may contain client data: never commit them.
+out/
+recordings/
+
+# Terraform (lab)
+.terraform/
+*.tfstate
+*.tfstate.*
+*.tfvars
+.terraform.lock.hcl
+
+# Editors / OS
+.vscode/
+.idea/
+.DS_Store
+.ops/
+lab/azure/expected.json
+lab/azure/flagged.json

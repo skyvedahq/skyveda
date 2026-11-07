@@ -1,0 +1,41 @@
+schema_version: 1
+id: AZ-MSG-001
+title: Service Bus and Event Hubs namespaces disable SAS key authentication
+provider: azure
+area: identity
+severity: medium
+tier: free
+source:
+  type: resource_graph
+  query: |
+    // properties.disableLocalAuth defaults to false (SAS keys allowed). A missing value FAILS.
+    resources
+    | where type in~ ('microsoft.servicebus/namespaces', 'microsoft.eventhub/namespaces')
+    | extend service = iff(type =~ 'microsoft.eventhub/namespaces', 'Event Hubs', 'Service Bus'),
+             disableLocalAuth = tobool(properties.disableLocalAuth), sku = tostring(sku.name)
+    | project id, name, resourceGroup, location, service, sku, disableLocalAuth,
+              compliant = coalesce(disableLocalAuth, false)
+why: >-
+  A shared access signature key lets anyone who holds it send or read messages, does not say who
+  used it, and usually sits in connection strings in config files. Entra ID roles are scoped to a
+  queue or topic, audited, and removed when an app or person no longer needs them.
+fix:
+  summary: Move clients to Entra ID role-based access, then disable local (SAS) authentication.
+  steps:
+    - Grant each application a data role, for example Azure Service Bus Data Sender or Azure Event Hubs Data Receiver.
+    - Change the applications to authenticate with their managed identity instead of a connection string.
+    - Disable local authentication on the namespace (for Event Hubs, az eventhubs namespace update with the same flag).
+  cli: az servicebus namespace update -g <resource-group> -n <namespace> --disable-local-auth true
+  terraform: |
+    # azurerm_servicebus_namespace / azurerm_eventhub_namespace
+    local_auth_enabled = false
+references:
+  - https://learn.microsoft.com/azure/service-bus-messaging/disable-local-authentication
+  - https://learn.microsoft.com/azure/event-hubs/authenticate-shared-access-signature
+frameworks:
+  mcsb:
+    - IM-1
+  waf_pillar:
+    - Security
+  waf:
+    - SE:05

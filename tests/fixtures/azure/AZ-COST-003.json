@@ -1,0 +1,4 @@
+{"rows": [
+ {"id": "/subscriptions/00000000-0000-0000-0000-000000000001/resourceGroups/rg-web/providers/Microsoft.Compute/virtualMachines/vm-batch", "name": "vm-batch", "resourceGroup": "rg-web", "location": "centralindia", "vmSize": "Standard_D4s_v5", "powerState": "PowerState/stopped", "compliant": false},
+ {"id": "/subscriptions/00000000-0000-0000-0000-000000000001/resourceGroups/rg-web/providers/Microsoft.Compute/virtualMachines/vm-web", "name": "vm-web", "resourceGroup": "rg-web", "location": "centralindia", "vmSize": "Standard_B2s", "powerState": "PowerState/running", "compliant": true}
+]}

@@ -1,0 +1,24 @@
+{
+ "rows": [
+  {
+   "id": "/subscriptions/00000000-0000-0000-0000-00000000d001/resourceGroups/rg-shop-app-prod-cin/providers/Microsoft.ContainerRegistry/registries/acrshopprodcin",
+   "name": "acrshopprodcin",
+   "resourceGroup": "rg-shop-app-prod-cin",
+   "location": "centralindia",
+   "sku": "Premium",
+   "publicNetworkAccess": "Disabled",
+   "defaultAction": "Deny",
+   "compliant": true
+  },
+  {
+   "id": "/subscriptions/00000000-0000-0000-0000-00000000d003/resourceGroups/rg-platform-tools-cin/providers/Microsoft.ContainerRegistry/registries/acrplatformcin",
+   "name": "acrplatformcin",
+   "resourceGroup": "rg-platform-tools-cin",
+   "location": "centralindia",
+   "sku": "Standard",
+   "publicNetworkAccess": "Enabled",
+   "defaultAction": "Allow",
+   "compliant": false
+  }
+ ]
+}

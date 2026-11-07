@@ -1,0 +1,40 @@
+schema_version: 1
+id: AZ-AI-001
+title: Azure AI services accounts disable key-based authentication
+provider: azure
+area: identity
+severity: medium
+tier: free
+source:
+  type: resource_graph
+  query: |
+    // Covers Azure OpenAI and the other Azure AI services (type microsoft.cognitiveservices/accounts).
+    // properties.disableLocalAuth defaults to false (keys allowed). A missing value FAILS.
+    resources
+    | where type =~ 'microsoft.cognitiveservices/accounts'
+    | extend disableLocalAuth = tobool(properties.disableLocalAuth), serviceKind = tostring(kind)
+    | project id, name, resourceGroup, location, serviceKind, disableLocalAuth,
+              compliant = coalesce(disableLocalAuth, false)
+why: >-
+  An API key lets anyone who holds it call the service on your bill and, for Azure OpenAI, send
+  it your data and prompts. Keys leak through code and config files and do not say who used them.
+  Entra ID access is scoped, audited and removed when no longer needed.
+fix:
+  summary: Move applications to Entra ID authentication, then disable key-based access.
+  steps:
+    - Give the account a custom subdomain if it has none (Entra ID authentication needs one).
+    - Grant each application a role such as Cognitive Services User and switch it to its managed identity.
+    - Disable local (key-based) authentication on the account.
+  cli: az resource update --ids <account-id> --set properties.disableLocalAuth=true
+  terraform: |
+    # azurerm_cognitive_account
+    local_auth_enabled = false
+references:
+  - https://learn.microsoft.com/azure/ai-services/disable-local-auth
+frameworks:
+  mcsb:
+    - IM-1
+  waf_pillar:
+    - Security
+  waf:
+    - SE:05

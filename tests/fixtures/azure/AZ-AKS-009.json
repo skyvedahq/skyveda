@@ -1,0 +1,4 @@
+{"rows": [
+  {"id": "/subscriptions/00000000-0000-0000-0000-000000000001/resourceGroups/rg-aks/providers/Microsoft.ContainerService/managedClusters/aks-rbac", "name": "aks-rbac", "resourceGroup": "rg-aks", "location": "centralindia", "enableRBAC": true, "compliant": true},
+  {"id": "/subscriptions/00000000-0000-0000-0000-000000000001/resourceGroups/rg-aks/providers/Microsoft.ContainerService/managedClusters/aks-no-rbac", "name": "aks-no-rbac", "resourceGroup": "rg-aks", "location": "centralindia", "enableRBAC": false, "compliant": false}
+]}

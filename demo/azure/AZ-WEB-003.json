@@ -1,0 +1,49 @@
+{
+ "rows": [
+  {
+   "id": "/subscriptions/00000000-0000-0000-0000-00000000d001/resourceGroups/rg-shop-web-prod-cin/providers/Microsoft.Web/sites/app-shop-storefront-prod",
+   "name": "app-shop-storefront-prod",
+   "resourceGroup": "rg-shop-web-prod-cin",
+   "location": "centralindia",
+   "identityType": "SystemAssigned",
+   "compliant": true,
+   "appKind": "app,linux"
+  },
+  {
+   "id": "/subscriptions/00000000-0000-0000-0000-00000000d001/resourceGroups/rg-shop-web-prod-cin/providers/Microsoft.Web/sites/app-shop-api-prod",
+   "name": "app-shop-api-prod",
+   "resourceGroup": "rg-shop-web-prod-cin",
+   "location": "centralindia",
+   "identityType": "SystemAssigned, UserAssigned",
+   "compliant": true,
+   "appKind": "app,linux"
+  },
+  {
+   "id": "/subscriptions/00000000-0000-0000-0000-00000000d001/resourceGroups/rg-shop-web-prod-cin/providers/Microsoft.Web/sites/app-shop-legacy-prod",
+   "name": "app-shop-legacy-prod",
+   "resourceGroup": "rg-shop-web-prod-cin",
+   "location": "centralindia",
+   "identityType": "None",
+   "compliant": false,
+   "appKind": "app"
+  },
+  {
+   "id": "/subscriptions/00000000-0000-0000-0000-00000000d001/resourceGroups/rg-shop-web-prod-cin/providers/Microsoft.Web/sites/func-shop-orders-prod",
+   "name": "func-shop-orders-prod",
+   "resourceGroup": "rg-shop-web-prod-cin",
+   "location": "centralindia",
+   "identityType": "SystemAssigned",
+   "compliant": true,
+   "appKind": "functionapp,linux"
+  },
+  {
+   "id": "/subscriptions/00000000-0000-0000-0000-00000000d002/resourceGroups/rg-shop-web-uat-cin/providers/Microsoft.Web/sites/app-shop-uat",
+   "name": "app-shop-uat",
+   "resourceGroup": "rg-shop-web-uat-cin",
+   "location": "centralindia",
+   "identityType": "None",
+   "compliant": false,
+   "appKind": "app,linux"
+  }
+ ]
+}

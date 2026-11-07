@@ -1,0 +1,106 @@
+{
+ "rows": [
+  {
+   "id": "/subscriptions/00000000-0000-0000-0000-00000000d001/resourceGroups/rg-shop-net-prod-cin/providers/Microsoft.Network/networkSecurityGroups/nsg-snet-web-prod",
+   "name": "nsg-snet-web-prod",
+   "resourceGroup": "rg-shop-net-prod-cin",
+   "location": "centralindia",
+   "rules": [
+    {
+     "name": "allow-https",
+     "properties": {
+      "access": "Allow",
+      "direction": "Inbound",
+      "protocol": "Tcp",
+      "sourceAddressPrefix": "Internet",
+      "destinationPortRange": "443"
+     }
+    },
+    {
+     "name": "allow-http",
+     "properties": {
+      "access": "Allow",
+      "direction": "Inbound",
+      "protocol": "Tcp",
+      "sourceAddressPrefix": "Internet",
+      "destinationPortRange": "80"
+     }
+    }
+   ]
+  },
+  {
+   "id": "/subscriptions/00000000-0000-0000-0000-00000000d001/resourceGroups/rg-shop-app-prod-cin/providers/Microsoft.Network/networkSecurityGroups/nsg-vm-erp-01",
+   "name": "nsg-vm-erp-01",
+   "resourceGroup": "rg-shop-app-prod-cin",
+   "location": "centralindia",
+   "rules": [
+    {
+     "name": "allow-rdp-vendor",
+     "properties": {
+      "access": "Allow",
+      "direction": "Inbound",
+      "protocol": "*",
+      "sourceAddressPrefix": "*",
+      "destinationPortRange": "3389"
+     }
+    },
+    {
+     "name": "allow-sql-anywhere",
+     "properties": {
+      "access": "Allow",
+      "direction": "Inbound",
+      "protocol": "Tcp",
+      "sourceAddressPrefix": "*",
+      "destinationPortRange": "1433"
+     }
+    }
+   ]
+  },
+  {
+   "id": "/subscriptions/00000000-0000-0000-0000-00000000d003/resourceGroups/rg-platform-tools-cin/providers/Microsoft.Network/networkSecurityGroups/nsg-snet-jumpbox",
+   "name": "nsg-snet-jumpbox",
+   "resourceGroup": "rg-platform-tools-cin",
+   "location": "centralindia",
+   "rules": [
+    {
+     "name": "allow-ssh",
+     "properties": {
+      "access": "Allow",
+      "direction": "Inbound",
+      "protocol": "Tcp",
+      "sourceAddressPrefix": "0.0.0.0/0",
+      "destinationPortRange": "22"
+     }
+    }
+   ]
+  },
+  {
+   "id": "/subscriptions/00000000-0000-0000-0000-00000000d002/resourceGroups/rg-shop-net-uat-cin/providers/Microsoft.Network/networkSecurityGroups/nsg-snet-app-uat",
+   "name": "nsg-snet-app-uat",
+   "resourceGroup": "rg-shop-net-uat-cin",
+   "location": "centralindia",
+   "rules": [
+    {
+     "name": "allow-https",
+     "properties": {
+      "access": "Allow",
+      "direction": "Inbound",
+      "protocol": "Tcp",
+      "sourceAddressPrefix": "Internet",
+      "destinationPortRange": "443"
+     }
+    },
+    {
+     "name": "deny-ssh",
+     "properties": {
+      "access": "Deny",
+      "direction": "Inbound",
+      "protocol": "Tcp",
+      "sourceAddressPrefix": "Internet",
+      "destinationPortRange": "22"
+     }
+    }
+   ]
+  }
+ ]
+}

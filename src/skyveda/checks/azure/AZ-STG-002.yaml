@@ -1,0 +1,36 @@
+schema_version: 1
+id: AZ-STG-002
+title: Storage accounts require TLS 1.2 or later
+provider: azure
+area: security
+severity: medium
+tier: free
+source:
+  type: resource_graph
+  query: |
+    resources
+    | where type =~ 'microsoft.storage/storageaccounts'
+    | extend minimumTlsVersion = tostring(properties.minimumTlsVersion)
+    | project id, name, resourceGroup, location, minimumTlsVersion,
+              compliant = minimumTlsVersion in ('TLS1_2', 'TLS1_3')
+why: >-
+  TLS 1.0 and 1.1 have known weaknesses and are no longer accepted by most security reviews.
+  Accounts that still accept them let clients connect over weaker encryption.
+fix:
+  summary: Set the minimum TLS version to 1.2.
+  steps:
+    - Confirm the account's clients support TLS 1.2 (all current SDKs do).
+    - Set "Minimum TLS version" to 1.2 in the account's Configuration settings.
+  cli: az storage account update -g <resource-group> -n <account> --min-tls-version TLS1_2
+  terraform: |
+    # azurerm_storage_account
+    min_tls_version = "TLS1_2"
+references:
+  - https://learn.microsoft.com/azure/storage/common/transport-layer-security-configure-minimum-version
+frameworks:
+  mcsb:
+    - DP-3
+  waf_pillar:
+    - Security
+  waf:
+    - SE:07

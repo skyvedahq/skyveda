@@ -1,0 +1,24 @@
+{
+ "rows": [
+  {
+   "id": "/subscriptions/00000000-0000-0000-0000-00000000d001/resourceGroups/rg-shop-app-prod-cin/providers/Microsoft.ServiceBus/namespaces/sb-shop-orders-prod-cin",
+   "name": "sb-shop-orders-prod-cin",
+   "resourceGroup": "rg-shop-app-prod-cin",
+   "location": "centralindia",
+   "service": "Service Bus",
+   "sku": "Standard",
+   "disableLocalAuth": false,
+   "compliant": false
+  },
+  {
+   "id": "/subscriptions/00000000-0000-0000-0000-00000000d003/resourceGroups/rg-platform-logs-cin/providers/Microsoft.EventHub/namespaces/evh-platform-telemetry-cin",
+   "name": "evh-platform-telemetry-cin",
+   "resourceGroup": "rg-platform-logs-cin",
+   "location": "centralindia",
+   "service": "Event Hubs",
+   "sku": "Standard",
+   "disableLocalAuth": true,
+   "compliant": true
+  }
+ ]
+}

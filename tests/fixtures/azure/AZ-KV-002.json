@@ -1,0 +1,5 @@
+{"rows": [
+ {"id": "/subscriptions/00000000-0000-0000-0000-000000000001/resourceGroups/rg-sec/providers/Microsoft.KeyVault/vaults/kv-rbac", "name": "kv-rbac", "resourceGroup": "rg-sec", "location": "centralindia", "rbacAuthorization": true, "compliant": true},
+ {"id": "/subscriptions/00000000-0000-0000-0000-000000000001/resourceGroups/rg-sec/providers/Microsoft.KeyVault/vaults/kv-policies", "name": "kv-policies", "resourceGroup": "rg-sec", "location": "centralindia", "rbacAuthorization": false, "compliant": false},
+ {"id": "/subscriptions/00000000-0000-0000-0000-000000000001/resourceGroups/rg-sec/providers/Microsoft.KeyVault/vaults/kv-unknown", "name": "kv-unknown", "resourceGroup": "rg-sec", "location": "centralindia", "rbacAuthorization": null, "compliant": false}
+]}

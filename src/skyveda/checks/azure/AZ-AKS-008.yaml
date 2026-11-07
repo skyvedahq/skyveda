@@ -1,0 +1,41 @@
+schema_version: 1
+id: AZ-AKS-008
+title: AKS clusters enforce a network policy
+provider: azure
+area: network
+severity: medium
+tier: free
+source:
+  type: resource_graph
+  query: |
+    resources
+    | where type =~ 'microsoft.containerservice/managedclusters'
+    | extend networkPolicy = tolower(tostring(properties.networkProfile.networkPolicy))
+    // A missing value becomes '' and fails, exactly like 'none'.
+    | project id, name, resourceGroup, location, networkPolicy,
+              compliant = networkPolicy in ('azure', 'calico', 'cilium')
+why: >-
+  With no network policy every pod can talk to every other pod. One compromised workload can then
+  reach databases and internal services across the cluster.
+fix:
+  summary: Use a network policy engine (Azure, Calico or Cilium) and write policies per namespace.
+  steps:
+    - The network policy is chosen at cluster creation, so most clusters need a replacement cluster.
+    - Start with a default-deny policy in each namespace, then allow the traffic that is needed.
+  cli: az aks create -g <resource-group> -n <cluster> --network-plugin azure --network-policy azure
+  terraform: |
+    # azurerm_kubernetes_cluster
+    network_profile {
+      network_plugin = "azure"
+      network_policy = "azure"
+    }
+references:
+  - https://learn.microsoft.com/azure/aks/use-network-policies
+frameworks:
+  mcsb:
+    - NS-1
+  waf_pillar:
+    - Security
+  waf:
+    - SE:04
+    - SE:06

@@ -1,0 +1,74 @@
+{
+ "rows": [
+  {
+   "id": "/subscriptions/00000000-0000-0000-0000-00000000d001/resourceGroups/rg-shop-data-prod-cin/providers/Microsoft.Storage/storageAccounts/stshopordersprodcin",
+   "name": "stshopordersprodcin",
+   "resourceGroup": "rg-shop-data-prod-cin",
+   "location": "centralindia",
+   "type": "microsoft.storage/storageaccounts",
+   "privateEndpoints": 1,
+   "publicNetworkAccess": "Disabled",
+   "compliant": true
+  },
+  {
+   "id": "/subscriptions/00000000-0000-0000-0000-00000000d001/resourceGroups/rg-shop-data-prod-cin/providers/Microsoft.Storage/storageAccounts/stshopmediaprodcin",
+   "name": "stshopmediaprodcin",
+   "resourceGroup": "rg-shop-data-prod-cin",
+   "location": "centralindia",
+   "type": "microsoft.storage/storageaccounts",
+   "privateEndpoints": 0,
+   "publicNetworkAccess": "Enabled",
+   "compliant": false
+  },
+  {
+   "id": "/subscriptions/00000000-0000-0000-0000-00000000d002/resourceGroups/rg-shop-data-uat-cin/providers/Microsoft.Storage/storageAccounts/stshopexportsuatcin",
+   "name": "stshopexportsuatcin",
+   "resourceGroup": "rg-shop-data-uat-cin",
+   "location": "centralindia",
+   "type": "microsoft.storage/storageaccounts",
+   "privateEndpoints": 0,
+   "publicNetworkAccess": "Enabled",
+   "compliant": false
+  },
+  {
+   "id": "/subscriptions/00000000-0000-0000-0000-00000000d001/resourceGroups/rg-shop-sec-prod-cin/providers/Microsoft.KeyVault/vaults/kv-shop-prod-cin",
+   "name": "kv-shop-prod-cin",
+   "resourceGroup": "rg-shop-sec-prod-cin",
+   "location": "centralindia",
+   "type": "microsoft.keyvault/vaults",
+   "privateEndpoints": 1,
+   "publicNetworkAccess": "Disabled",
+   "compliant": true
+  },
+  {
+   "id": "/subscriptions/00000000-0000-0000-0000-00000000d001/resourceGroups/rg-shop-sec-prod-cin/providers/Microsoft.KeyVault/vaults/kv-payments-prod-cin",
+   "name": "kv-payments-prod-cin",
+   "resourceGroup": "rg-shop-sec-prod-cin",
+   "location": "centralindia",
+   "type": "microsoft.keyvault/vaults",
+   "privateEndpoints": 0,
+   "publicNetworkAccess": "Enabled",
+   "compliant": false
+  },
+  {
+   "id": "/subscriptions/00000000-0000-0000-0000-00000000d001/resourceGroups/rg-shop-db-prod-cin/providers/Microsoft.Sql/servers/sql-shop-prod-cin",
+   "name": "sql-shop-prod-cin",
+   "resourceGroup": "rg-shop-db-prod-cin",
+   "location": "centralindia",
+   "type": "microsoft.sql/servers",
+   "privateEndpoints": 0,
+   "publicNetworkAccess": "Enabled",
+   "compliant": false
+  },
+  {
+   "id": "/subscriptions/00000000-0000-0000-0000-00000000d002/resourceGroups/rg-shop-db-uat-cin/providers/Microsoft.Sql/servers/sql-shop-uat-cin",
+   "name": "sql-shop-uat-cin",
+   "resourceGroup": "rg-shop-db-uat-cin",
+   "location": "centralindia",
+   "type": "microsoft.sql/servers",
+   "privateEndpoints": 0,
+   "publicNetworkAccess": "Enabled",
+   "compliant": false
+  }
+ ]
+}

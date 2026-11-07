@@ -1,0 +1,20 @@
+{
+  "totalRecords": 3,
+  "count": 2,
+  "resultTruncated": "false",
+  "$skipToken": "c2tpcC10b2tlbi0x",
+  "data": [
+    {
+      "id": "/subscriptions/00000000-0000-0000-0000-000000000002",
+      "subscriptionId": "00000000-0000-0000-0000-000000000002",
+      "name": "skyveda-lab-dev",
+      "state": "Enabled"
+    },
+    {
+      "id": "/subscriptions/00000000-0000-0000-0000-000000000001",
+      "subscriptionId": "00000000-0000-0000-0000-000000000001",
+      "name": "skyveda-lab-prod",
+      "state": "Enabled"
+    }
+  ]
+}

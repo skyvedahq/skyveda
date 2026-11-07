@@ -1,0 +1,41 @@
+schema_version: 1
+id: AZ-ACR-002
+title: Container registries do not allow anonymous pull
+provider: azure
+area: security
+severity: high
+tier: free
+source:
+  type: resource_graph
+  query: |
+    // properties.anonymousPullEnabled is false unless turned on (Standard and Premium only), and
+    // Basic registries cannot turn it on, so a missing value is read as false. The lab plants the
+    // fail case to prove the path.
+    resources
+    | where type =~ 'microsoft.containerregistry/registries'
+    | extend anonymousPullEnabled = coalesce(tobool(properties.anonymousPullEnabled), false),
+             sku = tostring(sku.name)
+    | project id, name, resourceGroup, location, sku, anonymousPullEnabled,
+              compliant = anonymousPullEnabled == false
+why: >-
+  With anonymous pull, anyone on the Internet can download every image in the registry without
+  signing in. Images often contain source code, internal addresses and sometimes secrets baked in
+  at build time.
+fix:
+  summary: Turn off anonymous pull and give clients that need images a role such as AcrPull.
+  steps:
+    - Find the clients that pull without signing in and give them an identity with the AcrPull role.
+    - Turn off anonymous pull on the registry.
+  cli: az acr update -n <registry> --anonymous-pull-enabled false
+  terraform: |
+    # azurerm_container_registry
+    anonymous_pull_enabled = false
+references:
+  - https://learn.microsoft.com/azure/container-registry/anonymous-pull-access
+frameworks:
+  mcsb:
+    - IM-1
+  waf_pillar:
+    - Security
+  waf:
+    - SE:05

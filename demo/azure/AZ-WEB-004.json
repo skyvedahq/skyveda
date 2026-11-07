@@ -1,0 +1,59 @@
+{
+ "rows": [
+  {
+   "id": "/subscriptions/00000000-0000-0000-0000-00000000d001/resourceGroups/rg-shop-web-prod-cin/providers/Microsoft.Web/sites/app-shop-storefront-prod",
+   "name": "app-shop-storefront-prod",
+   "resourceGroup": "rg-shop-web-prod-cin",
+   "location": "centralindia",
+   "appKind": "app,linux",
+   "minTlsVersion": "1.2",
+   "scmMinTlsVersion": "1.2",
+   "ftpsState": "FtpsOnly",
+   "remoteDebuggingEnabled": false
+  },
+  {
+   "id": "/subscriptions/00000000-0000-0000-0000-00000000d001/resourceGroups/rg-shop-web-prod-cin/providers/Microsoft.Web/sites/app-shop-api-prod",
+   "name": "app-shop-api-prod",
+   "resourceGroup": "rg-shop-web-prod-cin",
+   "location": "centralindia",
+   "appKind": "app,linux",
+   "minTlsVersion": "1.2",
+   "scmMinTlsVersion": "1.2",
+   "ftpsState": "FtpsOnly",
+   "remoteDebuggingEnabled": false
+  },
+  {
+   "id": "/subscriptions/00000000-0000-0000-0000-00000000d001/resourceGroups/rg-shop-web-prod-cin/providers/Microsoft.Web/sites/app-shop-legacy-prod",
+   "name": "app-shop-legacy-prod",
+   "resourceGroup": "rg-shop-web-prod-cin",
+   "location": "centralindia",
+   "appKind": "app",
+   "minTlsVersion": "1.0",
+   "scmMinTlsVersion": "1.2",
+   "ftpsState": "AllAllowed",
+   "remoteDebuggingEnabled": false
+  },
+  {
+   "id": "/subscriptions/00000000-0000-0000-0000-00000000d001/resourceGroups/rg-shop-web-prod-cin/providers/Microsoft.Web/sites/func-shop-orders-prod",
+   "name": "func-shop-orders-prod",
+   "resourceGroup": "rg-shop-web-prod-cin",
+   "location": "centralindia",
+   "appKind": "functionapp,linux",
+   "minTlsVersion": "1.2",
+   "scmMinTlsVersion": "1.2",
+   "ftpsState": "FtpsOnly",
+   "remoteDebuggingEnabled": false
+  },
+  {
+   "id": "/subscriptions/00000000-0000-0000-0000-00000000d002/resourceGroups/rg-shop-web-uat-cin/providers/Microsoft.Web/sites/app-shop-uat",
+   "name": "app-shop-uat",
+   "resourceGroup": "rg-shop-web-uat-cin",
+   "location": "centralindia",
+   "appKind": "app,linux",
+   "minTlsVersion": "1.2",
+   "scmMinTlsVersion": "1.2",
+   "ftpsState": "FtpsOnly",
+   "remoteDebuggingEnabled": false
+  }
+ ]
+}

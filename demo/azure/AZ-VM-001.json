@@ -1,0 +1,28 @@
+{
+ "rows": [
+  {
+   "id": "/subscriptions/00000000-0000-0000-0000-00000000d001/resourceGroups/rg-shop-app-prod-cin/providers/Microsoft.Compute/virtualMachines/vm-web-01",
+   "name": "vm-web-01",
+   "resourceGroup": "rg-shop-app-prod-cin",
+   "location": "centralindia",
+   "disablePasswordAuthentication": true,
+   "compliant": true
+  },
+  {
+   "id": "/subscriptions/00000000-0000-0000-0000-00000000d002/resourceGroups/rg-shop-app-uat-cin/providers/Microsoft.Compute/virtualMachines/vm-uat-02",
+   "name": "vm-uat-02",
+   "resourceGroup": "rg-shop-app-uat-cin",
+   "location": "centralindia",
+   "disablePasswordAuthentication": false,
+   "compliant": false
+  },
+  {
+   "id": "/subscriptions/00000000-0000-0000-0000-00000000d003/resourceGroups/rg-platform-tools-cin/providers/Microsoft.Compute/virtualMachines/vm-buildagent-01",
+   "name": "vm-buildagent-01",
+   "resourceGroup": "rg-platform-tools-cin",
+   "location": "centralindia",
+   "disablePasswordAuthentication": true,
+   "compliant": true
+  }
+ ]
+}

@@ -1,0 +1,31 @@
+{
+ "rows": [
+  {
+   "id": "/subscriptions/00000000-0000-0000-0000-00000000d001/resourceGroups/rg-shop-data-prod-cin/providers/Microsoft.Storage/storageAccounts/stshopmediaprodcin",
+   "name": "stshopmediaprodcin",
+   "resourceGroup": "rg-shop-data-prod-cin",
+   "location": "centralindia",
+   "environment": "prod",
+   "skuName": "Standard_GZRS",
+   "compliant": true
+  },
+  {
+   "id": "/subscriptions/00000000-0000-0000-0000-00000000d001/resourceGroups/rg-shop-data-prod-cin/providers/Microsoft.Storage/storageAccounts/stshopordersprodcin",
+   "name": "stshopordersprodcin",
+   "resourceGroup": "rg-shop-data-prod-cin",
+   "location": "centralindia",
+   "environment": "prod",
+   "skuName": "Standard_LRS",
+   "compliant": false
+  },
+  {
+   "id": "/subscriptions/00000000-0000-0000-0000-00000000d001/resourceGroups/rg-shop-web-prod-cin/providers/Microsoft.Storage/storageAccounts/stshopstaticprodcin",
+   "name": "stshopstaticprodcin",
+   "resourceGroup": "rg-shop-web-prod-cin",
+   "location": "centralindia",
+   "environment": "prod",
+   "skuName": "Standard_ZRS",
+   "compliant": true
+  }
+ ]
+}

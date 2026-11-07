@@ -1,0 +1,22 @@
+{
+ "rows": [
+  {
+   "id": "/subscriptions/00000000-0000-0000-0000-00000000d001/resourceGroups/rg-shop-db-prod-cin/providers/Microsoft.DBforPostgreSQL/flexibleServers/psql-shop-loyalty-prod-cin",
+   "name": "psql-shop-loyalty-prod-cin",
+   "resourceGroup": "rg-shop-db-prod-cin",
+   "location": "centralindia",
+   "engine": "PostgreSQL",
+   "publicNetworkAccess": "Disabled",
+   "compliant": true
+  },
+  {
+   "id": "/subscriptions/00000000-0000-0000-0000-00000000d001/resourceGroups/rg-shop-web-prod-cin/providers/Microsoft.DBforMySQL/flexibleServers/mysql-shop-blog-prod-cin",
+   "name": "mysql-shop-blog-prod-cin",
+   "resourceGroup": "rg-shop-web-prod-cin",
+   "location": "centralindia",
+   "engine": "MySQL",
+   "publicNetworkAccess": "Enabled",
+   "compliant": false
+  }
+ ]
+}

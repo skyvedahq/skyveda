@@ -1,0 +1,39 @@
+schema_version: 1
+id: AZ-ACR-001
+title: Container registries have the admin user disabled
+provider: azure
+area: identity
+severity: high
+source:
+  type: resource_graph
+  query: |
+    // Azure's default for adminUserEnabled is false, but a missing value is read as enabled so
+    // that unknown data FAILS.
+    resources
+    | where type =~ 'microsoft.containerregistry/registries'
+    | extend adminUserEnabled = tobool(properties.adminUserEnabled), skuName = tostring(sku.name)
+    | project id, name, resourceGroup, location, skuName, adminUserEnabled,
+              compliant = coalesce(adminUserEnabled, true) == false
+why: >-
+  The admin user is a single shared username and password with full push and pull rights. It
+  cannot be tied to a person, cannot be scoped down, and leaks easily. Entra ID identities and
+  role assignments are audited and can be limited to what each user or service needs.
+fix:
+  summary: Disable the admin user and use Entra ID identities with AcrPull and AcrPush roles.
+  steps:
+    - Find what logs in with the admin credentials today (pipelines, App Service, scripts).
+    - Give each a managed identity or service principal with the AcrPull or AcrPush role.
+    - Disable the admin user.
+  cli: az acr update -g <resource-group> -n <registry> --admin-enabled false
+  terraform: |
+    # azurerm_container_registry
+    admin_enabled = false
+references:
+  - https://learn.microsoft.com/azure/container-registry/container-registry-authentication#admin-account
+frameworks:
+  mcsb:
+    - IM-1
+  waf_pillar:
+    - Security
+  waf:
+    - SE:05

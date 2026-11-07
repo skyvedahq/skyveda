@@ -1,0 +1,103 @@
+{
+ "rows": [
+  {
+   "id": "/subscriptions/00000000-0000-0000-0000-00000000d001/resourceGroups/rg-shop-db-prod-cin/providers/Microsoft.Compute/disks/disk-sqlvm-data-old",
+   "name": "disk-sqlvm-data-old",
+   "resourceGroup": "rg-shop-db-prod-cin",
+   "location": "centralindia",
+   "diskState": "Unattached",
+   "sizeGb": 1024,
+   "sku": "Premium_LRS",
+   "compliant": false,
+   "estMonthlyWasteInr": 13312.0
+  },
+  {
+   "id": "/subscriptions/00000000-0000-0000-0000-00000000d001/resourceGroups/rg-shop-app-prod-cin/providers/Microsoft.Compute/disks/disk-vm-erp-01-os",
+   "name": "disk-vm-erp-01-os",
+   "resourceGroup": "rg-shop-app-prod-cin",
+   "location": "centralindia",
+   "diskState": "Unattached",
+   "sizeGb": 256,
+   "sku": "Premium_LRS",
+   "compliant": false,
+   "estMonthlyWasteInr": 3328.0
+  },
+  {
+   "id": "/subscriptions/00000000-0000-0000-0000-00000000d001/resourceGroups/rg-shop-app-prod-cin/providers/Microsoft.Compute/disks/disk-vm-web-01-os",
+   "name": "disk-vm-web-01-os",
+   "resourceGroup": "rg-shop-app-prod-cin",
+   "location": "centralindia",
+   "diskState": "Attached",
+   "sizeGb": 128,
+   "sku": "Premium_LRS",
+   "compliant": true,
+   "estMonthlyWasteInr": 0.0
+  },
+  {
+   "id": "/subscriptions/00000000-0000-0000-0000-00000000d002/resourceGroups/rg-shop-app-uat-cin/providers/Microsoft.Compute/disks/disk-uat-restore-test",
+   "name": "disk-uat-restore-test",
+   "resourceGroup": "rg-shop-app-uat-cin",
+   "location": "centralindia",
+   "diskState": "Unattached",
+   "sizeGb": 512,
+   "sku": "StandardSSD_LRS",
+   "compliant": false,
+   "estMonthlyWasteInr": 3584.0
+  },
+  {
+   "id": "/subscriptions/00000000-0000-0000-0000-00000000d002/resourceGroups/rg-shop-app-uat-cin/providers/Microsoft.Compute/disks/disk-vm-uat-02-data",
+   "name": "disk-vm-uat-02-data",
+   "resourceGroup": "rg-shop-app-uat-cin",
+   "location": "centralindia",
+   "diskState": "Unattached",
+   "sizeGb": 1024,
+   "sku": "Standard_LRS",
+   "compliant": false,
+   "estMonthlyWasteInr": 4096.0
+  },
+  {
+   "id": "/subscriptions/00000000-0000-0000-0000-00000000d003/resourceGroups/rg-platform-tools-cin/providers/Microsoft.Compute/disks/disk-jumpbox-old-os",
+   "name": "disk-jumpbox-old-os",
+   "resourceGroup": "rg-platform-tools-cin",
+   "location": "centralindia",
+   "diskState": "Unattached",
+   "sizeGb": 128,
+   "sku": "Premium_LRS",
+   "compliant": false,
+   "estMonthlyWasteInr": 1664.0
+  },
+  {
+   "id": "/subscriptions/00000000-0000-0000-0000-00000000d003/resourceGroups/rg-platform-tools-cin/providers/Microsoft.Compute/disks/disk-vm-jumpbox-os",
+   "name": "disk-vm-jumpbox-os",
+   "resourceGroup": "rg-platform-tools-cin",
+   "location": "centralindia",
+   "diskState": "Attached",
+   "sizeGb": 128,
+   "sku": "StandardSSD_LRS",
+   "compliant": true,
+   "estMonthlyWasteInr": 0.0
+  },
+  {
+   "id": "/subscriptions/00000000-0000-0000-0000-00000000d002/resourceGroups/rg-shop-app-uat-cin/providers/Microsoft.Compute/disks/disk-vm-uat-02-os",
+   "name": "disk-vm-uat-02-os",
+   "resourceGroup": "rg-shop-app-uat-cin",
+   "location": "centralindia",
+   "diskState": "Attached",
+   "sizeGb": 256,
+   "sku": "Premium_LRS",
+   "compliant": true,
+   "estMonthlyWasteInr": 0.0
+  },
+  {
+   "id": "/subscriptions/00000000-0000-0000-0000-00000000d003/resourceGroups/rg-platform-tools-cin/providers/Microsoft.Compute/disks/disk-vm-buildagent-01-os",
+   "name": "disk-vm-buildagent-01-os",
+   "resourceGroup": "rg-platform-tools-cin",
+   "location": "centralindia",
+   "diskState": "Attached",
+   "sizeGb": 128,
+   "sku": "Premium_LRS",
+   "compliant": true,
+   "estMonthlyWasteInr": 0.0
+  }
+ ]
+}

@@ -1,0 +1,4 @@
+{"rows": [
+  {"id": "/subscriptions/00000000-0000-0000-0000-000000000001/resourceGroups/rg-app/providers/Microsoft.Compute/virtualMachines/vm-trusted", "name": "vm-trusted", "resourceGroup": "rg-app", "location": "centralindia", "securityType": "TrustedLaunch", "secureBoot": true, "vTpm": true, "compliant": true},
+  {"id": "/subscriptions/00000000-0000-0000-0000-000000000001/resourceGroups/rg-app/providers/Microsoft.Compute/virtualMachines/vm-standard", "name": "vm-standard", "resourceGroup": "rg-app", "location": "centralindia", "securityType": "Standard", "secureBoot": null, "vTpm": null, "compliant": false}
+]}

@@ -1,0 +1,5 @@
+{"rows": [
+  {"id": "/subscriptions/00000000-0000-0000-0000-000000000001/resourceGroups/rg-data/providers/Microsoft.Cache/redis/redis-tls", "name": "redis-tls", "resourceGroup": "rg-data", "location": "centralindia", "enableNonSslPort": false, "compliant": true},
+  {"id": "/subscriptions/00000000-0000-0000-0000-000000000001/resourceGroups/rg-data/providers/Microsoft.Cache/redis/redis-plain", "name": "redis-plain", "resourceGroup": "rg-data", "location": "centralindia", "enableNonSslPort": true, "compliant": false},
+  {"id": "/subscriptions/00000000-0000-0000-0000-000000000001/resourceGroups/rg-data/providers/Microsoft.Cache/redis/redis-unknown", "name": "redis-unknown", "resourceGroup": "rg-data", "location": "centralindia", "enableNonSslPort": null, "compliant": false}
+]}

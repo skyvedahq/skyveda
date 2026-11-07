@@ -1,0 +1,42 @@
+schema_version: 1
+id: AZ-PGSQL-001
+title: PostgreSQL and MySQL flexible servers disable public network access
+provider: azure
+area: network
+severity: high
+tier: free
+source:
+  type: resource_graph
+  query: |
+    // properties.network.publicNetworkAccess is 'Enabled' or 'Disabled'. Servers joined to a
+    // virtual network report Disabled. A missing value is read as Enabled and FAILS.
+    resources
+    | where type in~ ('microsoft.dbforpostgresql/flexibleservers', 'microsoft.dbformysql/flexibleservers')
+    | extend engine = iff(type =~ 'microsoft.dbformysql/flexibleservers', 'MySQL', 'PostgreSQL'),
+             publicNetworkAccess = coalesce(tostring(properties.network.publicNetworkAccess), 'Enabled')
+    | project id, name, resourceGroup, location, engine, publicNetworkAccess,
+              compliant = publicNetworkAccess =~ 'Disabled'
+why: >-
+  A database server with a public endpoint can be reached from the Internet whenever a firewall
+  rule allows it, and such rules are often widened in a hurry. Private access keeps the server
+  reachable only from your own networks.
+fix:
+  summary: Reach the server through a private endpoint or virtual network, and disable public access.
+  steps:
+    - Add a private endpoint for the server, or plan a move to virtual network integration.
+    - Point applications at the private address and check they still connect.
+    - Set public network access to Disabled in the server's Networking settings.
+  cli: az postgres flexible-server update -g <resource-group> -n <server> --public-access Disabled
+  terraform: |
+    # azurerm_postgresql_flexible_server / azurerm_mysql_flexible_server
+    public_network_access_enabled = false
+references:
+  - https://learn.microsoft.com/azure/postgresql/flexible-server/concepts-networking
+  - https://learn.microsoft.com/azure/mysql/flexible-server/concepts-networking
+frameworks:
+  mcsb:
+    - NS-2
+  waf_pillar:
+    - Security
+  waf:
+    - SE:06

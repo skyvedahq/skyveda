@@ -1,0 +1,36 @@
+schema_version: 1
+id: AZ-WEB-005
+title: App Service apps have remote debugging turned off
+provider: azure
+area: security
+severity: medium
+tier: free
+source:
+  type: arm
+  collector: skyveda.providers.azure.collectors.web_site_config
+evaluate:
+  type: python
+  function: skyveda.providers.azure.evaluators.web_remote_debugging
+why: >-
+  Remote debugging opens extra ports and lets a debugger attach to the running app. It is meant
+  for short troubleshooting sessions and is often left on by mistake.
+fix:
+  summary: Turn remote debugging off.
+  steps:
+    - Confirm nobody is debugging the app right now.
+    - Turn off "Remote debugging" in the app's Configuration > General settings.
+  cli: az webapp config set -g <resource-group> -n <app> --remote-debugging-enabled false
+  terraform: |
+    # azurerm_linux_web_app / azurerm_windows_web_app
+    site_config {
+      remote_debugging_enabled = false
+    }
+references:
+  - https://learn.microsoft.com/azure/app-service/configure-common
+frameworks:
+  mcsb:
+    - PV-2
+  waf_pillar:
+    - Security
+  waf:
+    - SE:08

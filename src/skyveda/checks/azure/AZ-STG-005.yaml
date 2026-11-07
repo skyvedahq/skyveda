@@ -1,0 +1,39 @@
+schema_version: 1
+id: AZ-STG-005
+title: Storage accounts block cross-tenant object replication
+provider: azure
+area: security
+severity: medium
+tier: free
+source:
+  type: resource_graph
+  query: |
+    // properties.allowCrossTenantReplication: accounts created before December 2023 allow it when
+    // the property is missing, so a missing value is read as true and FAILS.
+    resources
+    | where type =~ 'microsoft.storage/storageaccounts'
+    | extend allowCrossTenantReplication = tobool(properties.allowCrossTenantReplication)
+    | project id, name, resourceGroup, location, allowCrossTenantReplication,
+              compliant = coalesce(allowCrossTenantReplication, true) == false
+why: >-
+  Object replication can copy every blob in a container to a storage account in another Entra
+  tenant. Anyone who can set up a replication policy could then move your data out of your
+  organisation's control without it looking like a download.
+fix:
+  summary: Turn off "Allow cross-tenant replication" on each account that does not need it.
+  steps:
+    - Check whether the account has object replication policies to an account in another tenant.
+    - If none are needed, turn off "Allow cross-tenant replication" in the account's Object replication settings.
+  cli: az storage account update -g <resource-group> -n <account> --allow-cross-tenant-replication false
+  terraform: |
+    # azurerm_storage_account
+    cross_tenant_replication_enabled = false
+references:
+  - https://learn.microsoft.com/azure/storage/blobs/object-replication-prevent-cross-tenant-policies
+frameworks:
+  mcsb:
+    - PV-2
+  waf_pillar:
+    - Security
+  waf:
+    - SE:08

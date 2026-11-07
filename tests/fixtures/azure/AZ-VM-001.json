@@ -1,0 +1,5 @@
+{"rows": [
+  {"id": "/subscriptions/00000000-0000-0000-0000-000000000001/resourceGroups/rg-app/providers/Microsoft.Compute/virtualMachines/vm-keys", "name": "vm-keys", "resourceGroup": "rg-app", "location": "centralindia", "disablePasswordAuthentication": true, "compliant": true},
+  {"id": "/subscriptions/00000000-0000-0000-0000-000000000001/resourceGroups/rg-app/providers/Microsoft.Compute/virtualMachines/vm-passwords", "name": "vm-passwords", "resourceGroup": "rg-app", "location": "centralindia", "disablePasswordAuthentication": false, "compliant": false},
+  {"id": "/subscriptions/00000000-0000-0000-0000-000000000001/resourceGroups/rg-app/providers/Microsoft.Compute/virtualMachines/vm-specialised", "name": "vm-specialised", "resourceGroup": "rg-app", "location": "centralindia", "disablePasswordAuthentication": null, "compliant": false}
+]}

@@ -1,0 +1,22 @@
+{
+ "rows": [
+  {
+   "id": "/subscriptions/00000000-0000-0000-0000-00000000d001/resourceGroups/rg-shop-data-prod-cin/providers/Microsoft.DocumentDB/databaseAccounts/cosmos-shop-catalog-prod-cin",
+   "name": "cosmos-shop-catalog-prod-cin",
+   "resourceGroup": "rg-shop-data-prod-cin",
+   "location": "centralindia",
+   "apiKind": "GlobalDocumentDB",
+   "disableLocalAuth": false,
+   "compliant": false
+  },
+  {
+   "id": "/subscriptions/00000000-0000-0000-0000-00000000d002/resourceGroups/rg-shop-data-uat-cin/providers/Microsoft.DocumentDB/databaseAccounts/cosmos-shop-catalog-uat-cin",
+   "name": "cosmos-shop-catalog-uat-cin",
+   "resourceGroup": "rg-shop-data-uat-cin",
+   "location": "centralindia",
+   "apiKind": "GlobalDocumentDB",
+   "disableLocalAuth": false,
+   "compliant": false
+  }
+ ]
+}

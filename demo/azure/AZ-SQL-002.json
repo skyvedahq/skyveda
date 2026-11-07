@@ -1,0 +1,54 @@
+{
+ "rows": [
+  {
+   "id": "/subscriptions/00000000-0000-0000-0000-00000000d001/resourceGroups/rg-shop-db-prod-cin/providers/Microsoft.Sql/servers/sql-shop-prod-cin/firewallRules/AllowAllWindowsAzureIps",
+   "name": "AllowAllWindowsAzureIps",
+   "resourceGroup": "rg-shop-db-prod-cin",
+   "location": "centralindia",
+   "server": "sql-shop-prod-cin",
+   "startIp": "0.0.0.0",
+   "endIp": "0.0.0.0",
+   "compliant": true
+  },
+  {
+   "id": "/subscriptions/00000000-0000-0000-0000-00000000d001/resourceGroups/rg-shop-db-prod-cin/providers/Microsoft.Sql/servers/sql-shop-prod-cin/firewallRules/office-bengaluru",
+   "name": "office-bengaluru",
+   "resourceGroup": "rg-shop-db-prod-cin",
+   "location": "centralindia",
+   "server": "sql-shop-prod-cin",
+   "startIp": "203.0.113.40",
+   "endIp": "203.0.113.40",
+   "compliant": true
+  },
+  {
+   "id": "/subscriptions/00000000-0000-0000-0000-00000000d001/resourceGroups/rg-shop-db-prod-cin/providers/Microsoft.Sql/servers/sql-shop-reports-prod-cin/firewallRules/bi-gateway",
+   "name": "bi-gateway",
+   "resourceGroup": "rg-shop-db-prod-cin",
+   "location": "centralindia",
+   "server": "sql-shop-reports-prod-cin",
+   "startIp": "198.51.100.10",
+   "endIp": "198.51.100.20",
+   "compliant": true
+  },
+  {
+   "id": "/subscriptions/00000000-0000-0000-0000-00000000d002/resourceGroups/rg-shop-db-uat-cin/providers/Microsoft.Sql/servers/sql-shop-uat-cin/firewallRules/AllowAll-temp",
+   "name": "AllowAll-temp",
+   "resourceGroup": "rg-shop-db-uat-cin",
+   "location": "centralindia",
+   "server": "sql-shop-uat-cin",
+   "startIp": "0.0.0.0",
+   "endIp": "255.255.255.255",
+   "compliant": false
+  },
+  {
+   "id": "/subscriptions/00000000-0000-0000-0000-00000000d002/resourceGroups/rg-shop-db-uat-cin/providers/Microsoft.Sql/servers/sql-shop-uat-cin/firewallRules/AllowAllWindowsAzureIps",
+   "name": "AllowAllWindowsAzureIps",
+   "resourceGroup": "rg-shop-db-uat-cin",
+   "location": "centralindia",
+   "server": "sql-shop-uat-cin",
+   "startIp": "0.0.0.0",
+   "endIp": "0.0.0.0",
+   "compliant": true
+  }
+ ]
+}

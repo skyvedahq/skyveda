@@ -1,0 +1,31 @@
+{
+ "rows": [
+  {
+   "id": "/subscriptions/00000000-0000-0000-0000-000000000001/resourceGroups/rg-web/providers/Microsoft.Web/sites/app-secure",
+   "name": "app-secure",
+   "resourceGroup": "rg-web",
+   "location": "centralindia",
+   "httpsOnly": true,
+   "compliant": true,
+   "appKind": "app,linux"
+  },
+  {
+   "id": "/subscriptions/00000000-0000-0000-0000-000000000001/resourceGroups/rg-web/providers/Microsoft.Web/sites/app-http",
+   "name": "app-http",
+   "resourceGroup": "rg-web",
+   "location": "centralindia",
+   "httpsOnly": false,
+   "compliant": false,
+   "appKind": "app"
+  },
+  {
+   "id": "/subscriptions/00000000-0000-0000-0000-000000000001/resourceGroups/rg-web/providers/Microsoft.Web/sites/app-unknown",
+   "name": "app-unknown",
+   "resourceGroup": "rg-web",
+   "location": "centralindia",
+   "httpsOnly": null,
+   "compliant": false,
+   "appKind": "app"
+  }
+ ]
+}

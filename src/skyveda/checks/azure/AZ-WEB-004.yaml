@@ -1,0 +1,36 @@
+schema_version: 1
+id: AZ-WEB-004
+title: App Service apps do not allow plain FTP
+provider: azure
+area: security
+severity: medium
+tier: free
+source:
+  type: arm
+  collector: skyveda.providers.azure.collectors.web_site_config
+evaluate:
+  type: python
+  function: skyveda.providers.azure.evaluators.web_ftps
+why: >-
+  Plain FTP sends deployment credentials and code unencrypted. Anyone on the network path can
+  capture them and deploy their own code to the app.
+fix:
+  summary: Set FTP state to "FTPS only", or "Disabled" if nobody deploys over FTP.
+  steps:
+    - Check whether any pipeline or person still deploys over FTP.
+    - Set "FTP state" in the app's Configuration > General settings.
+  cli: az webapp config set -g <resource-group> -n <app> --ftps-state Disabled
+  terraform: |
+    # azurerm_linux_web_app / azurerm_windows_web_app
+    site_config {
+      ftps_state = "Disabled"
+    }
+references:
+  - https://learn.microsoft.com/azure/app-service/deploy-ftp
+frameworks:
+  mcsb:
+    - DP-3
+  waf_pillar:
+    - Security
+  waf:
+    - SE:07

@@ -1,0 +1,24 @@
+{
+ "rows": [
+  {
+   "id": "/subscriptions/00000000-0000-0000-0000-000000000001/resourceGroups/rg-app/providers/Microsoft.Compute/virtualMachines/vm-managed",
+   "name": "vm-managed",
+   "resourceGroup": "rg-app",
+   "location": "centralindia",
+   "managedDiskId": "/subscriptions/00000000-0000-0000-0000-000000000001/resourceGroups/rg-app/providers/Microsoft.Compute/disks/vm-managed-os",
+   "vhdUri": "",
+   "compliant": true,
+   "ephemeral": ""
+  },
+  {
+   "id": "/subscriptions/00000000-0000-0000-0000-000000000001/resourceGroups/rg-app/providers/Microsoft.Compute/virtualMachines/vm-classic-vhd",
+   "name": "vm-classic-vhd",
+   "resourceGroup": "rg-app",
+   "location": "centralindia",
+   "managedDiskId": "",
+   "vhdUri": "https://stoldvhds.blob.core.windows.net/vhds/os.vhd",
+   "compliant": false,
+   "ephemeral": ""
+  }
+ ]
+}

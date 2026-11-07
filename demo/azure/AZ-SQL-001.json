@@ -1,0 +1,28 @@
+{
+ "rows": [
+  {
+   "id": "/subscriptions/00000000-0000-0000-0000-00000000d001/resourceGroups/rg-shop-db-prod-cin/providers/Microsoft.Sql/servers/sql-shop-prod-cin",
+   "name": "sql-shop-prod-cin",
+   "resourceGroup": "rg-shop-db-prod-cin",
+   "location": "centralindia",
+   "entraOnlyAuth": true,
+   "compliant": true
+  },
+  {
+   "id": "/subscriptions/00000000-0000-0000-0000-00000000d001/resourceGroups/rg-shop-db-prod-cin/providers/Microsoft.Sql/servers/sql-shop-reports-prod-cin",
+   "name": "sql-shop-reports-prod-cin",
+   "resourceGroup": "rg-shop-db-prod-cin",
+   "location": "centralindia",
+   "entraOnlyAuth": false,
+   "compliant": false
+  },
+  {
+   "id": "/subscriptions/00000000-0000-0000-0000-00000000d002/resourceGroups/rg-shop-db-uat-cin/providers/Microsoft.Sql/servers/sql-shop-uat-cin",
+   "name": "sql-shop-uat-cin",
+   "resourceGroup": "rg-shop-db-uat-cin",
+   "location": "centralindia",
+   "entraOnlyAuth": false,
+   "compliant": false
+  }
+ ]
+}

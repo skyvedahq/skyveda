@@ -1,0 +1,44 @@
+schema_version: 1
+id: AZ-VM-002
+title: Virtual machines use Trusted Launch
+provider: azure
+area: security
+severity: medium
+tier: free
+source:
+  type: resource_graph
+  query: |
+    // properties.securityProfile.securityType is 'TrustedLaunch' or 'ConfidentialVM'; a VM without
+    // it is a Standard VM (no secure boot, no virtual TPM), so a missing value FAILS.
+    resources
+    | where type =~ 'microsoft.compute/virtualmachines'
+    | extend securityType = coalesce(tostring(properties.securityProfile.securityType), 'Standard'),
+             secureBoot = tobool(properties.securityProfile.uefiSettings.secureBootEnabled),
+             vTpm = tobool(properties.securityProfile.uefiSettings.vTpmEnabled)
+    | project id, name, resourceGroup, location, securityType, secureBoot, vTpm,
+              compliant = securityType in~ ('TrustedLaunch', 'ConfidentialVM')
+why: >-
+  Without Trusted Launch a VM has no secure boot and no virtual TPM, so malware that installs
+  itself in the boot chain (a bootkit or rootkit) can load before the operating system and its
+  defences, and stay hidden from them.
+fix:
+  summary: Enable Trusted Launch with secure boot and vTPM.
+  steps:
+    - Check the VM is Generation 2 and its size supports Trusted Launch.
+    - Take a backup, stop (deallocate) the VM and upgrade its security type to Trusted Launch.
+    - Turn on secure boot and vTPM and start the VM.
+  cli: az vm update -g <resource-group> -n <vm> --security-type TrustedLaunch --enable-secure-boot true --enable-vtpm true
+  terraform: |
+    # azurerm_linux_virtual_machine / azurerm_windows_virtual_machine
+    secure_boot_enabled = true
+    vtpm_enabled        = true
+references:
+  - https://learn.microsoft.com/azure/virtual-machines/trusted-launch
+  - https://learn.microsoft.com/azure/virtual-machines/trusted-launch-existing-vm
+frameworks:
+  mcsb:
+    - PV-4
+  waf_pillar:
+    - Security
+  waf:
+    - SE:08

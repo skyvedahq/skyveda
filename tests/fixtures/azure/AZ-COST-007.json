@@ -1,0 +1,52 @@
+{
+ "rows": [
+  {
+   "id": "/subscriptions/00000000-0000-0000-0000-000000000001/resourceGroups/rg-web/providers/Microsoft.Compute/disks/disk-web-os",
+   "name": "disk-web-os",
+   "resourceGroup": "rg-web",
+   "location": "centralindia",
+   "vm": "vm-web",
+   "powerState": "PowerState/running",
+   "sizeGb": 128,
+   "sku": "Premium_LRS",
+   "compliant": true,
+   "estMonthlyWasteInr": 0.0
+  },
+  {
+   "id": "/subscriptions/00000000-0000-0000-0000-000000000001/resourceGroups/rg-old/providers/Microsoft.Compute/disks/disk-off-os",
+   "name": "disk-off-os",
+   "resourceGroup": "rg-old",
+   "location": "centralindia",
+   "vm": "vm-off",
+   "powerState": "PowerState/deallocated",
+   "sizeGb": 256,
+   "sku": "Premium_LRS",
+   "compliant": false,
+   "estMonthlyWasteInr": 1536.0
+  },
+  {
+   "id": "/subscriptions/00000000-0000-0000-0000-000000000001/resourceGroups/rg-old/providers/Microsoft.Compute/disks/disk-off-data",
+   "name": "disk-off-data",
+   "resourceGroup": "rg-old",
+   "location": "centralindia",
+   "vm": "vm-off",
+   "powerState": "PowerState/deallocated",
+   "sizeGb": 1024,
+   "sku": "Premium_ZRS",
+   "compliant": false,
+   "estMonthlyWasteInr": 6144.0
+  },
+  {
+   "id": "/subscriptions/00000000-0000-0000-0000-000000000001/resourceGroups/rg-web/providers/Microsoft.Compute/disks/disk-stopped-os",
+   "name": "disk-stopped-os",
+   "resourceGroup": "rg-web",
+   "location": "centralindia",
+   "vm": "vm-stopped",
+   "powerState": "PowerState/stopped",
+   "sizeGb": 128,
+   "sku": "Premium_LRS",
+   "compliant": true,
+   "estMonthlyWasteInr": 0.0
+  }
+ ]
+}

@@ -1,0 +1,4 @@
+{"rows": [
+  {"id": "/subscriptions/00000000-0000-0000-0000-000000000001/resourceGroups/rg-net/providers/Microsoft.Network/privateDnsZones/privatelink.blob.core.windows.net", "name": "privatelink.blob.core.windows.net", "resourceGroup": "rg-net", "location": "global", "links": 1, "recordSets": 3, "compliant": true, "estMonthlyWasteInr": 0.0},
+  {"id": "/subscriptions/00000000-0000-0000-0000-000000000001/resourceGroups/rg-net/providers/Microsoft.Network/privateDnsZones/privatelink.vaultcore.azure.net", "name": "privatelink.vaultcore.azure.net", "resourceGroup": "rg-net", "location": "global", "links": 0, "recordSets": 1, "compliant": false, "estMonthlyWasteInr": 42.0}
+]}

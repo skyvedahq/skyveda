@@ -1,0 +1,39 @@
+schema_version: 1
+id: AZ-AKS-002
+title: AKS clusters use Entra ID only, with local accounts disabled
+provider: azure
+area: kubernetes
+severity: high
+tier: free
+source:
+  type: resource_graph
+  query: |
+    resources
+    | where type =~ 'microsoft.containerservice/managedclusters'
+    | extend disableLocalAccounts = tobool(properties.disableLocalAccounts),
+             entraManaged = tobool(properties.aadProfile.managed)
+    | project id, name, resourceGroup, location, disableLocalAccounts, entraManaged,
+              compliant = coalesce(disableLocalAccounts, false) and coalesce(entraManaged, false)
+why: >-
+  Local Kubernetes accounts use static credentials that bypass Entra ID sign-in, conditional
+  access and audit. Anyone holding the admin kubeconfig keeps full control even after leaving.
+fix:
+  summary: Integrate the cluster with Entra ID and disable local accounts.
+  steps:
+    - Make sure Entra ID integration is enabled and an admin group is set.
+    - Move any automation from the admin kubeconfig to Entra-based credentials.
+    - Disable local accounts.
+  cli: az aks update -g <resource-group> -n <cluster> --enable-aad --disable-local-accounts
+  terraform: |
+    # azurerm_kubernetes_cluster
+    local_account_disabled = true
+    azure_active_directory_role_based_access_control { azure_rbac_enabled = true }
+references:
+  - https://learn.microsoft.com/azure/aks/manage-local-accounts-managed-azure-ad
+frameworks:
+  mcsb:
+    - IM-1
+  waf_pillar:
+    - Security
+  waf:
+    - SE:05

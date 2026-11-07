@@ -1,0 +1,5 @@
+{"rows": [
+  {"id": "/subscriptions/00000000-0000-0000-0000-000000000001/resourceGroups/rg-web/providers/Microsoft.Web/sites/app-secure", "name": "app-secure", "resourceGroup": "rg-web", "location": "centralindia", "appKind": "app", "corsAllowedOrigins": ["https://www.example.com"]},
+  {"id": "/subscriptions/00000000-0000-0000-0000-000000000001/resourceGroups/rg-web/providers/Microsoft.Web/sites/app-any-origin", "name": "app-any-origin", "resourceGroup": "rg-web", "location": "centralindia", "appKind": "app", "corsAllowedOrigins": ["https://www.example.com", "*"]},
+  {"id": "/subscriptions/00000000-0000-0000-0000-000000000001/resourceGroups/rg-web/providers/Microsoft.Web/sites/func-no-cors", "name": "func-no-cors", "resourceGroup": "rg-web", "location": "centralindia", "appKind": "functionapp", "corsAllowedOrigins": []}
+]}

@@ -1,0 +1,4 @@
+{"rows": [
+  {"id": "/subscriptions/00000000-0000-0000-0000-000000000001/resourceGroups/rg-ai/providers/Microsoft.CognitiveServices/accounts/oai-entra", "name": "oai-entra", "resourceGroup": "rg-ai", "location": "centralindia", "serviceKind": "OpenAI", "disableLocalAuth": true, "compliant": true},
+  {"id": "/subscriptions/00000000-0000-0000-0000-000000000001/resourceGroups/rg-ai/providers/Microsoft.CognitiveServices/accounts/lang-keys", "name": "lang-keys", "resourceGroup": "rg-ai", "location": "centralindia", "serviceKind": "TextAnalytics", "disableLocalAuth": false, "compliant": false}
+]}
